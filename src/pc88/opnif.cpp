@@ -507,20 +507,20 @@ const Device::Descriptor OPNIF::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr OPNIF::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, SetIndex0),
-	STATIC_CAST(Device::OutFuncPtr, SetIndex1),
-	STATIC_CAST(Device::OutFuncPtr, WriteData0),
-	STATIC_CAST(Device::OutFuncPtr, WriteData1),
-	STATIC_CAST(Device::OutFuncPtr, SetIntrMask),
-	STATIC_CAST(Device::OutFuncPtr, Sync),
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &SetIndex0),
+	STATIC_CAST(Device::OutFuncPtr, &SetIndex1),
+	STATIC_CAST(Device::OutFuncPtr, &WriteData0),
+	STATIC_CAST(Device::OutFuncPtr, &WriteData1),
+	STATIC_CAST(Device::OutFuncPtr, &SetIntrMask),
+	STATIC_CAST(Device::OutFuncPtr, &Sync),
 };
 
 const Device::InFuncPtr OPNIF::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, ReadStatus),
-	STATIC_CAST(Device::InFuncPtr, ReadStatusEx),
-	STATIC_CAST(Device::InFuncPtr, ReadData0),
-	STATIC_CAST(Device::InFuncPtr, ReadData1),
+	STATIC_CAST(Device::InFuncPtr, &ReadStatus),
+	STATIC_CAST(Device::InFuncPtr, &ReadStatusEx),
+	STATIC_CAST(Device::InFuncPtr, &ReadData0),
+	STATIC_CAST(Device::InFuncPtr, &ReadData1),
 };
 

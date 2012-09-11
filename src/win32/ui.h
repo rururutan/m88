@@ -10,7 +10,6 @@
 #define win_ui_h
 
 #include "types.h"
-#include "instthnk.h"
 #include "wincore.h"
 #include "WinDraw.h"
 #include "WinKeyIF.h"
@@ -57,7 +56,7 @@ private:
 	bool InitM88(const char* cmdline);
 	void CleanupM88();
 	LRESULT WinProc(HWND, UINT, WPARAM, LPARAM);
-	static LRESULT CALLBACK WinProcGate(WinUI*, HWND, UINT, WPARAM, LPARAM);
+	static LRESULT CALLBACK WinProcGate(HWND, UINT, WPARAM, LPARAM);
 	void ReportError();
 	void Reset();
 
@@ -90,14 +89,13 @@ private:
 	void FreeControlID(int);
 
 	// ウインドウ関係
-	InstanceThunk winproc;
 	HWND hwnd;
 	HINSTANCE hinst;
 	HACCEL accel;
 	HMENU hmenudbg;
 
 	// 状態表示用
-	UINT timerid;
+	UINT_PTR timerid;
 	bool report;
 	volatile bool active;
 
@@ -106,7 +104,7 @@ private:
 	bool fullscreen;
 	uint displaychangedtime;
 	uint resetwindowsize;
-	DWORD wstyle;
+	LONG_PTR wstyle;
 	POINT point;
 	int clipmode;
 	bool guimodebymouse;
@@ -142,40 +140,40 @@ private:
 
 private:
 	// メッセージ関数
-	uint M88ChangeDisplay(HWND, WPARAM, LPARAM);
-	uint M88ChangeVolume(HWND, WPARAM, LPARAM);
-	uint M88ApplyConfig(HWND, WPARAM, LPARAM);
-	uint M88SendKeyState(HWND, WPARAM, LPARAM);
-	uint M88ClipCursor(HWND, WPARAM, LPARAM);
-	uint WmDropFiles(HWND, WPARAM, LPARAM);
-	uint WmDisplayChange(HWND, WPARAM, LPARAM);
-	uint WmKeyDown(HWND, WPARAM, LPARAM);
-	uint WmKeyUp(HWND, WPARAM, LPARAM);
-	uint WmSysKeyDown(HWND, WPARAM, LPARAM);
-	uint WmSysKeyUp(HWND, WPARAM, LPARAM);
-	uint WmInitMenu(HWND, WPARAM, LPARAM);
-	uint WmQueryNewPalette(HWND, WPARAM, LPARAM);
-	uint WmPaletteChanged(HWND, WPARAM, LPARAM);
-	uint WmActivate(HWND, WPARAM, LPARAM);
-	uint WmTimer(HWND, WPARAM, LPARAM);
-	uint WmClose(HWND, WPARAM, LPARAM);
-	uint WmCreate(HWND, WPARAM, LPARAM);
-	uint WmDestroy(HWND, WPARAM, LPARAM);
-	uint WmPaint(HWND, WPARAM, LPARAM);
-	uint WmCommand(HWND, WPARAM, LPARAM);
-	uint WmSize(HWND, WPARAM, LPARAM);
-	uint WmDrawItem(HWND, WPARAM, LPARAM);
-	uint WmEnterMenuLoop(HWND, WPARAM, LPARAM);
-	uint WmExitMenuLoop(HWND, WPARAM, LPARAM);
-	uint WmLButtonDown(HWND, WPARAM, LPARAM);
-	uint WmLButtonUp(HWND, WPARAM, LPARAM);
-	uint WmRButtonDown(HWND, WPARAM, LPARAM);
-	uint WmRButtonUp(HWND, WPARAM, LPARAM);
-	uint WmEnterSizeMove(HWND, WPARAM, LPARAM);
-	uint WmExitSizeMove(HWND, WPARAM, LPARAM);
-	uint WmMove(HWND, WPARAM, LPARAM);
-	uint WmMouseMove(HWND, WPARAM, LPARAM);
-	uint WmSetCursor(HWND, WPARAM, LPARAM);
+	LRESULT M88ChangeDisplay(HWND, WPARAM, LPARAM);
+	LRESULT M88ChangeVolume(HWND, WPARAM, LPARAM);
+	LRESULT M88ApplyConfig(HWND, WPARAM, LPARAM);
+	LRESULT M88SendKeyState(HWND, WPARAM, LPARAM);
+	LRESULT M88ClipCursor(HWND, WPARAM, LPARAM);
+	LRESULT WmDropFiles(HWND, WPARAM, LPARAM);
+	LRESULT WmDisplayChange(HWND, WPARAM, LPARAM);
+	LRESULT WmKeyDown(HWND, WPARAM, LPARAM);
+	LRESULT WmKeyUp(HWND, WPARAM, LPARAM);
+	LRESULT WmSysKeyDown(HWND, WPARAM, LPARAM);
+	LRESULT WmSysKeyUp(HWND, WPARAM, LPARAM);
+	LRESULT WmInitMenu(HWND, WPARAM, LPARAM);
+	LRESULT WmQueryNewPalette(HWND, WPARAM, LPARAM);
+	LRESULT WmPaletteChanged(HWND, WPARAM, LPARAM);
+	LRESULT WmActivate(HWND, WPARAM, LPARAM);
+	LRESULT WmTimer(HWND, WPARAM, LPARAM);
+	LRESULT WmClose(HWND, WPARAM, LPARAM);
+	LRESULT WmCreate(HWND, WPARAM, LPARAM);
+	LRESULT WmDestroy(HWND, WPARAM, LPARAM);
+	LRESULT WmPaint(HWND, WPARAM, LPARAM);
+	LRESULT WmCommand(HWND, WPARAM, LPARAM);
+	LRESULT WmSize(HWND, WPARAM, LPARAM);
+	LRESULT WmDrawItem(HWND, WPARAM, LPARAM);
+	LRESULT WmEnterMenuLoop(HWND, WPARAM, LPARAM);
+	LRESULT WmExitMenuLoop(HWND, WPARAM, LPARAM);
+	LRESULT WmLButtonDown(HWND, WPARAM, LPARAM);
+	LRESULT WmLButtonUp(HWND, WPARAM, LPARAM);
+	LRESULT WmRButtonDown(HWND, WPARAM, LPARAM);
+	LRESULT WmRButtonUp(HWND, WPARAM, LPARAM);
+	LRESULT WmEnterSizeMove(HWND, WPARAM, LPARAM);
+	LRESULT WmExitSizeMove(HWND, WPARAM, LPARAM);
+	LRESULT WmMove(HWND, WPARAM, LPARAM);
+	LRESULT WmMouseMove(HWND, WPARAM, LPARAM);
+	LRESULT WmSetCursor(HWND, WPARAM, LPARAM);
 };
 
 #endif // WIN_UI_H

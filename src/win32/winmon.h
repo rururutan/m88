@@ -12,7 +12,6 @@
 //	機能：
 //	テキストバッファ，差分更新，スクロールバーサポート
 
-#include "instthnk.h"
 #include "types.h"
 
 // ---------------------------------------------------------------------------
@@ -70,13 +69,11 @@ private:
 	virtual void Start() {}
 	virtual void Stop() {}
 
-	static BOOL CALLBACK DlgProcGate(WinMonitor*, HWND, UINT, WPARAM, LPARAM);
+	static BOOL CALLBACK DlgProcGate(HWND, UINT, WPARAM, LPARAM);
 	
 	void Draw(HWND, HDC);
 	void ResizeWindow(HWND);
-	
-	InstanceThunk dlgproc;
-	InstanceThunk edlgproc;
+
 	HWND hwnd;
 	HINSTANCE hinst;
 	LPCTSTR lptemplate;
@@ -116,7 +113,7 @@ private:
 	int line;
 	int nlines;
 
-	int timer;
+	UINT_PTR timer;
 	int timerinterval;
 
 };

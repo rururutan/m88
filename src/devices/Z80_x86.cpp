@@ -3057,9 +3057,9 @@ const Device::Descriptor Z80_x86::descriptor =
 
 const Device::OutFuncPtr Z80_x86::outdef[] =
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, IRQ),
-	STATIC_CAST(Device::OutFuncPtr, NMI),
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &IRQ),
+	STATIC_CAST(Device::OutFuncPtr, &NMI),
 };
 
 #endif // USE_Z80_X86

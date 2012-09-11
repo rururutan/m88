@@ -411,11 +411,11 @@ const Device::Descriptor TapeManager::descriptor =
 
 const Device::OutFuncPtr TapeManager::outdef[] =
 {
-	STATIC_CAST(Device::OutFuncPtr, RequestData),
-	STATIC_CAST(Device::OutFuncPtr, Out30),
+	STATIC_CAST(Device::OutFuncPtr, &RequestData),
+	STATIC_CAST(Device::OutFuncPtr, &Out30),
 };
 
 const Device::InFuncPtr TapeManager::indef[] =
 {
-	STATIC_CAST(Device::InFuncPtr, In40),
+	STATIC_CAST(Device::InFuncPtr, &In40),
 };

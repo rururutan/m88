@@ -151,7 +151,7 @@ bool DriverDS::Cleanup()
 // ---------------------------------------------------------------------------
 //  TimeProc  ----------------------------------------------------------------
 
-void CALLBACK DriverDS::TimeProc(UINT uid, UINT, DWORD user, DWORD, DWORD)
+void CALLBACK DriverDS::TimeProc(UINT uid, UINT, DWORD_PTR user, DWORD_PTR, DWORD_PTR)
 {
 	DriverDS* inst = reinterpret_cast<DriverDS*>(user);
 	if (inst)

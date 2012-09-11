@@ -228,15 +228,15 @@ const Device::Descriptor SIO::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr SIO::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, SetControl),
-	STATIC_CAST(Device::OutFuncPtr, SetData),
-	STATIC_CAST(Device::OutFuncPtr, AcceptData),
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &SetControl),
+	STATIC_CAST(Device::OutFuncPtr, &SetData),
+	STATIC_CAST(Device::OutFuncPtr, &AcceptData),
 };
 
 const Device::InFuncPtr SIO::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, GetStatus),
-	STATIC_CAST(Device::InFuncPtr, GetData),
+	STATIC_CAST(Device::InFuncPtr, &GetStatus),
+	STATIC_CAST(Device::InFuncPtr, &GetData),
 };
 

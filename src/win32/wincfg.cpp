@@ -12,6 +12,8 @@
 
 using namespace PC8801;
 
+WinConfig* WinConfig::instance = 0;
+
 // ---------------------------------------------------------------------------
 //	\’z/Á–Å
 //
@@ -26,8 +28,6 @@ WinConfig::WinConfig()
   cenv(config, orgconfig),
   cromeo(config, orgconfig)
 {
-	propproc.SetDestination(PropProcGate, this);
-
 	page = 0;
 	hwndps = 0;
 
@@ -39,11 +39,13 @@ WinConfig::WinConfig()
 	Add(&cfunc);
 	Add(&cenv);
 	Add(&cromeo);
+	instance = this;
 }
 
 WinConfig::~WinConfig()
 {
 	propsheets.clear();
+	instance = 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -104,7 +106,7 @@ bool WinConfig::Show(HINSTANCE hinstance, HWND hwnd, Config* conf)
 			psh.nPages = i;
 			psh.nStartPage = Min(page, i-1);
 			psh.ppsp = psp;
-			psh.pfnCallback = (PFNPROPSHEETCALLBACK) (void*) propproc;
+			psh.pfnCallback = (PFNPROPSHEETCALLBACK) (void*)PropProcGate;
 
 			hwndps = (HWND) PropertySheet(&psh);
 		}
@@ -155,9 +157,13 @@ int WinConfig::PropProc(HWND hwnd, UINT m, LPARAM)
 }
 
 int CALLBACK WinConfig::PropProcGate
-(WinConfig* config, HWND hwnd, UINT m, LPARAM l)
+(HWND hwnd, UINT m, LPARAM l)
 {
-	return config->PropProc(hwnd, m, l);
+	if (instance) {
+		return instance->PropProc(hwnd, m, l);
+	} else {
+		return 0;
+	}
 }
 
 // ---------------------------------------------------------------------------

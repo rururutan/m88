@@ -17,8 +17,6 @@
 //
 M88About::M88About()
 {
-	dlgproc.SetDestination(DlgProcGate, this);
-	
 	SanityCheck(&crc);
 }
 
@@ -27,14 +25,14 @@ M88About::M88About()
 //
 void M88About::Show(HINSTANCE hinst, HWND hwndparent)
 {
-	DialogBox(hinst, MAKEINTRESOURCE(IDD_ABOUT), 
-				hwndparent, DLGPROC((void*) dlgproc)); 
+	DialogBoxParam(hinst, MAKEINTRESOURCE(IDD_ABOUT), 
+				   hwndparent, DLGPROC((void*)DlgProcGate), (LPARAM)this); 
 }
 
 // ---------------------------------------------------------------------------
 //	ダイアログ処理
 //
-BOOL M88About::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
+INT_PTR M88About::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 {
 	char buf[4096];
 	
@@ -52,7 +50,7 @@ BOOL M88About::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 		SetDlgItemText(hdlg, IDC_ABOUT_BOX, buf);
 
 		SetFocus(GetDlgItem(hdlg, IDOK));
-		return 0;
+		return false;
 
 	case WM_COMMAND:
 		if (IDOK == LOWORD(wp))
@@ -72,10 +70,24 @@ BOOL M88About::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 	return false;
 }
 
-BOOL CALLBACK M88About::DlgProcGate
-(M88About* about, HWND hwnd, UINT m, WPARAM w, LPARAM l)
+INT_PTR CALLBACK M88About::DlgProcGate
+(HWND hwnd, UINT m, WPARAM w, LPARAM l)
 {
-	return about->DlgProc(hwnd, m, w, l);
+	M88About* about = 0;
+	if ( m == WM_INITDIALOG ) {
+		about = reinterpret_cast<M88About*>(l);
+		if (about) {
+			::SetWindowLongPtr( hwnd, GWLP_USERDATA, (LONG_PTR)about );
+		}
+	} else {
+		about = (M88About*)::GetWindowLongPtr( hwnd, GWLP_USERDATA );
+	}
+
+	if (about) {
+		return about->DlgProc(hwnd, m, w, l);
+	} else {
+		return FALSE;
+	}
 }
 
 // ---------------------------------------------------------------------------

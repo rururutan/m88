@@ -22,7 +22,6 @@ WinMonitor::WinMonitor()
 	hbitmap = 0;
 	fontheight = 12;
 	wndrect.right = -1;
-	dlgproc.SetDestination(DlgProcGate, this);
 }
 
 WinMonitor::~WinMonitor()
@@ -57,7 +56,7 @@ void WinMonitor::Show(HINSTANCE hinstance, HWND hwndparent, bool show)
 
 			RECT rect = wndrect;
 			hinst = hinstance;
-			hwnd = CreateDialog(hinst, lptemplate, hwndparent, DLGPROC((void*)dlgproc));
+			hwnd = CreateDialogParam(hinst, lptemplate, hwndparent, DLGPROC((void*)DlgProcGate), (LPARAM)this);
 			hwndstatus = 0;
 
 			if (rect.right > 0)
@@ -704,8 +703,23 @@ BOOL WinMonitor::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 BOOL CALLBACK WinMonitor::DlgProcGate
-(WinMonitor* about, HWND hwnd, UINT m, WPARAM w, LPARAM l)
+(HWND hwnd, UINT m, WPARAM w, LPARAM l)
 {
-	return about->DlgProc(hwnd, m, w, l);
+	WinMonitor* winmon = 0;
+
+	if ( m == WM_INITDIALOG ) {
+		winmon = reinterpret_cast<WinMonitor*>(l);
+		if (winmon) {
+			::SetWindowLongPtr( hwnd, GWLP_USERDATA, (LONG_PTR)winmon );
+		}
+	} else {
+		winmon = (WinMonitor*)::GetWindowLongPtr( hwnd, GWLP_USERDATA );
+	}
+
+	if (winmon) {
+		return winmon->DlgProc(hwnd, m, w, l);
+	} else {
+		return FALSE;
+	}
 }
 

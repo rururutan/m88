@@ -26,7 +26,6 @@ COLORREF MemoryMonitor::col[0x100] = { 0 };
 //
 MemoryMonitor::MemoryMonitor()
 {
-	edlgproc.SetDestination(EDlgProcGate, this);
 	mid = -1;
 	mm = 0;
 
@@ -263,8 +262,8 @@ BOOL MemoryMonitor::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 				editaddr = (GetLine() + p.y) * 16 + (p.x - 6) / 3;
 				if (editaddr < 0x10000)
 				{
-					DialogBox(GetHInst(), MAKEINTRESOURCE(IDD_MEMORY_EDIT), 
-								hdlg, DLGPROC((void*) edlgproc));
+					DialogBoxParam(GetHInst(), MAKEINTRESOURCE(IDD_MEMORY_EDIT), 
+								hdlg, DLGPROC((void*)EDlgProcGate), (LPARAM)this);
 				}
 			}
 		}
@@ -453,8 +452,23 @@ BOOL MemoryMonitor::EDlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 BOOL CALLBACK MemoryMonitor::EDlgProcGate
-(MemoryMonitor* about, HWND hwnd, UINT m, WPARAM w, LPARAM l)
+(HWND hwnd, UINT m, WPARAM w, LPARAM l)
 {
-	return about->EDlgProc(hwnd, m, w, l);
+	MemoryMonitor* memmon = 0;
+
+	if ( m == WM_INITDIALOG ) {
+		memmon = reinterpret_cast<MemoryMonitor*>(l);
+		if (memmon) {
+			::SetWindowLongPtr( hwnd, GWLP_USERDATA, (LONG_PTR)memmon );
+		}
+	} else {
+		memmon = (MemoryMonitor*)::GetWindowLongPtr( hwnd, GWLP_USERDATA );
+	}
+
+	if (memmon) {
+		return memmon->EDlgProc(hwnd, m, w, l);
+	} else {
+		return FALSE;
+	}
 }
 

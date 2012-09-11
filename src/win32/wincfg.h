@@ -9,7 +9,6 @@
 
 #include "if/ifcommon.h"
 #include "pc88/config.h"
-#include "instthnk.h"
 #include "cfgpage.h"
 
 namespace PC8801
@@ -42,10 +41,9 @@ private:
 	void IFCALL _ChangeVolume(bool);
 
 	int PropProc(HWND, UINT, LPARAM);
-	static int CALLBACK PropProcGate(WinConfig*, HWND, UINT, LPARAM);
+	static int CALLBACK PropProcGate(HWND, UINT, LPARAM);
+	static WinConfig* instance;
 
-	// thunks
-	InstanceThunk propproc;
 	PPNode* pplist;
 	typedef vector<IConfigPropSheet*> PropSheets;
 	PropSheets propsheets;

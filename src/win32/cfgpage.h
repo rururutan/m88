@@ -9,7 +9,6 @@
 
 #include "if/ifcommon.h"
 #include "pc88/config.h"
-#include "instthnk.h"
 
 namespace PC8801
 {
@@ -32,9 +31,8 @@ private:
 	virtual void Apply(HWND hdlg) {}
 
 	BOOL PageProc(HWND, UINT, WPARAM, LPARAM);
-	static BOOL CALLBACK PageGate(ConfigPage*, HWND, UINT, WPARAM, LPARAM);
-	
-	InstanceThunk gate;
+	static BOOL CALLBACK PageGate(HWND, UINT, WPARAM, LPARAM);
+
 	HINSTANCE hinst;
 
 protected:

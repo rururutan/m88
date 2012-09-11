@@ -646,11 +646,11 @@ const Device::Descriptor WinKeyIF::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr WinKeyIF::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, VSync),
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &VSync),
 };
 
 const Device::InFuncPtr WinKeyIF::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, In),
+	STATIC_CAST(Device::InFuncPtr, &In),
 };

@@ -10,7 +10,6 @@
 #define WIN_ABOUT_H
 
 #include "types.h"
-#include "instthnk.h"
 
 // ---------------------------------------------------------------------------
 
@@ -23,11 +22,10 @@ public:
 	void Show(HINSTANCE, HWND);
 
 private:
-	BOOL DlgProc(HWND, UINT, WPARAM, LPARAM);
-	static BOOL CALLBACK DlgProcGate(M88About*, HWND, UINT, WPARAM, LPARAM);
+	INT_PTR DlgProc(HWND, UINT, WPARAM, LPARAM);
+	static INT_PTR CALLBACK DlgProcGate(HWND, UINT, WPARAM, LPARAM);
 	
 	static const char abouttext[];
-	InstanceThunk dlgproc;
 	uint32 crc;
 };
 

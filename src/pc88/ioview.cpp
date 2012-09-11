@@ -82,6 +82,6 @@ const Device::Descriptor IOViewer::descriptor = { 0, outdef };
 
 const Device::OutFuncPtr IOViewer::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Out)
+	STATIC_CAST(Device::OutFuncPtr, &Out)
 };
 

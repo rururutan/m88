@@ -710,25 +710,25 @@ const Device::Descriptor CDIF::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr CDIF::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, SystemReset),
-	STATIC_CAST(Device::OutFuncPtr, Out90),
-	STATIC_CAST(Device::OutFuncPtr, Out91),
-	STATIC_CAST(Device::OutFuncPtr, Out94),
-	STATIC_CAST(Device::OutFuncPtr, Out97),
-	STATIC_CAST(Device::OutFuncPtr, Out98),
-	STATIC_CAST(Device::OutFuncPtr, Out99),
-	STATIC_CAST(Device::OutFuncPtr, Out9f),
+	STATIC_CAST(Device::OutFuncPtr, &SystemReset),
+	STATIC_CAST(Device::OutFuncPtr, &Out90),
+	STATIC_CAST(Device::OutFuncPtr, &Out91),
+	STATIC_CAST(Device::OutFuncPtr, &Out94),
+	STATIC_CAST(Device::OutFuncPtr, &Out97),
+	STATIC_CAST(Device::OutFuncPtr, &Out98),
+	STATIC_CAST(Device::OutFuncPtr, &Out99),
+	STATIC_CAST(Device::OutFuncPtr, &Out9f),
 };
 
 const Device::InFuncPtr CDIF::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, In90),
-	STATIC_CAST(Device::InFuncPtr, In91),
-	STATIC_CAST(Device::InFuncPtr, In92),
-	STATIC_CAST(Device::InFuncPtr, In93),
-	STATIC_CAST(Device::InFuncPtr, In96),
-	STATIC_CAST(Device::InFuncPtr, In98),
-	STATIC_CAST(Device::InFuncPtr, In99),
-	STATIC_CAST(Device::InFuncPtr, In9b),
-	STATIC_CAST(Device::InFuncPtr, In9d),
+	STATIC_CAST(Device::InFuncPtr, &In90),
+	STATIC_CAST(Device::InFuncPtr, &In91),
+	STATIC_CAST(Device::InFuncPtr, &In92),
+	STATIC_CAST(Device::InFuncPtr, &In93),
+	STATIC_CAST(Device::InFuncPtr, &In96),
+	STATIC_CAST(Device::InFuncPtr, &In98),
+	STATIC_CAST(Device::InFuncPtr, &In99),
+	STATIC_CAST(Device::InFuncPtr, &In9b),
+	STATIC_CAST(Device::InFuncPtr, &In9d),
 };

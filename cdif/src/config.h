@@ -4,7 +4,6 @@
 #define incl_config_h
 
 #include "if/ifcommon.h"
-#include "instthnk.h"
 
 class ConfigCDIF : public IConfigPropSheet
 {
@@ -14,12 +13,11 @@ public:
 	bool IFCALL Setup(IConfigPropBase*, PROPSHEETPAGE* psp);
 	
 private:
-	BOOL PageProc(HWND, UINT, WPARAM, LPARAM);
-	static BOOL CALLBACK PageGate(ConfigCDIF*, HWND, UINT, WPARAM, LPARAM);
+	INT_PTR PageProc(HWND, UINT, WPARAM, LPARAM);
+	static INT_PTR CALLBACK PageGate(HWND, UINT, WPARAM, LPARAM);
 	
 	HINSTANCE hinst;
 	IConfigPropBase* base;
-	InstanceThunk gate;
 };
 
 #endif // incl_config_h

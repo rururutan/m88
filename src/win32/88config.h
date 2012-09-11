@@ -9,7 +9,6 @@
 
 #include "if/ifcommon.h"
 #include "pc88/config.h"
-#include "instthnk.h"
 
 namespace PC8801
 {

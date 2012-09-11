@@ -1233,14 +1233,14 @@ const Device::Descriptor CRTC::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr CRTC::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, Out),
-	STATIC_CAST(Device::OutFuncPtr, PCGOut),
-	STATIC_CAST(Device::OutFuncPtr, SetKanaMode),
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &Out),
+	STATIC_CAST(Device::OutFuncPtr, &PCGOut),
+	STATIC_CAST(Device::OutFuncPtr, &SetKanaMode),
 };
 
 const Device::InFuncPtr CRTC::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, In),
-	STATIC_CAST(Device::InFuncPtr, GetStatus),
+	STATIC_CAST(Device::InFuncPtr, &In),
+	STATIC_CAST(Device::InFuncPtr, &GetStatus),
 };

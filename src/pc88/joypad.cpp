@@ -104,12 +104,12 @@ const Device::Descriptor JoyPad::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr JoyPad::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, VSync),
+	STATIC_CAST(Device::OutFuncPtr, &VSync),
 };
 
 const Device::InFuncPtr JoyPad::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, GetDirection),
-	STATIC_CAST(Device::InFuncPtr, GetButton),
+	STATIC_CAST(Device::InFuncPtr, &GetDirection),
+	STATIC_CAST(Device::InFuncPtr, &GetButton),
 };
 

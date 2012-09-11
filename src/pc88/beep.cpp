@@ -163,6 +163,6 @@ const Device::Descriptor Beep::descriptor = { 0, outdef };
 
 const Device::OutFuncPtr Beep::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Out40),
+	STATIC_CAST(Device::OutFuncPtr, &Out40),
 };
 

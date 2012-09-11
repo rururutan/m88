@@ -335,16 +335,16 @@ const Device::Descriptor PD8257::descriptor =
 
 const Device::OutFuncPtr PD8257::outdef[] =
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, SetAddr),
-	STATIC_CAST(Device::OutFuncPtr, SetCount),
-	STATIC_CAST(Device::OutFuncPtr, SetMode),
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &SetAddr),
+	STATIC_CAST(Device::OutFuncPtr, &SetCount),
+	STATIC_CAST(Device::OutFuncPtr, &SetMode),
 };
 
 const Device::InFuncPtr PD8257::indef[] =
 {
-	STATIC_CAST(Device::InFuncPtr, GetAddr),
-	STATIC_CAST(Device::InFuncPtr, GetCount),
-	STATIC_CAST(Device::InFuncPtr, GetStatus),
+	STATIC_CAST(Device::InFuncPtr, &GetAddr),
+	STATIC_CAST(Device::InFuncPtr, &GetCount),
+	STATIC_CAST(Device::InFuncPtr, &GetStatus),
 };
 

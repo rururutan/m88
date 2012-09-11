@@ -152,12 +152,12 @@ const Device::Descriptor Mouse::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr Mouse::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Strobe),
-	STATIC_CAST(Device::OutFuncPtr, VSync),
+	STATIC_CAST(Device::OutFuncPtr, &Strobe),
+	STATIC_CAST(Device::OutFuncPtr, &VSync),
 };
 
 const Device::InFuncPtr Mouse::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, GetMove),
-	STATIC_CAST(Device::InFuncPtr, GetButton),
+	STATIC_CAST(Device::InFuncPtr, &GetMove),
+	STATIC_CAST(Device::InFuncPtr, &GetButton),
 };

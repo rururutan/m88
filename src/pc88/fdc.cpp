@@ -477,22 +477,22 @@ void IOCALL FDC::PhaseTimer(uint p)
 
 const FDC::CommandFunc FDC::CommandTable[32] =
 {
-	CmdInvalid,				CmdInvalid,			// 0
-	CmdReadDiagnostic,		CmdSpecify,
-	CmdSenceDeviceStatus,	CmdWriteData,		// 4
-	CmdReadData,			CmdRecalibrate,
-	CmdSenceIntStatus,		CmdWriteData,		// 8
-	CmdReadID,				CmdInvalid,
-	CmdReadData,			CmdWriteID,			// c
-	CmdInvalid,				CmdSeek,
-	CmdInvalid,				CmdScanEqual,		// 10
-	CmdInvalid,				CmdInvalid,			
-	CmdInvalid,				CmdInvalid,			// 14
-	CmdInvalid,				CmdInvalid,
-	CmdInvalid,				CmdScanEqual,		// 18
-	CmdInvalid,				CmdInvalid,
-	CmdInvalid,				CmdScanEqual,		// 1c
-	CmdInvalid,				CmdInvalid,
+	&CmdInvalid,			&CmdInvalid,		// 0
+	&CmdReadDiagnostic,		&CmdSpecify,
+	&CmdSenceDeviceStatus,	&CmdWriteData,		// 4
+	&CmdReadData,			&CmdRecalibrate,
+	&CmdSenceIntStatus,		&CmdWriteData,		// 8
+	&CmdReadID,				&CmdInvalid,
+	&CmdReadData,			&CmdWriteID,		// c
+	&CmdInvalid,			&CmdSeek,
+	&CmdInvalid,			&CmdScanEqual,		// 10
+	&CmdInvalid,			&CmdInvalid,
+	&CmdInvalid,			&CmdInvalid,		// 14
+	&CmdInvalid,			&CmdInvalid,
+	&CmdInvalid,			&CmdScanEqual,		// 18
+	&CmdInvalid,			&CmdInvalid,
+	&CmdInvalid,			&CmdScanEqual,		// 1c
+	&CmdInvalid,			&CmdInvalid,
 };
 
 // ---------------------------------------------------------------------------
@@ -1349,16 +1349,16 @@ const Device::Descriptor FDC::descriptor = { indef, outdef };
 
 const Device::OutFuncPtr FDC::outdef[] = 
 {
-	STATIC_CAST(Device::OutFuncPtr, Reset),
-	STATIC_CAST(Device::OutFuncPtr, SetData),
-	STATIC_CAST(Device::OutFuncPtr, DriveControl),
-	STATIC_CAST(Device::OutFuncPtr, MotorControl)
+	STATIC_CAST(Device::OutFuncPtr, &Reset),
+	STATIC_CAST(Device::OutFuncPtr, &SetData),
+	STATIC_CAST(Device::OutFuncPtr, &DriveControl),
+	STATIC_CAST(Device::OutFuncPtr, &MotorControl)
 };
 
 const Device::InFuncPtr FDC::indef[] = 
 {
-	STATIC_CAST(Device::InFuncPtr, Status),
-	STATIC_CAST(Device::InFuncPtr, GetData),
-	STATIC_CAST(Device::InFuncPtr, TC),
+	STATIC_CAST(Device::InFuncPtr, &Status),
+	STATIC_CAST(Device::InFuncPtr, &GetData),
+	STATIC_CAST(Device::InFuncPtr, &TC),
 };
 
