@@ -28,6 +28,7 @@ StatusDisplay::StatusDisplay()
 	
 StatusDisplay::~StatusDisplay()
 {
+	Cleanup();
 	while (list)
 	{
 		List* next = list->next;
@@ -50,6 +51,8 @@ bool StatusDisplay::Enable(bool showfd)
 		
 		if (!hwnd)
 			return false;
+	}
+	{
 		showfdstat = showfd;
 
 		SendMessage(hwnd, SB_GETBORDERS, 0, (LPARAM) &border);
@@ -83,8 +86,11 @@ bool StatusDisplay::Disable()
 
 void StatusDisplay::Cleanup()
 {
-	if (timerid)
+	Disable();
+	if (timerid) {
 		KillTimer(hwndparent, timerid);
+		timerid = 0;
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -97,14 +103,14 @@ void StatusDisplay::DrawItem(DRAWITEMSTRUCT* dis)
 	case 0:
 		{
 			SetBkColor(dis->hDC, GetSysColor(COLOR_3DFACE));
-//			SetTextColor(dis->hDC, RGB(255, 0, 0));
+			SetTextColor(dis->hDC, GetSysColor(COLOR_MENUTEXT));
 			char* text = reinterpret_cast<char*>(dis->itemData);
 			TextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, text, strlen(text));
 			break;
 		}
 	case 1:
 		{
-			DWORD color[] =
+			const DWORD color[] =
 			{
 				RGB(64, 0, 0), RGB(255, 0, 0), RGB(0, 64, 0), RGB(0, 255, 0),
 				RGB(0, 32, 64), RGB(0, 128, 255),
@@ -147,7 +153,7 @@ bool StatusDisplay::Show(int priority, int duration, char* msg, ...)
 	if (!entry)
 		return false;
 	memset(entry, 0, sizeof(List));
-	
+
 	va_list marker;
 	va_start(marker, msg);
 	int tl = wvsprintf(entry->msg, msg, marker);
