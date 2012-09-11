@@ -26,8 +26,10 @@ WinMonitor::WinMonitor()
 
 WinMonitor::~WinMonitor()
 {
-	DeleteObject(hbitmap);
-	DeleteObject(hfont);
+	if (hbitmap)
+		DeleteObject(hbitmap);
+	if (hfont)
+		DeleteObject(hfont);
 	delete[] txtbuf;
 }
 
@@ -668,6 +670,13 @@ BOOL WinMonitor::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 
 		Update();
 		return true;
+
+	case WM_MOUSEWHEEL:
+		{
+			sn = static_cast<short>(HIWORD(wp)) / 120;
+			SendMessage(hwnd, WM_VSCROLL, MAKELONG((sn>0)?SB_LINEUP:SB_LINEDOWN, 0), 0L);  
+		}
+		break;
 
 	case WM_KEYDOWN:
 		if (nlines)
