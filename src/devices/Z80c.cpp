@@ -1828,7 +1828,7 @@ void Z80C::SingleStep(uint m)
 				if (--RegBC & 0xffff)
 				{
 					SetFlags(PF|NF|HF, PF);
-					PCDec(2), CLK(20);
+					PCDec(2), CLK(21);
 				}
 				else
 				{
@@ -1842,7 +1842,7 @@ void Z80C::SingleStep(uint m)
 				if (--RegBC & 0xffff)
 				{
 					SetFlags(PF|NF|HF, PF);
-					PCDec(2), CLK(20);
+					PCDec(2), CLK(21);
 				}
 				else
 				{
@@ -2286,7 +2286,10 @@ void Z80C::DumpLog()
 	*ptr++ = 's'; *ptr++ = ':'; ToHex(&ptr, RegSP); ptr++;
 	*ptr++ = 10;
 
-	fwrite(buf, 1, ptr-buf, dumplog);
+	if (dumplog)
+	{
+		fwrite(buf, 1, ptr-buf, dumplog);
+	}
 }
 
 // ---------------------------------------------------------------------------

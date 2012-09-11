@@ -1795,8 +1795,8 @@ static OPFUNC(OTDR) { MOUTX; DEC16(HL); MIFZ(END); CLK(20, 3); outx_sync: PCDEC2
 static OPFUNC(LDI) { MLDI; CLK(16, 4); OPEND; }
 static OPFUNC(LDD) { MLDD; CLK(16, 4); OPEND; }
 
-static OPFUNC(LDIR) { MLDI; MIFPO(END); CLK(20, 4); PCDEC2; OPEND; END: CLK(16, 4); OPEND; }
-static OPFUNC(LDDR) { MLDD; MIFPO(END); CLK(20, 4); PCDEC2; OPEND; END: CLK(16, 4); OPEND; }
+static OPFUNC(LDIR) { MLDI; MIFPO(END); CLK(21, 4); PCDEC2; OPEND; END: CLK(16, 4); OPEND; }
+static OPFUNC(LDDR) { MLDD; MIFPO(END); CLK(21, 4); PCDEC2; OPEND; END: CLK(16, 4); OPEND; }
 
 // ---------------------------------------------------------------------------
 //	ブロックサーチ命令 -------------------------------------------------------
