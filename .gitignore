@@ -1,12 +1,21 @@
 # Compiled Object files
-*.slo
-*.lo
-*.o
+x64/
+Debug/
+Release/
+*.lib
+*.obj
+*.aps
 
-# Compiled Dynamic libraries
-*.so
+# Work files
+*.ini
+*.ncb
+*.suo
+*.user
+*.dmp
+*.*~
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+# Binary files
+*.m88
+*.exe
+*.rom
+
