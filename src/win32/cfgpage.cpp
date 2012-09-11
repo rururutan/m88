@@ -527,7 +527,7 @@ bool ConfigVolume::Clicked(HWND hdlg, HWND hwctl, UINT id)
 	{
 	case IDC_SOUND_RESETVOL:
 		SendDlgItemMessage(hdlg, IDC_SOUND_VOLFM,     TBM_SETPOS, TRUE, 0);
-		SendDlgItemMessage(hdlg, IDC_SOUND_VOLSSG,    TBM_SETPOS, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_SOUND_VOLSSG,    TBM_SETPOS, TRUE, -3);
 		SendDlgItemMessage(hdlg, IDC_SOUND_VOLADPCM,  TBM_SETPOS, TRUE, 0);
 		SendDlgItemMessage(hdlg, IDC_SOUND_VOLRHYTHM, TBM_SETPOS, TRUE, 0);
 		UpdateSlider(hdlg);

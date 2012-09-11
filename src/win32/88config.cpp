@@ -52,8 +52,8 @@ void LoadConfigDirectory(Config* cfg, const char* inifile, const char* entry, bo
 //
 #define VOLUME_BIAS 100
 
-#define LOADVOLUMEENTRY(key, vol) \
-	if (LoadConfigEntry(inifile, key, &n, VOLUME_BIAS, applydefault)) \
+#define LOADVOLUMEENTRY(key, def, vol) \
+	if (LoadConfigEntry(inifile, key, &n, def, applydefault)) \
 	vol = n - VOLUME_BIAS;
 
 void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
@@ -127,16 +127,16 @@ void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
 	if (LoadConfigEntry(inifile, "ROMEOLatency", &n, 100, applydefault))
 		cfg->romeolatency = Limit(n, 500, 0);
 	
-	LOADVOLUMEENTRY("VolumeFM", cfg->volfm);
-	LOADVOLUMEENTRY("VolumeSSG", cfg->volssg);
-	LOADVOLUMEENTRY("VolumeADPCM", cfg->voladpcm);
-	LOADVOLUMEENTRY("VolumeRhythm", cfg->volrhythm);
-	LOADVOLUMEENTRY("VolumeBD", cfg->volbd);
-	LOADVOLUMEENTRY("VolumeSD", cfg->volsd);
-	LOADVOLUMEENTRY("VolumeTOP", cfg->voltop);
-	LOADVOLUMEENTRY("VolumeHH", cfg->volhh);
-	LOADVOLUMEENTRY("VolumeTOM", cfg->voltom);
-	LOADVOLUMEENTRY("VolumeRIM", cfg->volrim);
+	LOADVOLUMEENTRY("VolumeFM", VOLUME_BIAS, cfg->volfm);
+	LOADVOLUMEENTRY("VolumeSSG", 97, cfg->volssg);
+	LOADVOLUMEENTRY("VolumeADPCM", VOLUME_BIAS, cfg->voladpcm);
+	LOADVOLUMEENTRY("VolumeRhythm", VOLUME_BIAS, cfg->volrhythm);
+	LOADVOLUMEENTRY("VolumeBD", VOLUME_BIAS, cfg->volbd);
+	LOADVOLUMEENTRY("VolumeSD", VOLUME_BIAS, cfg->volsd);
+	LOADVOLUMEENTRY("VolumeTOP", VOLUME_BIAS, cfg->voltop);
+	LOADVOLUMEENTRY("VolumeHH", VOLUME_BIAS, cfg->volhh);
+	LOADVOLUMEENTRY("VolumeTOM", VOLUME_BIAS, cfg->voltom);
+	LOADVOLUMEENTRY("VolumeRIM", VOLUME_BIAS, cfg->volrim);
 }
 
 // ---------------------------------------------------------------------------
