@@ -251,7 +251,7 @@ void OPNMonitor::UpdateText()
 			{
 				for (int s=0; s<4; s++)
 				{
-					const static sct[4] = { 0*4, 2*4, 1*4, 3*4 };
+					const static int sct[4] = { 0*4, 2*4, 1*4, 3*4 };
 					ToHex(&ptr, regs[z*0x100 + y*0x10 + sct[s] + c]);
 				}
 				*ptr++ = ' ';
