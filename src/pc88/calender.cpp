@@ -108,6 +108,21 @@ void Calender::Command()
 		hold = true;
 		dataoutmode = false;
 		break;
+#if 0	// –¢À‘•
+	case 0x04:			// timing pulse   64Hz
+	case 0x05:			// timing pulse  256Hz
+	case 0x06:			// timing pulse 2048Hz
+	case 0x07:			// timing pulse 4096Hz
+	case 0x08:			// interrupt  1sec 
+	case 0x09:			// interrupt 10sec
+	case 0x0a:			// interrupt 30sec
+	case 0x0b:			// interrupt 60sec
+	case 0x0c:			// interrupt reset
+	case 0x0d:			// interrupt start
+	case 0x0e:			// interrupt stop
+	case 0x0f:			// test
+		break;
+#endif
 	}
 }
 
