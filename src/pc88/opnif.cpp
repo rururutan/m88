@@ -76,10 +76,20 @@ bool OPNIF::Init(IOBus* b, int intrport, int io, Scheduler* s)
 		if (piccolo->GetChip(PICCOLO_YMF288, &chip) >= 0)
 		{
 			Log(" success.\n");
-			if (piccolo->IsDriverBased())
-				statusdisplay.Show(100, 10000, "ROMEO_PICCOLO: YMF288 enabled");
-			else
+			switch ( piccolo->IsDriverBased() ) {
+			  case 1:
+				statusdisplay.Show(100, 10000, "ROMEO/GIMIC: YMF288 enabled");
+				opn.SetChannelMask(0xfdff);
+				break;
+			  case 2:
+				statusdisplay.Show(100, 10000, "GIMIC: YM2608 enabled");
+				opn.SetChannelMask(0xffff);
+				break;
+			  default:
+			  case 0:
 				statusdisplay.Show(100, 10000, "ROMEO_JULIET: YMF288 enabled");
+				break;
+			}
 #ifdef USE_OPN
 			clock = 4000000;
 #else
@@ -298,7 +308,7 @@ void IOCALL OPNIF::WriteData1(uint a, uint data)
 		regs[0x100 | index1] = data;
 		opn.SetReg(0x100 | index1, data);
 		
-		if (chip && index1 >= 0x30)
+		if (chip)
 			chip->SetReg(ChipTime(), 0x100 | index1, data);
 	}
 #endif

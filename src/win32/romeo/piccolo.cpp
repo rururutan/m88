@@ -3,6 +3,8 @@
 #include "headers.h"
 #include <winioctl.h>
 #include "piccolo.h"
+#include "piccolo_romeo.h"
+#include "piccolo_gimic.h"
 #include "romeo.h"
 #include "misc.h"
 #include "status.h"
@@ -11,91 +13,38 @@
 #define LOGNAME "piccolo"
 #include "diag.h"
 
-struct PCIDRV
+Piccolo* Piccolo::instance = NULL;
+
+// ---------------------------------------------------------------------------
+//
+//
+Piccolo* Piccolo::GetInstance()
 {
-	HMODULE			mod;
-	PCIFINDDEV		finddev;
-	PCICFGREAD32	read32;
-	PCIMEMWR8		out8;
-	PCIMEMWR16		out16;
-	PCIMEMWR32		out32;
-	PCIMEMRD8		in8;
-	PCIMEMRD16		in16;
-	PCIMEMRD32		in32;
-};
-
-#define	ROMEO_TPTR(member)	(int)&(((PCIDRV *)NULL)->member)
-
-struct DLLPROCESS
-{
-	char	*symbol;
-	int		addr;
-};
-
-static const DLLPROCESS	dllproc[] = 
-{
-	{FN_PCIFINDDEV,		ROMEO_TPTR(finddev)},
-	{FN_PCICFGREAD32,	ROMEO_TPTR(read32)},
-	{FN_PCIMEMWR8,		ROMEO_TPTR(out8)},
-	{FN_PCIMEMWR16,		ROMEO_TPTR(out16)},
-	{FN_PCIMEMWR32,		ROMEO_TPTR(out32)},
-	{FN_PCIMEMRD8,		ROMEO_TPTR(in8)},
-	{FN_PCIMEMRD16,		ROMEO_TPTR(in16)},
-	{FN_PCIMEMRD32,		ROMEO_TPTR(in32)}
-};
-
-PCIDRV pcidrv = { 0, };
-
-static bool LoadDLL()
-{
-	if (!pcidrv.mod)
-	{
-		pcidrv.mod = LoadLibrary(PCIDEBUG_DLL);
-		if (!pcidrv.mod)
-			return false;
-		
-		FARPROC proc;
-		for (int i=0; i<sizeof(dllproc)/sizeof(DLLPROCESS); i++)
-		{
-			proc = GetProcAddress(pcidrv.mod, dllproc[i].symbol);
-			*(DWORD *)(((BYTE *)&pcidrv) + dllproc[i].addr) = (DWORD) proc;
-			if (!proc) 
-				break;
+	if ( instance ) {
+		return instance;
+	} else {
+		instance = new Piccolo_Romeo();
+		if ( instance->Init() == PICCOLO_SUCCESS ) {
+			return instance;
 		}
-		if (!proc)
-		{
-			FreeLibrary(pcidrv.mod);
-			pcidrv.mod = 0;
+		delete instance;
+		instance = new Piccolo_Gimic();
+		if ( instance->Init() == PICCOLO_SUCCESS ) {
+			return instance;
 		}
 	}
-	return !!pcidrv.mod;
+
+	return 0;
 }
 
-
-// ---------------------------------------------------------------------------
-
-Piccolo Piccolo::piccolo;
-
-
-// ---------------------------------------------------------------------------
-//
-//
 Piccolo::Piccolo()
-: active(false), hthread(0), idthread(0), hfile(INVALID_HANDLE_VALUE)
+: active(false), hthread(0), idthread(0), avail(0), events(0), evread(0), evwrite(0), eventries(0),
+  maxlatency(0), shouldterminate(true)
 {
-	avail = Init();
 }
 
 Piccolo::~Piccolo()
 {
-	Cleanup();
-}
-
-Piccolo* Piccolo::GetInstance()
-{
-	if (piccolo.avail >= 0) 
-		return &piccolo;
-	return 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -103,52 +52,6 @@ Piccolo* Piccolo::GetInstance()
 //
 int Piccolo::Init()
 {
-	// piccolo.sys はいますか？
-	hfile = CreateFile(
-		"\\\\.\\Romeo",           // Open the Device "file"
-		GENERIC_WRITE | GENERIC_READ,
-		0,
-		NULL,
-		OPEN_EXISTING,
-		0,
-		NULL);
-	islegacy = false;
-
-	if (hfile == INVALID_HANDLE_VALUE)
-	{
-		// 従来の方法で。
-		// DLL 用意
-		Log("LoadDLL\n");
-		if (!LoadDLL())
-			return PICCOLOE_DLL_NOT_FOUND;
-
-		islegacy = true;
-
-		// ROMEO の存在確認
-		// デバイスを探す
-		Log("FindDevice\n");
-		uint32 id;
-		id = pcidrv.finddev(0x6809, 0x8121, 0);
-		if (id & 0xff)
-			id = pcidrv.finddev(0x6809, 0x2151, 0);
-		Log(" ID = %.8x\n", id);
-		if (id & 0xff)
-			return PICCOLOE_ROMEO_NOT_FOUND;
-
-		// ROMEO はありそうだが、デバイスは？
-		id >>= 16;
-		addr = pcidrv.read32(id, ROMEO_BASEADDRESS1);
-		irq  = pcidrv.read32(id, ROMEO_PCIINTERRUPT) & 0xff;
-		Log(" ADDR = %.8x\n", addr);
-		Log(" IRQ  = %.8x\n", irq);
-		
-		if (!addr)
-			return PICCOLOE_ROMEO_NOT_FOUND;
-
-	}
-	ymf288.Init(this, addr + ROMEO_YMF288BASE);
-	ymf288.Reset();
-
 	// thread 作成
 	shouldterminate = false;
 	if (!hthread)
@@ -180,10 +83,6 @@ void Piccolo::Cleanup()
 		CloseHandle(hthread);
 		hthread = 0;
 	}
-	{
-		if (hfile)
-			CloseHandle(hfile);
-	}
 }
 
 // ---------------------------------------------------------------------------
@@ -211,7 +110,7 @@ uint Piccolo::ThreadMain()
 					wait = d / 1000;
 					break;
 				}
-				ev->drv->Set(ev->addr, ev->data);
+				SetReg(ev->addr, ev->data);
 				Pop();
 			}
 		}
@@ -288,48 +187,26 @@ uint32 Piccolo::GetCurrentTime()
 	return ::GetTickCount() * 1000;
 }
 
-int Piccolo::GetChip(PICCOLO_CHIPTYPE type, PiccoloChip** pc)
-{
-	*pc = 0;
-	Log("GetChip %d\n", type);
-	if (type != PICCOLO_YMF288)
-		return PICCOLOE_HARDWARE_NOT_AVAILABLE;
-	
-	Log(" Type: YMF288\n");
-	if (!ymf288.IsAvailable())
-		return PICCOLOE_HARDWARE_IN_USE;
-	Log(" allocated\n");
-	ymf288.Reserve(true);
-	*pc = new ChipIF(this, &ymf288);
-	return PICCOLO_SUCCESS;
-}
-
 // ---------------------------------------------------------------------------
 
-int Piccolo::DrvInit(Driver* drv, uint param)
-{
-	drv->Reset();
-	return true;
-}
-
-void Piccolo::DrvReset(Driver* drv)
+void Piccolo::DrvReset()
 {
 	CriticalSection::Lock lock(cs);
-	drv->Reset();
+
 	// 本当は該当するエントリだけ削除すべきだが…
 	evread = 0;
 	evwrite = 0;
 }
 
-bool Piccolo::DrvSetReg(Driver* drv, uint32 at, uint addr, uint data)
+bool Piccolo::DrvSetReg(uint32 at, uint addr, uint data)
 {
 	if (int32(at - GetCurrentTime()) > maxlatency)
 	{
 //		statusdisplay.Show(100, 0, "Piccolo: Time %.6d", at - GetCurrentTime());
 		return false;
 	}
+
 	Event ev;
-	ev.drv = drv;
 	ev.at = at;
 	ev.addr = addr;
 	ev.data = data;
@@ -341,83 +218,6 @@ statusdisplay.Show(100, 0, "Piccolo: Time %.6d  Buf: %.6d  R:%.8d W:%.8d w:%.6d"
 	return Push(ev);
 }
 
-void Piccolo::DrvRelease(Driver* drv)
+void Piccolo::DrvRelease()
 {
-	drv->Reserve(false);
-}
-
-// ---------------------------------------------------------------------------
-
-
-void Piccolo::YMF288::Reset() 
-{
-	Log("YMF288::Reset()\n");
-	Mute();
-	if (piccolo->islegacy)
-	{
-		pcidrv.out32(addr + CTRL, 0x00);
-		Sleep(150);
-		pcidrv.out32(addr + CTRL, 0x80);
-		Sleep(150);
-	}
-}
-
-bool Piccolo::YMF288::IsBusy() 
-{
-	if (piccolo->islegacy)
-		return (pcidrv.in8(addr + ADDR0) & 0x80) != 0;
-	return false;
-}
-
-void Piccolo::YMF288::Mute()
-{
-	Log("YMF288::Mute()\n");
-	Set(0x007, 0x3f);
-	for (uint r=0x40; r<0x4f; r++)
-	{
-		if (~r & 3)
-		{
-			Set(0x000 + r, 0x7f);
-			Set(0x100 + r, 0x7f);
-		}
-	}
-}
-
-void Piccolo::YMF288::Set(uint a, uint d)
-{
-	if (piccolo->islegacy)
-	{
-		while (IsBusy())
-			Sleep(0);
-		pcidrv.out8(addr + (a < 0x100 ? ADDR0 : ADDR1), a & 0xff);
-
-		while (IsBusy())
-			Sleep(0);
-		pcidrv.out8(addr + (a < 0x100 ? DATA0 : DATA1), d & 0xff);
-	}
-	else if (piccolo->hfile != INVALID_HANDLE_VALUE)
-	{
-		ROMEO_WRITE_INPUT	rwi;
-		LONG				ioctlcode;
-		ULONG				datalength;
-		ULONG				returnedlength;
-
-		ioctlcode = IOCTL_ROMEO_OPN3_SETREG;
-		rwi.PortNumber = a;
-		rwi.CharData = d;
-		datalength = sizeof(rwi);
-
-		BOOL result;
-		result = DeviceIoControl(
-						piccolo->hfile,					// Handle to device
-						ioctlcode,				// IO Control code for Write
-						&rwi,					// Buffer to driver.  Holds port & data.
-						datalength,				// Length of buffer in bytes.
-						NULL,					// Buffer from driver.   Not used.
-						0,						// Length of buffer in bytes.
-						&returnedlength,		// Bytes placed in outbuf.  Should be 0.
-						NULL					// NULL means wait till I/O completes.
-						);
-
-	}
 }
