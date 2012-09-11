@@ -176,7 +176,7 @@ bool WinCore::SaveShapshot(const char* filename)
 	bool docomp = !!(config.flag2 & Config::compresssnapshot);
 
 	uint size = devlist.GetStatusSize();
-	uint8* buf = new uint8[compress ? size * 129 / 64 + 20 : size];
+	uint8* buf = new uint8[docomp ? size * 129 / 64 + 20 : size];
 	if (!buf)
 		return false;
 	memset(buf, 0, size);
