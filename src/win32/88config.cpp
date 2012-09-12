@@ -60,11 +60,12 @@ void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
 {
 	int n;
 
-	n = Config::subcpucontrol | Config::savedirectory;
+	n = Config::subcpucontrol | Config::savedirectory | Config::force480 | Config::enablewait;
 	LoadConfigEntry(inifile, "Flags", &cfg->flags, n, applydefault);
 	cfg->flags &= ~Config::specialpalette;
-	
-	LoadConfigEntry(inifile, "Flag2", &cfg->flag2, 0, applydefault);
+
+	n = Config::genscrnshotname;
+	LoadConfigEntry(inifile, "Flag2", &cfg->flag2, n, applydefault);
 	cfg->flag2 &= ~(Config::mask0 | Config::mask1 | Config::mask2);
 	
 	if (LoadConfigEntry(inifile, "CPUClock", &n, 40, applydefault))
@@ -74,7 +75,7 @@ void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
 //		cfg->speed = Limit(n, 2000, 500);
 	cfg->speed = 1000;
 
-	if (LoadConfigEntry(inifile, "RefreshTiming", &n, 3, applydefault))
+	if (LoadConfigEntry(inifile, "RefreshTiming", &n, 1, applydefault))
 		cfg->refreshtiming = Limit(n, 4, 1);
 
 	if (LoadConfigEntry(inifile, "BASICMode", &n, Config::N88V2, applydefault))
@@ -88,13 +89,13 @@ void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
 			cfg->basicmode = Config::N88V2;
 	}
 
-	if (LoadConfigEntry(inifile, "Sound", &n, 2, applydefault))
+	if (LoadConfigEntry(inifile, "Sound", &n, 55467, applydefault))
 	{
 		static const uint16 srate[] = { 0, 11025, 22050, 44100, 44100, 48000, 55467 };
 		if (n < 7)
 			cfg->sound = srate[n];
 		else
-			cfg->sound = Limit(n, 55466*2, 8000);
+			cfg->sound = Limit(n, 55467*2, 8000);
 	}
 
 	if (LoadConfigEntry(inifile, "OPNClock", &n, 3993600, applydefault))
