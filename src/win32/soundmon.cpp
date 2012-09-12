@@ -200,6 +200,26 @@ static inline uint ToFB(uint f)
 //
 void OPNMonitor::UpdateText()
 {
+#if 1
+	int i;
+	int a = GetLine() * 0x10;
+	for (i=0; i<0x20; i++) {
+		if (a < 0x200) {
+			SetTxCol(0x0f0f0f * (4+dim));
+			Putf("%.3x: ", (a & 0x1ff));
+
+			SetTxCol(0x040f04 * (4+dim));
+			for (int x=0; x<16; x++) {
+				uint d = regs[a & 0x1ff];
+				Putf("%.2x ", d & 0xff);
+				a++;
+			}
+
+			SetTxCol(0x0f0f0f * (4+dim));
+			Puts("\n");
+		}
+	}
+#else
 	char buf[128];
 	int y;
 
@@ -279,6 +299,7 @@ void OPNMonitor::UpdateText()
 			ToFB(regs[0x0b4]*0x100+regs[0x0b0]), ToFB(regs[0x0b5]*0x100+regs[0x0b1]), ToFB(regs[0x0b6]*0x100+regs[0x0b2]),
 			ToFB(regs[0x1b4]*0x100+regs[0x1b0]), ToFB(regs[0x1b5]*0x100+regs[0x1b1]), ToFB(regs[0x1b6]*0x100+regs[0x1b2]));
 	}
+#endif
 }
 
 bool OPNMonitor::Connect(ISoundControl* sc)
