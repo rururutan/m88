@@ -52,10 +52,13 @@ public:
 
 private:
 	bool FindDrive();
-	
-	ASPI* aspi;
-	int ha;			// CD-ROM ドライブの接続されているホストアダプタ
-	int id;			// CD-ROM ドライブの ID
+
+	int ExecuteSCSICommand(HANDLE _hdev, void* _cdb, uint _cdblen, uint _direction = 2,
+		 void* _data = 0, uint _datalen = 0);
+
+	int m_driveletters[26];
+	int m_maxcd;
+	HANDLE hdev;
 	int ntracks;	// トラック数
 	int trstart;	// トラックの開始位置
 
