@@ -94,7 +94,7 @@ uint Piccolo::ThreadMain()
 	while (!shouldterminate)
 	{
 		Event* ev;
-		const int waitdefault = 2;
+		const int waitdefault = 1;
 		int wait = waitdefault;
 		{
 			CriticalSection::Lock lock(cs);
@@ -184,7 +184,7 @@ bool Piccolo::SetMaximumLatency(uint nanosec)
 
 uint32 Piccolo::GetCurrentTime()
 {
-	return ::GetTickCount() * 1000;
+	return ::timeGetTime() * 1000;
 }
 
 // ---------------------------------------------------------------------------
