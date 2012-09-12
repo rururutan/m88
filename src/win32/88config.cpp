@@ -138,6 +138,9 @@ void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
 	LOADVOLUMEENTRY("VolumeHH", VOLUME_BIAS, cfg->volhh);
 	LOADVOLUMEENTRY("VolumeTOM", VOLUME_BIAS, cfg->voltom);
 	LOADVOLUMEENTRY("VolumeRIM", VOLUME_BIAS, cfg->volrim);
+
+	LoadConfigEntry(inifile, "WinPosY", &cfg->winposy, 64, applydefault);
+	LoadConfigEntry(inifile, "WinPosX", &cfg->winposx, 64, applydefault);
 }
 
 // ---------------------------------------------------------------------------
@@ -208,6 +211,9 @@ void SaveConfig(Config* cfg, const char* inifile, bool writedefault)
 	SaveEntry(inifile, "VolumeHH", cfg->volhh + VOLUME_BIAS, writedefault);
 	SaveEntry(inifile, "VolumeTOM", cfg->voltom + VOLUME_BIAS, writedefault);
 	SaveEntry(inifile, "VolumeRIM", cfg->volrim + VOLUME_BIAS, writedefault);
+
+	SaveEntry(inifile, "WinPosY", cfg->winposy, writedefault);
+	SaveEntry(inifile, "WinPosX", cfg->winposx, writedefault);
 }
 
 }

@@ -85,6 +85,9 @@ private:
 
 	void CaptureScreen();
 
+	void SaveWindowPosition();
+	void LoadWindowPosition();
+
 	int AllocControlID();
 	void FreeControlID(int);
 

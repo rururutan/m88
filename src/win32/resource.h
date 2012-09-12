@@ -150,6 +150,7 @@
 #define IDC_FUNCTION_SCREENSHOT_NAME    1113
 #define IDC_SOUND_PRECISEMIX            1114
 #define IDC_MEMORY_EDITBOX              1115
+#define IDC_FUNCTION_SAVEPOS            1116
 #define IDC_MEMORY_EDIT_TEXT            1118
 #define IDC_SOUND_WAVEOUT               1120
 #define IDC_SOUND_FMFREQ                1121

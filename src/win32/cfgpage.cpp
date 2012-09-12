@@ -646,6 +646,10 @@ bool ConfigFunction::Clicked(HWND hdlg, HWND hwctl, UINT id)
 		config.flags ^= Config::savedirectory;
 		return true;
 
+	case IDC_FUNCTION_SAVEPOS:
+		config.flag2 ^= Config::saveposition;
+		return true;
+
 	case IDC_FUNCTION_ASKBEFORERESET:
 		config.flags ^= Config::askbeforereset;
 		return true;
@@ -716,6 +720,7 @@ void ConfigFunction::SetActive(HWND hdlg)
 void ConfigFunction::Update(HWND hdlg)
 {
 	CheckDlgButton(hdlg, IDC_FUNCTION_SAVEDIR, BSTATE(config.flags & Config::savedirectory));
+	CheckDlgButton(hdlg, IDC_FUNCTION_SAVEPOS, BSTATE(config.flag2 & Config::saveposition));
 	CheckDlgButton(hdlg, IDC_FUNCTION_ASKBEFORERESET, BSTATE(config.flags & Config::askbeforereset));
 	CheckDlgButton(hdlg, IDC_FUNCTION_SUPPRESSMENU, BSTATE(config.flags & Config::suppressmenu));
 	CheckDlgButton(hdlg, IDC_FUNCTION_USEARROWFOR10, BSTATE(config.flags & Config::usearrowfor10));

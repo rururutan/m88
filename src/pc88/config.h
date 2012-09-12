@@ -86,6 +86,7 @@ public:
 		lpfenable		= 1 << 10,	// LPF を使ってみる
 		fddnowait		= 1 << 11,	// FDD ノーウェイト
 		usedsnotify		= 1 << 12,
+		saveposition	= 1 << 13,	// 起動時に前回終了時のウインドウ位置を復元
 	};
 
 	int flags;
@@ -107,6 +108,8 @@ public:
 	uint lpffc;				// LPF のカットオフ周波数 (Hz)
 	uint lpforder;
 	int romeolatency;
+	int winposx;
+	int winposy;
 
 	BASICMode basicmode;
 

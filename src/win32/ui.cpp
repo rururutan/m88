@@ -79,7 +79,10 @@ bool WinUI::InitM88(const char* cmdline)
 	//	設定よみこみ
 	LOG1("%d\tLoadConfig\n", timeGetTime());
 	PC8801::LoadConfig(&config, m88ini, true);
-	
+
+	// Window位置復元
+	LoadWindowPosition();
+
 	//	現在の path 保存
 	char path[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, path);
@@ -214,6 +217,37 @@ bool WinUI::InitWindow(int nwinmode)
 	guimodebymouse = false;
 
 	return true;
+}
+
+// ---------------------------------------------------------------------------
+// ウインドウ位置の保存/復帰
+//
+void WinUI::SaveWindowPosition()
+{
+	WINDOWPLACEMENT wp; 
+	wp.length = sizeof(WINDOWPLACEMENT);
+	::GetWindowPlacement( hwnd, &wp );
+	config.winposx = wp.rcNormalPosition.left;
+	config.winposy = wp.rcNormalPosition.top;
+}
+
+void WinUI::LoadWindowPosition()
+{
+	if (config.flag2 & Config::saveposition) {
+		WINDOWPLACEMENT wp;
+	    wp.length = sizeof(WINDOWPLACEMENT);
+		::GetWindowPlacement( hwnd, &wp );
+
+		LONG winw, winh;
+		winw = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
+		winh = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
+
+		wp.rcNormalPosition.top = config.winposy;
+		wp.rcNormalPosition.bottom = config.winposy + winh;
+		wp.rcNormalPosition.left = config.winposx;
+		wp.rcNormalPosition.right = config.winposx + winw;
+		SetWindowPlacement( hwnd, &wp );
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -688,6 +722,7 @@ LRESULT WinUI::WmCreate(HWND hwnd, WPARAM wparam, LPARAM lparam)
 //
 LRESULT WinUI::WmDestroy(HWND hwnd, WPARAM wparam, LPARAM lparam)
 {
+	SaveWindowPosition();
 	PostQuitMessage(0);
 	return 0;
 }
