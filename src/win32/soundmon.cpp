@@ -129,7 +129,7 @@ BOOL OPNMonitor::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 		
 	case WM_SIZE:
 		width = Min(LOWORD(lp) + 128, bufsize);
-		SetFont(hdlg, Limit(HIWORD(lp) / 11, 24, 8));
+		SetFont(hdlg, Limit(HIWORD(lp) / 32, 24, 8));
 		break;
 
 	case WM_LBUTTONUP:
