@@ -1303,11 +1303,12 @@ void WinUI::ResizeWindow(uint width, uint height)
 	RECT rect;
 	rect.left = 0;	rect.right = width;
 	rect.top  = 0;  rect.bottom = height + statusdisplay.GetHeight();
-	
+
 	AdjustWindowRectEx(&rect, wstyle, TRUE, 0);
 	SetWindowPos(hwnd, 0, 0, 0, rect.right-rect.left, rect.bottom-rect.top,
 				 SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 	PostMessage(hwnd, WM_SIZE, SIZE_RESTORED, MAKELONG(width, height));
+	draw.Resize( width, height );
 }
 
 // ---------------------------------------------------------------------------
