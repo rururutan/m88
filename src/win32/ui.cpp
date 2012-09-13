@@ -39,7 +39,7 @@ using namespace PC8801;
 //	ê∂ê¨ÅEîjä¸
 //
 WinUI::WinUI(HINSTANCE hinstance)
-: hinst(hinstance), diskmgr(0), tapemgr(0)
+: hinst(hinstance), hwnd(0), diskmgr(0), tapemgr(0)
 {
 	timerid = 0;
 	point.x = point.y = 0;
@@ -762,12 +762,12 @@ LRESULT WinUI::WmClose(HWND hwnd, WPARAM wparam, LPARAM lparam)
 	int i;
 	for (i=0; i<2; i++)
 	{
-		if (diskinfo[i].hmenu)
+		if (IsMenu(diskinfo[i].hmenu))
 			DestroyMenu(diskinfo[i].hmenu), diskinfo[i].hmenu = 0;
 	}
 	for (i=0; i<2; i++)
 	{
-		if (hmenuss[i])
+		if (IsMenu(hmenuss[i]))
 			DestroyMenu(hmenuss[i]), hmenuss[i] = 0;
 	}
 
@@ -1832,7 +1832,7 @@ bool WinUI::MakeSnapshotMenu()
 		// ÉÅÉjÉÖÅ[çÏê¨
 		for (i=0; i<2; i++)
 		{
-			if (hmenuss[i])
+			if (IsMenu(hmenuss[i]))
 				DestroyMenu(hmenuss[i]);
 			hmenuss[i] = CreatePopupMenu();
 			if (!hmenuss[i])
