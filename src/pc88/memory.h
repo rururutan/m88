@@ -65,6 +65,8 @@ public:
 	uint IFCALL GetStatusSize();
 	bool IFCALL LoadStatus(const uint8* status);
 	bool IFCALL SaveStatus(uint8* status);
+	bool IsN80Ready() { return !!n80rom; }
+	bool IsN80V2Ready() { return !!n80v2rom; }
 	bool IsCDBIOSReady() { return !!cdbios; }
 
 	bool Init(MemoryManager* mgr, IOBus* bus, CRTC* crtc, int* waittbl);

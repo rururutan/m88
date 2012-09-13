@@ -691,3 +691,13 @@ void PC88::TimeSync()
 {
 	bus1.Out(ptimesync, 0);
 }
+
+bool PC88::IsN80Supported()
+{
+	return mem1->IsN80Ready();
+}
+
+bool PC88::IsN80V2Supported()
+{
+	return mem1->IsN80V2Ready();
+}
