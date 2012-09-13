@@ -569,7 +569,6 @@ void FM::Operator::EGCalc()
 			eg_level_ += 4 * decaytable1[eg_rate_][eg_curve_count_ & 7];
 			if (eg_level_ >= eg_level_on_next_phase_)
 			{
-				EGUpdate();
 				switch (eg_phase_)
 				{
 				case decay:
@@ -583,6 +582,7 @@ void FM::Operator::EGCalc()
 					break;
 				}
 			}
+			EGUpdate();
 		}
 	}
 	eg_curve_count_++;
