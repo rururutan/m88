@@ -19,14 +19,15 @@ char m88ini[MAX_PATH];
 static void InitPathInfo()
 {
 	char buf[MAX_PATH];
-	GetModuleFileName(0, buf, MAX_PATH);
-	
-	LPTSTR filepart;
-	GetFullPathName(buf, MAX_PATH, m88dir, &filepart);
-	*filepart = 0;
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
 
-	strcpy_s(m88ini, sizeof(m88ini), m88dir);
-	strcat_s(m88ini, sizeof(m88ini), "M88.ini");
+	GetModuleFileName(0, buf, MAX_PATH);
+	_splitpath(buf, drive, dir, fname, ext); 
+	sprintf(m88ini, "%s%s%s.ini", drive, dir, fname);
+	sprintf(m88dir, "%s%s", drive, dir);
 }
 
 // ---------------------------------------------------------------------------
