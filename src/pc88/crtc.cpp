@@ -70,7 +70,7 @@ CRTC::CRTC(const ID& id)
 {
 	font = 0;
 	fontrom = 0;
-	hirarom = 0;
+	cg80rom = 0;
 	vram[0] = 0;
 	pcgram = 0;
 	pcgadr = 0;
@@ -85,7 +85,7 @@ CRTC::~CRTC()
 	delete[] fontrom;
 	delete[] vram[0];
 	delete[] pcgram;
-	delete[] hirarom;
+	delete[] cg80rom;
 }
 
 // ---------------------------------------------------------------------------
@@ -385,12 +385,12 @@ bool CRTC::LoadFontFile()
 {
 	FileIO file;
 	
-	if (file.Open("HIRAFONT.ROM", FileIO::readonly))
+	if (file.Open("FONT80SR.ROM", FileIO::readonly))
 	{
-		delete[] hirarom;
-		hirarom = new uint8[0x200];
+		delete[] cg80rom;
+		cg80rom = new uint8[0x2000];
 		file.Seek(0, FileIO::begin);
-		file.Read(hirarom, 0x200);
+		file.Read(cg80rom, 0x2000);
 	}
 	
 	if (file.Open("FONT.ROM", FileIO::readonly))
@@ -421,7 +421,11 @@ void CRTC::CreateTFont()
 
 void CRTC::CreateKanaFont()
 {
-	CreateTFont((kanamode && hirarom) ? hirarom : fontrom + 8 * 0xa0, 0xa0, 0x40);
+	if (kanaenable && cg80rom) {
+		CreateTFont(cg80rom + 0x800 * (kanamode>>4), 0x00, 0x100);
+	} else {
+		CreateTFont(fontrom + 8 * 0xa0, 0xa0, 0x40);
+	}
 }
 
 void CRTC::CreateTFont(const uint8* src, int idx, int num)
@@ -1132,11 +1136,13 @@ void CRTC::EnablePCG(bool enable)
 //
 void IOCALL CRTC::SetKanaMode(uint, uint data)
 {
-	if (kanaenable)
+	if (kanaenable) {
+		// ROMに3つフォントが用意されているが1以外は切り替わらない。
 		data &= 0x10;
-	else
+	} else {
 		data = 0;
-	
+	}
+
 	if (data != kanamode)
 	{
 		kanamode = data;

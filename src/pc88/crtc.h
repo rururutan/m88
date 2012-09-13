@@ -177,7 +177,7 @@ private:
 	int underlineptr;
 
 	uint8* fontrom;
-	uint8* hirarom;
+	uint8* cg80rom;			// PC-8001mkIISR CGROM
 	uint8* font;
 	uint8* pcgram;
 	uint8* vram[2];
