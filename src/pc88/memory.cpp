@@ -75,6 +75,8 @@ bool Memory::Init(MemoryManager* _mm, IOBus* _bus, CRTC* _crtc, int* wt)
 	port99 = 0;
 	portf0 = 0;
 	port40 = 0;
+	porte2 = 0;
+	porte3 = 0;
 	n80mode = 0;
 	seldic = false;
 	
@@ -416,7 +418,7 @@ void IOCALL Memory::Out78(uint, uint)
 //
 void IOCALL Memory::Out99(uint, uint data)
 {
-	if (cdbios)
+	if (cdbios && !n80mode)
 	{
 		port99 = data & 0x11;
 		Update00R();
@@ -474,7 +476,7 @@ void IOCALL Memory::Oute3(uint, uint data)
 void IOCALL Memory::Outf0(uint, uint data)
 {
 	portf0 = data;
-	if (dicrom)
+	if (dicrom && !n80mode)
 	{
 		UpdateC0();
 		UpdateF0();
@@ -486,7 +488,7 @@ void IOCALL Memory::Outf0(uint, uint data)
 //	
 void IOCALL Memory::Outf1(uint, uint data)
 {
-	if (dicrom)
+	if (dicrom && !n80mode)
 	{
 		seldic = !(data & 1);
 		UpdateC0();
