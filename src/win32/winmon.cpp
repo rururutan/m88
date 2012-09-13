@@ -574,7 +574,7 @@ bool WinMonitor::PutStatus(const char* text, ...)
 
 	va_list a;
 	va_start(a, text);
-	vsprintf(statusbuf, text, a);
+	vsprintf_s(statusbuf, sizeof(statusbuf), text, a);
 	va_end(a);
 
 	SendMessage(hwndstatus, SB_SETTEXT, SBT_OWNERDRAW, (LPARAM) statusbuf);

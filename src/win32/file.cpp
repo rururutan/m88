@@ -37,13 +37,13 @@ bool FileIO::Open(const char* filename, uint flg)
 {
 	Close();
 
-	strncpy(path, filename, MAX_PATH);
+	strncpy_s(path, sizeof(path), filename, _TRUNCATE);
 
 	DWORD access = (flg & readonly ? 0 : GENERIC_WRITE) | GENERIC_READ;
 	DWORD share = (flg & readonly) ? FILE_SHARE_READ : 0;
 	DWORD creation = flg & create ? CREATE_ALWAYS : OPEN_EXISTING;
 
-	hfile = CreateFile(filename, access, share, 0, creation, 0, 0);
+	hfile = ::CreateFile(filename, access, share, 0, creation, 0, 0);
 	
 	flags = (flg & readonly) | (hfile == INVALID_HANDLE_VALUE ? 0 : open);
 	if (!(flags & open))
@@ -68,13 +68,13 @@ bool FileIO::CreateNew(const char* filename)
 {
 	Close();
 
-	strncpy(path, filename, MAX_PATH);
+	strncpy_s(path, sizeof(path), filename, _TRUNCATE);
 
 	DWORD access = GENERIC_WRITE | GENERIC_READ;
 	DWORD share = 0;
 	DWORD creation = CREATE_NEW;
 
-	hfile = CreateFile(filename, access, share, 0, creation, 0, 0);
+	hfile = ::CreateFile(filename, access, share, 0, creation, 0, 0);
 	
 	flags = (hfile == INVALID_HANDLE_VALUE ? 0 : open);
 	SetLogicalOrigin(0);
@@ -99,7 +99,7 @@ bool FileIO::Reopen(uint flg)
 	DWORD share = flg & readonly ? FILE_SHARE_READ : 0;
 	DWORD creation = flg & create ? CREATE_ALWAYS : OPEN_EXISTING;
 
-	hfile = CreateFile(path, access, share, 0, creation, 0, 0);
+	hfile = ::CreateFile(path, access, share, 0, creation, 0, 0);
 	
 	flags = (flg & readonly) | (hfile == INVALID_HANDLE_VALUE ? 0 : open);
 	SetLogicalOrigin(0);
@@ -115,7 +115,7 @@ void FileIO::Close()
 {
 	if (GetFlags() & open)
 	{
-		CloseHandle(hfile);
+		::CloseHandle(hfile);
 		flags = 0;
 	}
 }
@@ -130,7 +130,7 @@ int32 FileIO::Read(void* dest, int32 size)
 		return -1;
 	
 	DWORD readsize;
-	if (!ReadFile(hfile, dest, size, &readsize, 0))
+	if (!::ReadFile(hfile, dest, size, &readsize, 0))
 		return -1;
 	return readsize;
 }
@@ -145,7 +145,7 @@ int32 FileIO::Write(const void* dest, int32 size)
 		return -1;
 	
 	DWORD writtensize;
-	if (!WriteFile(hfile, dest, size, &writtensize, 0))
+	if (!::WriteFile(hfile, dest, size, &writtensize, 0))
 		return -1;
 	return writtensize;
 }
@@ -175,7 +175,7 @@ bool FileIO::Seek(int32 pos, SeekMethod method)
 		return false;
 	}
 
-	return 0xffffffff != SetFilePointer(hfile, pos, 0, wmethod);
+	return 0xffffffff != ::SetFilePointer(hfile, pos, 0, wmethod);
 }
 
 // ---------------------------------------------------------------------------
@@ -187,7 +187,7 @@ int32 FileIO::Tellp()
 	if (!(GetFlags() & open))
 		return 0;
 
-	return SetFilePointer(hfile, 0, 0, FILE_CURRENT) - lorigin;
+	return ::SetFilePointer(hfile, 0, 0, FILE_CURRENT) - lorigin;
 }
 
 // ---------------------------------------------------------------------------

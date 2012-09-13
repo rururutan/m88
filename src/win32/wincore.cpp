@@ -349,8 +349,8 @@ bool WinCore::ConnectExternalDevices()
 	FileFinder ff;
 	extern char m88dir[MAX_PATH];
 	char buf[MAX_PATH];
-	strncpy(buf, m88dir, MAX_PATH);
-	strncat(buf, "*.m88", MAX_PATH);
+	strncpy_s(buf, MAX_PATH, m88dir, _TRUNCATE);
+	strncat_s(buf, MAX_PATH, "*.m88", _TRUNCATE);
 
 	if (ff.FindFile(buf))
 	{

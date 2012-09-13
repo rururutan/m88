@@ -25,8 +25,8 @@ static void InitPathInfo()
 	GetFullPathName(buf, MAX_PATH, m88dir, &filepart);
 	*filepart = 0;
 
-	strcpy(m88ini, m88dir);
-	strcat(m88ini, "M88.ini");
+	strcpy_s(m88ini, sizeof(m88ini), m88dir);
+	strcat_s(m88ini, sizeof(m88ini), "M88.ini");
 }
 
 // ---------------------------------------------------------------------------

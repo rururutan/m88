@@ -175,17 +175,18 @@ void Calender::ShiftData()
 void Calender::GetTime()
 {
 	time_t ct;
+	tm lt;
 	
 	ct = time(&ct) + diff;
 	
-	tm* lt = localtime(&ct);
+	localtime_s(&lt, &ct);
 
-	reg[5] = NtoBCD(lt->tm_year % 100);
-	reg[4] = (lt->tm_mon+1) * 16 + lt->tm_wday;
-	reg[3] = NtoBCD(lt->tm_mday);
-	reg[2] = NtoBCD(lt->tm_hour);
-	reg[1] = NtoBCD(lt->tm_min);
-	reg[0] = NtoBCD(lt->tm_sec);
+	reg[5] = NtoBCD(lt.tm_year % 100);
+	reg[4] = (lt.tm_mon+1) * 16 + lt.tm_wday;
+	reg[3] = NtoBCD(lt.tm_mday);
+	reg[2] = NtoBCD(lt.tm_hour);
+	reg[1] = NtoBCD(lt.tm_min);
+	reg[0] = NtoBCD(lt.tm_sec);
 }
 
 // ---------------------------------------------------------------------------
@@ -194,11 +195,13 @@ void Calender::GetTime()
 void Calender::SetTime()
 {
 	time_t ct;
+	tm lt;
+
 	time(&ct);
-	tm* lt = localtime(&ct);
+	localtime_s(&lt, &ct);
 
 	tm nt;
-	nt.tm_year = (cmd & 0x80) ? BCDtoN(reg[5]) : lt->tm_year;
+	nt.tm_year = (cmd & 0x80) ? BCDtoN(reg[5]) : lt.tm_year;
 	if (nt.tm_year < 70) nt.tm_year += 100;
 	nt.tm_mon  = (reg[4]-1) >> 4;
 	nt.tm_mday = BCDtoN(reg[3]);

@@ -1100,13 +1100,13 @@ void WinUI::OpenDiskImage(const char* path)
 // ---------------------------------------------------------------------------
 //	ファイルネームの部分を取り出す
 //
-static void GetFileNameTitle(char* title, const char* name)
+static void GetFileNameTitle(char* title, size_t tlen, const char* name)
 {
 	if (name)
 	{
 		uchar* ptr;
 		ptr = _mbsrchr((uchar*) name, '\\');
-		_mbscpy((uchar*) title,  ptr ? ptr+1 : (uchar*)(name));
+		_mbscpy_s((uchar*) title, tlen, ptr ? ptr+1 : (uchar*)(name));
 		ptr = _mbschr((uchar*) title, '.');
 		if (ptr)
 			*ptr = 0;
@@ -1125,7 +1125,7 @@ bool WinUI::OpenDiskImage
 	bool result = false;
 	if (name)
 	{
-		strcpy(dinfo.filename, name);
+		strncpy_s(dinfo.filename, sizeof(dinfo.filename), name, _TRUNCATE);
 		result = diskmgr->Mount(drive, dinfo.filename, readonly, id, create);
 		dinfo.readonly = readonly;
 		dinfo.currentdisk = diskmgr->GetCurrentDisk(0);
@@ -1219,7 +1219,7 @@ bool WinUI::CreateDiskMenu(uint drive)
 	else
 	{
 		char title[MAX_PATH] = "";
-		GetFileNameTitle(title, diskinfo[drive].filename);
+		GetFileNameTitle(title, sizeof(title), diskinfo[drive].filename);
 	
 		wsprintf(buf, "Drive &%d - %s", drive+1, title);
 		mii.hSubMenu = dinfo.hmenu;
@@ -1279,7 +1279,7 @@ void WinUI::OpenTape()
 		
 	if (isopen && tapemgr->Open(filename))
 	{
-		GetFileNameTitle(tapetitle, filename);
+		GetFileNameTitle(tapetitle, sizeof(tapetitle), filename);
 		wsprintf(buf, "&Tape - %s...", tapetitle);
 		mii.dwTypeData = buf;
 	}
@@ -1749,7 +1749,7 @@ void WinUI::GetSnapshotName(char* name, int n)
 
 	if (diskmgr->GetNumDisks(0))
 	{
-		GetFileNameTitle(buf, diskinfo[0].filename);
+		GetFileNameTitle(buf, sizeof(buf), diskinfo[0].filename);
 		title = buf;
 	}
 	else if (tapemgr->IsOpen())
