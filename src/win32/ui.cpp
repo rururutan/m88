@@ -1921,7 +1921,7 @@ void WinUI::ApplyCommandLine(const char* cmdline)
 		if (*cmdline == '-')
 		{
 			cmdline += 2;
-			switch (tolower(cmdline[-1]))
+			switch (cmdline[-1])
 			{
 				char* endptr;
 				int32 newflags, activate;
