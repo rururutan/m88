@@ -22,6 +22,12 @@
 TapeManager::TapeManager()
 : Device(DEV_ID('T','A','P','E')), tags(0), scheduler(0), event(0)
 {
+	datasize = 0;
+	pos = 0;
+	bus = 0;
+	offset = 0;
+	mode = T_BLANK;
+	motor = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -110,7 +116,7 @@ bool TapeManager::Close()
 }
 
 // ---------------------------------------------------------------------------
-//	‚Ü‚«‚à‚Ç‚·	
+//	‚Ü‚«‚à‚Ç‚·
 //
 bool TapeManager::Rewind(bool timer)
 {

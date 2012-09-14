@@ -79,11 +79,13 @@ bool PD8257::ConnectWr(uint8* mem, uint addr, uint length)
 //
 void IOCALL PD8257::Reset(uint,uint)
 {
+	stat.autoinit = 0;
 	stat.ff = false;
 	stat.enabled = 0;
 	stat.status = 0;
 	for (int i=0; i<4; i++)
 	{
+		stat.addr[i] = 0;
 		stat.ptr[i] = 0;
 		stat.count[i] = 0;
 		stat.mode[i] = 0;

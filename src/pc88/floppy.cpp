@@ -16,6 +16,8 @@ FloppyDisk::FloppyDisk()
 	curtrack = 0;
 	cursector = 0;
 	curtracknum = ~0;
+	readonly = false;
+	type = MD2D;
 }
 
 FloppyDisk::~FloppyDisk()
