@@ -433,7 +433,7 @@ void CRTC::CreateTFont(const uint8* src, int idx, int num)
 	uint8* dest = font + 64 * idx;
 	uint8* destw = font + 0x8000 + 128 * idx;
 
-	for (uint i=0; i<num*8; i++)
+	for (int i=0; i<num*8; i++)
 	{
 		uint8 d = *src++;
 		for (uint j=0; j<8; j++, d*=2)
@@ -800,7 +800,7 @@ void CRTC::ExpandImage(uint8* image, Draw::Region& region)
 //
 void CRTC::ExpandAttributes(uint8* dest, const uint8* src, uint y)
 {
-	int	i;
+	uint	i;
 
 	if (attrperline == 0)
 	{

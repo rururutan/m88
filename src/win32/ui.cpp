@@ -297,7 +297,7 @@ int WinUI::Main(const char* cmdline)
 		opn->Reset();
 	CleanupM88();
 	statusdisplay.Cleanup();
-	return msg.wParam;
+	return (int)msg.wParam;
 }
 
 // ---------------------------------------------------------------------------
@@ -1390,7 +1390,7 @@ LRESULT WinUI::M88ChangeDisplay(HWND hwnd, WPARAM, LPARAM)
 		fullscreen = false;
 
 	// ウィンドウスタイル関係の変更
-	wstyle = GetWindowLongPtr(hwnd, GWL_STYLE);
+	wstyle = (DWORD)GetWindowLongPtr(hwnd, GWL_STYLE);
 	LONG_PTR exstyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 
 	if (!fullscreen)
@@ -1647,7 +1647,7 @@ LRESULT WinUI::M88ClipCursor(HWND hwnd, WPARAM op, LPARAM)
 	if (int(op) > 0)
 		clipmode |= op;
 	else
-		clipmode &= ~(-op);
+		clipmode &= ~(-(int)op);
 
 	if (clipmode && !(clipmode & CLIPCURSOR_RELEASE))
 	{

@@ -280,7 +280,7 @@ BOOL MemoryMonitor::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 		}
 		else if (wp == VK_BACK)
 		{
-			int l = strlen(line);
+			size_t l = strlen(line);
 			if (l)
 				line[l-1] = 0;
 			if (l == 2)
@@ -289,7 +289,7 @@ BOOL MemoryMonitor::DlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 		}
 		else if (isdigit(wp) | isupper(wp) | (wp == ' '))
 		{
-			int l = strlen(line);
+			size_t l = strlen(line);
 			if (l < sizeof(line) - 1)
 			{
 				line[l] = wp;

@@ -247,7 +247,7 @@ inline int Z80C::GetCount()
 
 inline uint Z80C::GetPC()
 {
-	return inst - instbase;
+	return (uint)(inst - instbase);
 }
 
 

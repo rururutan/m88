@@ -107,7 +107,7 @@ private:
 	bool fullscreen;
 	uint displaychangedtime;
 	uint resetwindowsize;
-	LONG_PTR wstyle;
+	DWORD wstyle;
 	POINT point;
 	int clipmode;
 	bool guimodebymouse;
