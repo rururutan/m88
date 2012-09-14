@@ -261,7 +261,7 @@ void Chip::MakeTable()
 	for (h=0; h<4; h++)
 	{
 		assert(2 + FM_RATIOBITS - FM_PGBITS >= 0);
-		double rr = dt2lv[h] * double(ratio_) / (1 << (2 + FM_RATIOBITS - FM_PGBITS));
+		double rr = dt2lv[h] * double(ratio_);
 		for (l=0; l<16; l++)
 		{
 			int mul = l ? l * 2 : 1;
@@ -380,6 +380,7 @@ void Operator::Prepare()
 		param_changed_ = false;
 		//	PG Part
 		pg_diff_ = (dp_ + dttable[detune_ + bn_]) * chip_->GetMulValue(detune2_, multiple_);
+		pg_diff_ >>= (2 + FM_RATIOBITS - FM_PGBITS);
 		pg_diff_lfo_ = pg_diff_ >> 11;
 
 		// EG Part
