@@ -2,13 +2,11 @@
 //  M88 - PC8801 emulator
 //  Copyright (C) cisc 1998, 1999.
 // ---------------------------------------------------------------------------
-//	DirectDraw ‚É‚æ‚é‘S‰æ–Ê•`‰æ
+//	DirectDraw(32/24/16bpp) ‚É‚æ‚é‘S‰æ–Ê•`‰æ
 // ---------------------------------------------------------------------------
 //	$Id: DrawDDS.h,v 1.10 2002/04/07 05:40:10 cisc Exp $
 
-#if !defined(win32_drawdds_h)
-#define win32_drawdds_h
-
+#pragma once
 #include "windraw.h"
 
 // ---------------------------------------------------------------------------
@@ -36,7 +34,6 @@ private:
 	void FillBlankArea();
 	bool RestoreSurface();
 	bool SetScreenMode();
-	bool CreateDDPalette();
 	bool CreateDD2(GUID* monitor);
 	bool CreateDDS();
 	bool Update(LPDIRECTDRAWSURFACE, const RECT& rect);
@@ -46,7 +43,6 @@ private:
 	HWND hwnd;
 
 	LPDIRECTDRAW2 ddraw;
-	LPDIRECTDRAWPALETTE ddpal;
 	LPDIRECTDRAWSURFACE ddsscrn;
 	LPDIRECTDRAWSURFACE ddsback;
 	LPDIRECTDRAWCLIPPER ddcscrn;
@@ -60,9 +56,7 @@ private:
 	
 	bool palchanged;
 	bool guimode;
-	
+	int m_bpp;
+
 	PALETTEENTRY palentry[256];
 };
-
-
-#endif // !defined(win32_drawdds_h)

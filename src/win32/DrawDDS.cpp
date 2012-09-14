@@ -2,7 +2,7 @@
 //  M88 - PC8801 emulator
 //  Copyright (C) cisc 1998, 2000.
 // ---------------------------------------------------------------------------
-//	DirectDraw による全画面描画
+//	DirectDraw(32/24bpp) による全画面描画
 // ---------------------------------------------------------------------------
 //	$Id: DrawDDS.cpp,v 1.16 2003/11/04 13:14:21 cisc Exp $
 
@@ -22,14 +22,16 @@
 //
 WinDrawDDS::WinDrawDDS(bool force480)
 {
+	hwnd = 0;
 	ddraw = 0;
 	ddsscrn = 0;
 	ddcscrn = 0;
-	ddpal = 0;
-	palchanged = false;
+	ddsback = 0;
 	guimode = true;
-	lines = force480 ? 480 : 0;
+	palchanged = false;
+	lines = force480 ? 480 : 400;
 	image = 0;
+	m_bpp = 32;
 }
 
 // ---------------------------------------------------------------------------
@@ -51,9 +53,11 @@ bool WinDrawDDS::Init(HWND hwindow, uint w, uint h, GUID* drv)
 	width = w;
 	height = h;
 
+	memset(palentry, 0, sizeof(palentry));
+
 	if (!CreateDD2(drv)) return false;
 
-	hr = ddraw->SetCooperativeLevel(hwnd, 
+	hr = ddraw->SetCooperativeLevel(hwnd,
 		DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN | DDSCL_ALLOWREBOOT);
 	LOGDDERR("DirectDraw::SetCooperativeLevel()", hr);
 	if (hr != DD_OK)
@@ -62,8 +66,6 @@ bool WinDrawDDS::Init(HWND hwindow, uint w, uint h, GUID* drv)
 	if (!SetScreenMode()) return false;
 
 	if (!CreateDDS()) return false;
-
-	CreateDDPalette();
 
 	guimode = true;
 	SetGUIMode(false);
@@ -82,12 +84,11 @@ bool WinDrawDDS::Cleanup()
 	{
 		ddraw->SetCooperativeLevel(hwnd, DDSCL_NORMAL);
 	}
-	
-	RELCOM(ddpal);
+
 	RELCOM(ddcscrn);
 	RELCOM(ddsscrn);
 	RELCOM(ddraw);
-	
+
 	SendMessage(hwnd, WM_M88_CLIPCURSOR, -CLIPCURSOR_WINDOW, 0);
 
 	delete[] image;
@@ -142,24 +143,6 @@ bool WinDrawDDS::CreateDDS()
 }
 
 // ---------------------------------------------------------------------------
-//	パレット準備
-//
-bool WinDrawDDS::CreateDDPalette()
-{
-	HDC hdc = GetDC(hwnd);
-	GetSystemPaletteEntries(hdc, 0, 256, palentry);
-	ReleaseDC(hwnd, hdc);
-
-	HRESULT hr = ddraw->CreatePalette(DDPCAPS_8BIT, palentry, &ddpal, 0);
-	LOGDDERR("ddraw->CreatePalette", hr);
-	if (DD_OK == hr)
-	{
-		ddsscrn->SetPalette(ddpal);
-	}
-	return true;
-}
-
-// ---------------------------------------------------------------------------
 //	描画
 //	flip は Flip() で行うのが筋だとおもうけど，DrawScreen とメイン処理は
 //	別スレッドなのでこっちで flip する
@@ -167,6 +150,12 @@ bool WinDrawDDS::CreateDDPalette()
 void WinDrawDDS::DrawScreen(const RECT& _rect, bool refresh)
 {
 	RECT rect = _rect;
+
+	// パレット変更されていたら全画面更新
+	if (palchanged) {
+		refresh = true;
+		palchanged = false;
+	}
 
 	if (refresh)
 	{
@@ -196,12 +185,6 @@ void WinDrawDDS::DrawScreen(const RECT& _rect, bool refresh)
 				LOGDDERR("ddsscrn->Blt", r);
 			}
 		}
-		
-		if (palchanged)
-		{
-			palchanged = false;
-			ddpal->SetEntries(0, 0, 0x100, palentry);
-		}
 	}
 	if (r == DDERR_SURFACELOST)
 	{
@@ -215,7 +198,6 @@ bool WinDrawDDS::Update(LPDIRECTDRAWSURFACE dds, const RECT& rect)
 		return false;
 
 	HRESULT r;
-	
 	DDSURFACEDESC ddsd;
 	memset(&ddsd, 0, sizeof(ddsd));
 	ddsd.dwSize = sizeof(ddsd);
@@ -226,17 +208,25 @@ bool WinDrawDDS::Update(LPDIRECTDRAWSURFACE dds, const RECT& rect)
 	rectdest.top	= ltc.y + rect.top;
 	rectdest.bottom = ltc.y + rect.bottom;
 
-	r = dds->Lock(&rectdest, &ddsd, DDLOCK_WRITEONLY, 0);
+	r = dds->Lock(&rectdest, &ddsd, DDLOCK_WAIT | DDLOCK_WRITEONLY, 0);
 	LOGDDERR("ddsk->Lock", r);
 	if (r != DD_OK)
 		return false;
 	
-	const uint8* src = image + rect.left + rect.top * width;
+	const uint8* src = image + rect.left + (rect.top * width);
 	uint8* dest = (uint8*) ddsd.lpSurface;
-	
+
 	for (int y = rect.top; y < rect.bottom; y++)
 	{
-		memcpy(dest, src, rect.right - rect.left);
+		uint8 *d = dest;
+		for (int x =0; x < (rect.right - rect.left); x++) {
+			*d++ = palentry[src[x]].peBlue;
+			*d++ = palentry[src[x]].peGreen;
+			*d++ = palentry[src[x]].peRed;
+			if (m_bpp == 4) {
+				*d++ = 00;
+			}
+		}
 		dest += ddsd.lPitch;
 		src  += width;
 	}
@@ -297,25 +287,31 @@ bool WinDrawDDS::Unlock()
 bool WinDrawDDS::SetScreenMode()
 {
 	HRESULT hr;
+
 	DDSURFACEDESC ddsd;
 	memset(&ddsd, 0, sizeof(ddsd));
 	ddsd.dwSize = sizeof(ddsd);
 	ddsd.dwFlags = DDSD_WIDTH | DDSD_REFRESHRATE;
 	ddsd.dwWidth = width;
 	ddsd.dwRefreshRate = 0;
-	
-	if (!lines)
+
 	{
 		hr = ddraw->EnumDisplayModes(0, &ddsd, reinterpret_cast<void*>(this), EDMCallBack);
 		LOGDDERR("ddraw->EnumDisplayModes", hr);
 		if (DD_OK != hr)
 			return false;
 	}
-	if (!lines)
-		lines = 480;
 
-	hr = ddraw->SetDisplayMode(width, lines, 8, 0, 0);
-	LOGDDERR("ddraw->SetDisplayMode", hr);
+	static const int bps[] = {32,24};	// 16,8bpp捨て
+	for (int i = 0; i < 3; i++) {
+		hr = ddraw->SetDisplayMode(width, lines, bps[i], 0, 0);
+		LOGDDERR("ddraw->SetDisplayMode", hr);
+		if (DD_OK == hr) {
+			m_bpp = bps[i] / 8;
+			break;
+		}
+	}
+
 	if (DD_OK != hr)
 		return false;
 
@@ -330,6 +326,10 @@ bool WinDrawDDS::SetScreenMode()
 	return true;
 }
 
+
+// ---------------------------------------------------------------------------
+//! EnumDisplayModes用コールバック
+//
 HRESULT WINAPI WinDrawDDS::EDMCallBack(LPDDSURFACEDESC pddsd, LPVOID context)
 {
 	WinDrawDDS* wd = reinterpret_cast<WinDrawDDS*> (context);
@@ -411,7 +411,7 @@ void WinDrawDDS::SetGUIMode(bool newguimode)
 			rectsrc.right = width;	rectsrc.bottom = height;
 
 			status |= Draw::shouldrefresh;
-//			Update(rectsrc);
+			Update(ddsscrn, rectsrc);
 		}
 	}
 }
