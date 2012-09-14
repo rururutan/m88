@@ -800,7 +800,7 @@ void CRTC::ExpandImage(uint8* image, Draw::Region& region)
 //
 void CRTC::ExpandAttributes(uint8* dest, const uint8* src, uint y)
 {
-	uint	i;
+	int	i;
 
 	if (attrperline == 0)
 	{
