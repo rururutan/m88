@@ -82,7 +82,6 @@ protected:
 	uint32 tperiodbase;
 	uint32 eperiodbase;
 	uint32 nperiodbase;
-	int volume;
 	int mask;
 
 	static uint enveloptable[16][64];
