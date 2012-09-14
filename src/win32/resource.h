@@ -1,5 +1,5 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
+// Microsoft Visual C++ generated include file.
 // Used by M88.rc
 //
 #define IDM_CONFIG                      0
@@ -252,13 +252,14 @@
 #define IDM_MEM_READ                    40221
 #define IDM_MEM_WRITE                   40222
 #define IDM_N80V2MODE                   40223
+#define IDM_CPU_BURST                   40224
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        140
-#define _APS_NEXT_COMMAND_VALUE         40224
+#define _APS_NEXT_COMMAND_VALUE         40225
 #define _APS_NEXT_CONTROL_VALUE         1134
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
