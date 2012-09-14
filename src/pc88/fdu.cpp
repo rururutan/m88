@@ -92,9 +92,9 @@ uint FDU::ReadID(uint flags, IDR* id)
 				return 0;
 			}
 		}
+		disk->IndexHole();
 	}
 
-	disk->IndexHole();
 	return FDC::ST0_AT | FDC::ST1_MA;
 }
 
