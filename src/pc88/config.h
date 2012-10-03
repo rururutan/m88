@@ -30,7 +30,7 @@ public:
 	};
 	enum KeyType
 	{
-		AT106=0, PC98=1
+		AT106=0, PC98=1, AT101=2
 	};
 	enum CPUType
 	{

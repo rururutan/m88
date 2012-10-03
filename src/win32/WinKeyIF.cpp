@@ -75,6 +75,10 @@ void WinKeyIF::ApplyConfig(const Config* config)
 		keytable = KeyTable98[0];
 		break;
 
+	case Config::AT101:
+		keytable = KeyTable101[0];
+		break;
+
 	case Config::AT106:
 	default:
 		keytable = KeyTable106[0];
@@ -112,7 +116,7 @@ void WinKeyIF::KeyUp(uint vkcode, uint32 keydata)
 	
 	// SHIFT + テンキーによる押しっぱなし現象対策
 	
-	if (keytable == KeyTable106[0])
+	if (keytable == KeyTable106[0] || keytable == KeyTable101[0])
 	{
 		switch (keyindex)
 		{
@@ -230,7 +234,7 @@ void IOCALL WinKeyIF::VSync(uint,uint d)
 			WaitForSingleObject(hevent, 10);
 		}
 
-		if (keytable == KeyTable106[0])
+		if (keytable == KeyTable106[0] || keytable == KeyTable101[0])
 		{
 			keystate[0xf4] = Max(keystate[0xf4]-1, 0);
 		}
@@ -473,6 +477,173 @@ const WinKeyIF::Key WinKeyIF::KeyTable106[16 * 8][8] =
 	{ TERM },
 };
 
+
+// ---------------------------------------------------------------------------
+//	キー対応表 for 101 キーボード
+//
+const WinKeyIF::Key WinKeyIF::KeyTable101[16 * 8][8] =
+{
+	// 00
+	{ KEY(VK_NUMPAD0), KEYF(VK_INSERT, nex), TERM, },	// num 0
+	{ KEY(VK_NUMPAD1), KEYF(VK_END,	   nex), TERM, },	// num 1
+	{ KEY(VK_NUMPAD2), KEYF(VK_DOWN,   nex), KEYF(VK_DOWN, arrowten), TERM, },
+	{ KEY(VK_NUMPAD3), KEYF(VK_NEXT,   nex), TERM, },	// num 3
+	{ KEY(VK_NUMPAD4), KEYF(VK_LEFT,   nex), KEYF(VK_LEFT, arrowten), TERM, },
+	{ KEY(VK_NUMPAD5), KEYF(VK_CLEAR,  nex), TERM, },	// num 5
+	{ KEY(VK_NUMPAD6), KEYF(VK_RIGHT,  nex), KEYF(VK_RIGHT,arrowten), TERM, },
+	{ KEY(VK_NUMPAD7), KEYF(VK_HOME,   nex), TERM, },	// num 7
+	
+	// 01
+	{ KEY(VK_NUMPAD8), KEYF(VK_UP,     nex), KEYF(VK_UP  , arrowten), TERM, },
+	{ KEY(VK_NUMPAD9), KEYF(VK_PRIOR,  nex), TERM, },	// num 9
+	{ KEY(VK_MULTIPLY), TERM, },						// num *
+	{ KEY(VK_ADD),		TERM, },						// num +
+	{ TERM, },											// num =
+	{ KEY(VK_SEPARATOR), KEYF(VK_DELETE, nex), TERM, },	// num ,
+	{ KEY(VK_DECIMAL),	TERM, },						// num .
+	{ KEY(VK_RETURN),	TERM, },						// RET
+
+	// 02
+	{ KEY(0xdb),TERM },	// @
+	{ KEY('A'),	TERM }, // A
+	{ KEY('B'),	TERM }, // B
+	{ KEY('C'),	TERM }, // C
+	{ KEY('D'),	TERM }, // D
+	{ KEY('E'),	TERM }, // E
+	{ KEY('F'),	TERM }, // F
+	{ KEY('G'),	TERM }, // G
+
+	// 03
+	{ KEY('H'),	TERM }, // H
+	{ KEY('I'),	TERM }, // I
+	{ KEY('J'),	TERM }, // J
+	{ KEY('K'),	TERM }, // K
+	{ KEY('L'),	TERM }, // L
+	{ KEY('M'),	TERM }, // M
+	{ KEY('N'),	TERM }, // N
+	{ KEY('O'),	TERM }, // O
+
+	// 04
+	{ KEY('P'),	TERM }, // P
+	{ KEY('Q'),	TERM }, // Q
+	{ KEY('R'),	TERM }, // R
+	{ KEY('S'),	TERM }, // S
+	{ KEY('T'),	TERM }, // T
+	{ KEY('U'),	TERM }, // U
+	{ KEY('V'),	TERM }, // V
+	{ KEY('W'),	TERM }, // W
+
+	// 05
+	{ KEY('X'),	TERM }, // X
+	{ KEY('Y'),	TERM }, // Y
+	{ KEY('Z'),	TERM }, // Z
+	{ KEY(0xdd),TERM }, // [ ok
+	{ KEY(0xdc),TERM }, // \ ok
+	{ KEY(0xc0),TERM }, // ]
+	{ KEY(0xbb),TERM }, // ^ ok
+	{ KEY(0xbd),TERM }, // - ok
+
+	// 06
+	{ KEY('0'),	TERM }, // 0
+	{ KEY('1'),	TERM }, // 1
+	{ KEY('2'),	TERM }, // 2
+	{ KEY('3'),	TERM }, // 3
+	{ KEY('4'),	TERM }, // 4
+	{ KEY('5'),	TERM }, // 5
+	{ KEY('6'),	TERM }, // 6
+	{ KEY('7'),	TERM }, // 7
+
+	// 07
+	{ KEY('8'),	TERM }, // 8
+	{ KEY('9'),	TERM }, // 9
+	{ KEY(0xba),TERM }, // :
+	{ KEY(0xde),TERM }, // ;
+	{ KEY(0xbc),TERM }, // ,
+	{ KEY(0xbe),TERM }, // .
+	{ KEY(0xbf),TERM }, // /
+	{ KEY(0xe2),TERM }, // _
+
+	// 08
+	{ KEYF(VK_HOME, ext),	TERM }, // CLR
+	{ KEYF(VK_UP, noarrowtenex),	KEYF(VK_DOWN, pc80key), TERM }, // ↑
+	{ KEYF(VK_RIGHT, noarrowtenex),	KEYF(VK_LEFT, pc80key), TERM }, // →
+	{ KEY(VK_BACK),	KEYF(VK_INSERT, ext), KEYF(VK_DELETE, ext), TERM }, // BS
+	{ KEY(VK_MENU),			TERM }, // GRPH
+	{ KEYF(VK_SCROLL, lock),TERM }, // カナ
+	{ KEY(VK_SHIFT), KEY(VK_F6), KEY(VK_F7), KEY(VK_F8), KEY(VK_F9), KEY(VK_F10), KEYF(VK_INSERT, ext), KEYF(1, pc80sft) }, // SHIFT
+	{ KEY(VK_CONTROL),		TERM }, // CTRL
+
+	// 09
+	{ KEY(VK_F11),KEY(VK_PAUSE), TERM }, // STOP
+	{ KEY(VK_F1), KEY(VK_F6),	TERM }, // F1
+	{ KEY(VK_F2), KEY(VK_F7),	TERM }, // F2
+	{ KEY(VK_F3), KEY(VK_F8),	TERM }, // F3
+	{ KEY(VK_F4), KEY(VK_F9),	TERM }, // F4
+	{ KEY(VK_F5), KEY(VK_F10),	TERM }, // F5
+	{ KEY(VK_SPACE), KEY(VK_CONVERT), KEY(VK_NONCONVERT), TERM }, // SPACE
+	{ KEY(VK_ESCAPE),	TERM }, // ESC
+
+	// 0a
+	{ KEY(VK_TAB),			TERM }, // TAB
+	{ KEYF(VK_DOWN, noarrowtenex),	TERM }, // ↓
+	{ KEYF(VK_LEFT, noarrowtenex),	TERM }, // ←
+	{ KEYF(VK_END, ext), KEY(VK_HELP), TERM }, // HELP
+	{ KEY(VK_F12), TERM }, // COPY
+	{ KEY(0x6d),			TERM }, // -
+	{ KEY(0x6f),			TERM }, // /
+	{ KEYF(VK_CAPITAL, lock), TERM }, // CAPS LOCK
+
+	// 0b
+	{ KEYF(VK_NEXT, ext),	TERM }, // ROLL DOWN
+	{ KEYF(VK_PRIOR, ext),	TERM }, // ROLL UP
+	{ TERM, },
+	{ TERM, },
+	{ TERM, },
+	{ TERM, },
+	{ TERM, },
+	{ TERM, },
+
+	// 0c
+	{ KEY(VK_F6), TERM },			// F6
+	{ KEY(VK_F7), TERM },			// F7
+	{ KEY(VK_F8), TERM },			// F8
+	{ KEY(VK_F9), TERM },			// F9
+	{ KEY(VK_F10), TERM },			// F10
+	{ KEY(VK_BACK), TERM },			// BS
+	{ KEYF(VK_INSERT, ext), TERM },	// INS
+	{ KEYF(VK_DELETE, ext), TERM },	// DEL
+
+	// 0d
+	{ KEY(VK_CONVERT), TERM },		// 変換
+	{ KEY(VK_NONCONVERT), KEY(VK_ACCEPT), TERM }, // 決定
+	{ TERM },						// PC
+	{ KEY(0xf4), TERM },			// 全角
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+
+	// 0e
+	{ KEYF(VK_RETURN, nex), TERM },		// RET FK
+	{ KEYF(VK_RETURN, ext), TERM },		// RET 10
+	{ KEY(VK_LSHIFT), TERM },		// SHIFT L
+	{ KEY(VK_RSHIFT), TERM },		// SHIFT R
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+
+	// 0f
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+	{ TERM },
+};
+
 // ---------------------------------------------------------------------------
 //	キー対応表 for 9801 key
 //
@@ -499,7 +670,7 @@ const WinKeyIF::Key WinKeyIF::KeyTable98[16 * 8][8] =
 	{ KEY(VK_RETURN),	TERM, },	// RET
 
 	// 02
-	{ KEY(0xc0),TERM },	// @
+	{ KEY(0xdb),TERM },	// @
 	{ KEY('A'),	TERM }, // A
 	{ KEY('B'),	TERM }, // B
 	{ KEY('C'),	TERM }, // C
@@ -534,7 +705,7 @@ const WinKeyIF::Key WinKeyIF::KeyTable98[16 * 8][8] =
 	{ KEY('Z'),	TERM }, // Z
 	{ KEY(0xdb),TERM }, // [
 	{ KEY(0xdc),TERM }, // \ 
-	{ KEY(0xdd),TERM }, // ]
+	{ KEY(0xc0),TERM }, // ]
 	{ KEY(0xde),TERM }, // ^
 	{ KEY(0xbd),TERM }, // -
 
@@ -552,7 +723,7 @@ const WinKeyIF::Key WinKeyIF::KeyTable98[16 * 8][8] =
 	{ KEY('8'),	TERM }, // 8
 	{ KEY('9'),	TERM }, // 9
 	{ KEY(0xba),TERM }, // :
-	{ KEY(0xbb),TERM }, // ;
+	{ KEY(0xc0),TERM }, // ;
 	{ KEY(0xbc),TERM }, // ,
 	{ KEY(0xbe),TERM }, // .
 	{ KEY(0xbf),TERM }, // /
