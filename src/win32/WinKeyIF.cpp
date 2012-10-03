@@ -670,7 +670,7 @@ const WinKeyIF::Key WinKeyIF::KeyTable98[16 * 8][8] =
 	{ KEY(VK_RETURN),	TERM, },	// RET
 
 	// 02
-	{ KEY(0xdb),TERM },	// @
+	{ KEY(0xc0),TERM },	// @
 	{ KEY('A'),	TERM }, // A
 	{ KEY('B'),	TERM }, // B
 	{ KEY('C'),	TERM }, // C
@@ -705,7 +705,7 @@ const WinKeyIF::Key WinKeyIF::KeyTable98[16 * 8][8] =
 	{ KEY('Z'),	TERM }, // Z
 	{ KEY(0xdb),TERM }, // [
 	{ KEY(0xdc),TERM }, // \ 
-	{ KEY(0xc0),TERM }, // ]
+	{ KEY(0xdd),TERM }, // ]
 	{ KEY(0xde),TERM }, // ^
 	{ KEY(0xbd),TERM }, // -
 
@@ -723,7 +723,7 @@ const WinKeyIF::Key WinKeyIF::KeyTable98[16 * 8][8] =
 	{ KEY('8'),	TERM }, // 8
 	{ KEY('9'),	TERM }, // 9
 	{ KEY(0xba),TERM }, // :
-	{ KEY(0xc0),TERM }, // ;
+	{ KEY(0xbb),TERM }, // ;
 	{ KEY(0xbc),TERM }, // ,
 	{ KEY(0xbe),TERM }, // .
 	{ KEY(0xbf),TERM }, // /
