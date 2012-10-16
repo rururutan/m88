@@ -33,7 +33,7 @@ WinDraw::WinDraw()
 	hevredraw = 0;
 	drawcount = 0;
 	guicount = 0;
-	shouldterminate = false;	
+	shouldterminate = false;
 	drawall = false;
 	drawing = false;
 	refresh = false;	
@@ -312,7 +312,7 @@ void WinDraw::WindowMoved(int x, int y)
 //
 bool WinDraw::ChangeDisplayMode(bool fullscreen, bool force480)
 {
-	DisplayType type = fullscreen ? DDFull : DDWin;
+	DisplayType type = fullscreen ? DDFull : GDI;
 
 	// Œ»Ý‘‹(M88)‚ªŠ‘®‚·‚éƒ‚ƒjƒ^‚Ì GUID ‚ðŽæ“¾
 	memset(&gmonitor, 0, sizeof(gmonitor));
@@ -326,7 +326,7 @@ bool WinDraw::ChangeDisplayMode(bool fullscreen, bool force480)
 		if (draw)
 			draw->SetGUIMode(true);
 		{
-			CriticalSection::Lock lock(csdraw);		
+			CriticalSection::Lock lock(csdraw);
 			delete draw; draw = 0;
 		}
 
@@ -380,8 +380,8 @@ bool WinDraw::ChangeDisplayMode(bool fullscreen, bool force480)
 		drawall = true, refresh = true;
 		palrgnbegin = Min(palcngbegin, palrgnbegin);
 		palrgnend   = Max(palcngend,   palrgnend);
-		if (draw)
-			draw->Resize(width, height);
+//		if (draw)
+//			draw->Resize(width, height);
 		
 		if (type == DDFull)		ShowCursor(false);
 		if (drawtype == DDFull)	ShowCursor(true);
