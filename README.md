@@ -3,16 +3,28 @@
 
 ## 初めに
 
-cisc氏作のPC-8801エミュレータM88にGIMIC用のコードを追加した物です。
+cisc氏作のPC-8801エミュレータ[M88](http://retropc.net/cisc/m88/)を改造した私家版です。
+
+* [G.I.M.I.C](http://gimic.jp/index.php?G.I.M.I.C)用のコードの追加。
+* 英語101キーモードの追加。
 
 ## 動作環境
 
 * WindowsXP以降
 * Microsoft Visual C++ 2008 SP1 再頒布可能パッケージ
 
+## G.I.M.I.Cの使用
+
+OPNA並びにOPN3Lモジュールに対応しています。
+
+[c86ctl](https://launchpad.net/c86ctl)が必要です。
+事前にM88.exeと同じパスにc86ctl.dllを配置して下さい。
+
+OPN3LではSSGの音量バランスが固定ですので少々聞き苦しいと思います。
+
 ## ライセンス
 
-オリジナルの従います。
+オリジナルに従います。
 
 * M88 はcisc氏が著作権を所有しています。
 * M88 とそのソースコードは一切無保証です。
