@@ -56,7 +56,7 @@
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".\src,.\src\Win32,.\src\common,.\src\devices"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;ISOLATION_AWARE_ENABLED"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableEnhancedInstructionSet="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="headers.h"
