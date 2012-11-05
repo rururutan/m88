@@ -102,7 +102,7 @@ void LoadConfig(Config* cfg, const char* inifile, bool applydefault)
 		cfg->opnclock = Limit(n, 10000000, 1000000);
 	
 	if (LoadConfigEntry(inifile, "ERAMBank", &n, 4, applydefault))
-		cfg->erambanks = Limit(n, 256, 0);
+		cfg->erambanks = Limit(n, 64, 0);
 
 	if (LoadConfigEntry(inifile, "KeyboardType", &n, 0, applydefault))
 		cfg->keytype = Config::KeyType(n);
