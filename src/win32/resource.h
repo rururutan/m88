@@ -135,7 +135,6 @@
 #define IDC_SCREEN_FULLLINE             1099
 #define IDC_ENV_KEY106                  1100
 #define IDC_ENV_KEY98                   1101
-#define IDC_ENV_KEY101                  1134
 #define IDC_CPU_MS11                    1102
 #define IDC_CPU_MS21                    1103
 #define IDC_CPU_MSAUTO                  1104
@@ -167,6 +166,8 @@
 #define IDC_ROMEO_LATENCY               1131
 #define IDC_ROMEO_LATENCY_TEXT          1132
 #define IDC_SOUND_22K                   1133
+#define IDC_ENV_KEY101                  1134
+#define IDC_ERAM                        1135
 #define IDM_DRIVE_1                     40001
 #define IDM_RESET                       40003
 #define IDM_ABOUTM88                    40004
@@ -260,7 +261,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         40225
-#define _APS_NEXT_CONTROL_VALUE         1135
+#define _APS_NEXT_CONTROL_VALUE         1136
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

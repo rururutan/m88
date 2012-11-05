@@ -201,6 +201,16 @@ BOOL ConfigCPU::Command(HWND hdlg, HWND hwctl, UINT nc, UINT id)
 			return TRUE;
 		}
 		break;
+	case IDC_ERAM:
+		if (nc == EN_CHANGE)
+		{
+			int erambanks = Limit(GetDlgItemInt(hdlg, IDC_ERAM, 0, false), 256, 0);
+			if (erambanks != config.erambanks)
+				base->PageChanged(hdlg);
+			config.erambanks = erambanks;
+			return TRUE;
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -225,6 +235,8 @@ void ConfigCPU::Update(HWND hdlg)
 	{ IDC_CPU_MS11, IDC_CPU_MS21, IDC_CPU_MSAUTO, IDC_CPU_MSAUTO };
 	CheckDlgButton(hdlg, item[config.cpumode & 3], BSTATE(true));
 	CheckDlgButton(hdlg, IDC_CPU_ENABLEWAIT, BSTATE(config.flags & Config::enablewait));
+
+	SetDlgItemInt(hdlg, IDC_ERAM, config.erambanks, false);
 }
 
 void ConfigCPU::UpdateSlider(HWND hdlg)
