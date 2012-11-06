@@ -36,7 +36,7 @@ WinDraw::WinDraw()
 	shouldterminate = false;
 	drawall = false;
 	drawing = false;
-	refresh = false;	
+	refresh = false;
 	locked = false;
 	active = false;
 
@@ -294,8 +294,11 @@ void WinDraw::Resize(uint w, uint h)
 //	statusdisplay.Show(50, 2500, "Resize (%d, %d)", width, height);
 	width = w;
 	height = h;
-	if (draw)
+	if (draw) {
+		csdraw.lock();
 		draw->Resize(width, height);
+		csdraw.unlock();
+	}
 }
 
 // ---------------------------------------------------------------------------
