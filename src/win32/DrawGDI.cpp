@@ -15,12 +15,8 @@
 //	ç\íz/è¡ñ≈
 //
 WinDrawGDI::WinDrawGDI()
+: hwnd(0), hbitmap(0), updatepal(false), bitmapimage(0), image(0)
 {
-	hwnd = 0;
-	hbitmap = 0;
-	updatepal = false;
-	bitmapimage = 0;
-	image = 0;
 }
 
 WinDrawGDI::~WinDrawGDI()
