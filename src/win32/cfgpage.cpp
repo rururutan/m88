@@ -204,7 +204,7 @@ BOOL ConfigCPU::Command(HWND hdlg, HWND hwctl, UINT nc, UINT id)
 	case IDC_ERAM:
 		if (nc == EN_CHANGE)
 		{
-			int erambanks = Limit(GetDlgItemInt(hdlg, IDC_ERAM, 0, false), 64, 0);
+			int erambanks = Limit(GetDlgItemInt(hdlg, IDC_ERAM, 0, false), 256, 0);
 			if (erambanks != config.erambanks)
 				base->PageChanged(hdlg);
 			config.erambanks = erambanks;
