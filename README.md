@@ -7,11 +7,11 @@ cisc氏作のPC-8801エミュレータ[M88](http://retropc.net/cisc/m88/)を改�
 
 * [G.I.M.I.C](http://gimic.jp/index.php?G.I.M.I.C)用のコードの追加。
 * 英語101キーモードの追加。
+* PC-8001mkIISR ひらがなフォントファイルの変更
 
 ## 動作環境
 
 * WindowsXP以降
-* Microsoft Visual C++ 2008 SP1 再頒布可能パッケージ
 
 ## G.I.M.I.Cの使用
 
@@ -20,7 +20,13 @@ OPNA並びにOPN3Lモジュールに対応しています。
 [c86ctl](https://launchpad.net/c86ctl)が必要です。
 事前にM88.exeと同じパスにc86ctl.dllを配置して下さい。
 
-OPN3LではSSGの音量バランスが固定ですので少々聞き苦しいと思います。
+OPN3Lはハードウェア的にFM/SSG音量バランスが固定で(88的には)小さい為、少々聞き苦しいと思います。
+
+## 80SRひらがなフォント
+
+ファイル名はFONT80SR.ROMです。
+ファイル形式はJ80と同じで8192byteになります。
+ソフトウェア的に読み出す方法が無い為、ROMリーダーで読みだして下さい。
 
 ## ライセンス
 
