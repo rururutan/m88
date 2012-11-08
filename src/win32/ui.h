@@ -71,7 +71,8 @@ private:
 	bool SelectDisk(uint drive, int id, bool menuonly);
 	bool CreateDiskMenu(uint drive);
 
-	void OpenTape();
+	void ChangeTapeImage();
+	void OpenTapeImage(const char* filename);
 
 	void ShowStatusWindow();
 	void ResizeWindow(uint width, uint height);

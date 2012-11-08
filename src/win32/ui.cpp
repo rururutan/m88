@@ -632,7 +632,7 @@ LRESULT WinUI::WmCommand(HWND hwnd, WPARAM wparam, LPARAM lparam)
 		break;
 
 	case IDM_TAPE:
-		OpenTape();
+		ChangeTapeImage();
 		break;
 
 	case IDM_RECORDPCM:
@@ -1247,10 +1247,10 @@ bool WinUI::CreateDiskMenu(uint drive)
 
 
 // ---------------------------------------------------------------------------
-//	OpenTape
+//	ChangeTapeImage
 //	ディスク入れ替え
 //
-void WinUI::OpenTape()
+void WinUI::ChangeTapeImage()
 {
 	HANDLE hthread = GetCurrentThread();
 	int prev = GetThreadPriority(hthread);
@@ -1281,6 +1281,16 @@ void WinUI::OpenTape()
 	bool isopen = !!GetOpenFileName(&ofn);
 	(*EnableIME)(hwnd, false);
 
+	if (isopen)
+	  OpenTapeImage(filename);
+
+	SetGUIFlag(false);
+	SetThreadPriority(hthread, prev);
+	snapshotchanged = true;
+}
+
+void WinUI::OpenTapeImage(const char* filename)
+{
 	char buf[MAX_PATH+32];
 	MENUITEMINFO mii;
 	memset(&mii, 0, sizeof(mii));
@@ -1288,7 +1298,7 @@ void WinUI::OpenTape()
 	mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_STRING;
 		
-	if (isopen && tapemgr->Open(filename))
+	if (tapemgr->Open(filename))
 	{
 		GetFileNameTitle(tapetitle, sizeof(tapetitle), filename);
 		wsprintf(buf, "&Open - %s...", tapetitle);
@@ -1299,10 +1309,6 @@ void WinUI::OpenTape()
 		mii.dwTypeData = "&Open...";
 	}
 	SetMenuItemInfo(GetMenu(hwnd), IDM_TAPE, false, &mii);
-	
-	SetGUIFlag(false);
-	SetThreadPriority(hthread, prev);
-	snapshotchanged = true;
 }
 
 // ---------------------------------------------------------------------------
@@ -1509,12 +1515,26 @@ LRESULT WinUI::WmDropFiles(HWND hwnd, WPARAM wparam, LPARAM lparam)
 	char path[MAX_PATH];
 	DragQueryFile(hdrop, 0, path, 512);
 	DragFinish(hdrop);
-	
-	OpenDiskImage(path);
-	
-	// 正常にマウントできたらリセット
-	if (diskinfo[0].filename[0])
-		Reset();
+
+	char ext[_MAX_EXT];
+	{
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		char fname[_MAX_FNAME];
+		_splitpath(path, drive, dir, fname, ext);
+	}
+
+	if (strcmpi(ext, ".d88") == 0) {
+		OpenDiskImage(path);
+
+		// 正常にマウントできたらリセット
+		if (diskinfo[0].filename[0])
+		  Reset();
+	} else if (strcmpi(ext, ".t88") == 0) {
+		OpenTapeImage(path);
+	} else {
+		statusdisplay.Show(50, 3000, "非対応のファイルです.");
+	}
 
 	return 0;
 }
