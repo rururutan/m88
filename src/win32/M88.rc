@@ -82,12 +82,15 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Change disk image...",       IDM_BOTHDRIVE
     END
+    POPUP "Ta&pe"
+    BEGIN
+        MENUITEM "&Open...",                    IDM_TAPE
+    END
     POPUP "&Tools"
     BEGIN
         MENUITEM "S&how Status",                IDM_STATUSBAR
         MENUITEM "&Capture...\tAlt+F2",         IDM_CAPTURE
         MENUITEM "&Record Sound",               IDM_RECORDPCM
-        MENUITEM "&Tape...",                    IDM_TAPE
         MENUITEM SEPARATOR
         MENUITEM "&Save Snapshot\tAlt+F10",     IDM_SNAPSHOT_SAVE
         MENUITEM "&Load Snapshot\tAlt+F1",      IDM_SNAPSHOT_LOAD
@@ -436,7 +439,7 @@ BEGIN
     CONTROL         "OPN 相当",IDC_SOUNDA8_OPN,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,95,49,10
     CONTROL         "OPNA 相当",IDC_SOUNDA8_OPNA,"Button",BS_AUTORADIOBUTTON,10,105,54,10
     CONTROL         "なし",IDC_SOUNDA8_NONE,"Button",BS_AUTORADIOBUTTON,10,115,29,10
-    GROUPBOX        "PCM バッファ(&B)",IDC_STATIC,80,35,90,30
+    GROUPBOX        "サウンドバッファ(&B)",IDC_STATIC,80,35,90,30
     EDITTEXT        IDC_SOUND_BUFFER,105,45,40,12,ES_RIGHT | ES_NUMBER
     CONTROL         "Spin1",IDC_SOUND_BUFFERSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,135,45,10,10
     LTEXT           "ms",IDC_STATIC,150,46,10,8

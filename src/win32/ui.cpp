@@ -1291,12 +1291,12 @@ void WinUI::OpenTape()
 	if (isopen && tapemgr->Open(filename))
 	{
 		GetFileNameTitle(tapetitle, sizeof(tapetitle), filename);
-		wsprintf(buf, "&Tape - %s...", tapetitle);
+		wsprintf(buf, "&Open - %s...", tapetitle);
 		mii.dwTypeData = buf;
 	}
 	else
 	{
-		mii.dwTypeData = "&Tape...";
+		mii.dwTypeData = "&Open...";
 	}
 	SetMenuItemInfo(GetMenu(hwnd), IDM_TAPE, false, &mii);
 	
