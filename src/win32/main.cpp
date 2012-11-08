@@ -35,6 +35,8 @@ static void InitPathInfo()
 //
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE, LPSTR cmdline, int nwinmode)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	if (FAILED(CoInitialize(NULL)))
 		return -1;
 
