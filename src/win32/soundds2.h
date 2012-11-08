@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: soundds2.h,v 1.2 2002/05/31 09:45:21 cisc Exp $
 
-#if !defined(win32_soundds2_h)
-#define win32_soundds2_h
+#pragma once
 
 #include "sounddrv.h"
 
@@ -49,4 +48,3 @@ private:
 
 }
 
-#endif // !defined(win32_soundds2_h)

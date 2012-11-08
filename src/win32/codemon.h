@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: codemon.h,v 1.7 2003/05/19 02:33:56 cisc Exp $
 
-#if !defined(win32_codemon_h)
-#define win32_codemon_h
+#pragma once
 
 #include "mvmon.h"
 #include "device.h"
@@ -40,4 +39,3 @@ private:
 
 }
 
-#endif // !defined(win32_codemon_h)

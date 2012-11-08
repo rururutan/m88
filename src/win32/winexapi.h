@@ -1,8 +1,7 @@
 // ---------------------------------------------------------------------------
 //	$Id
 
-#ifndef incl_winexapi_h
-#define incl_winexapi_h
+#pragma once
 
 class ExtendedAPIAccessBase
 {
@@ -86,4 +85,3 @@ DECLARE_EXAPI(EnableIME, BOOL, (HWND, BOOL), "user32.dll", "WINNLSEnableIME", FA
 DECLARE_EXAPI(MonitorFromWin, HMONITOR, (HWND, DWORD), "user32.dll", "MonitorFromWindow", 0)
 DECLARE_EXDLL(DDEnumerateEx, HRESULT, (LPDDENUMCALLBACKEX, LPVOID, DWORD), "ddraw.dll", "DirectDrawEnumerateExA", S_OK)
 
-#endif // incl_winexapi_h

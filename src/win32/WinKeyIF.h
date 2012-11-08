@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: WinKeyIF.h,v 1.3 1999/10/10 01:47:20 cisc Exp $
 
-#ifndef WIN32_WINKEYIF_H
-#define WIN32_WINKEYIF_H
+#pragma once
 
 #include "device.h"
 #include "CritSect.h"
@@ -88,4 +87,3 @@ private:
 
 }
 
-#endif // WIN32_WINKEYIF_H

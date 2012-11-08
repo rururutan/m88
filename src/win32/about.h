@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: about.h,v 1.5 1999/12/28 11:14:05 cisc Exp $
 
-#if !defined(WIN_ABOUT_H)
-#define WIN_ABOUT_H
+#pragma once
 
 #include "types.h"
 
@@ -29,4 +28,3 @@ private:
 	uint32 crc;
 };
 
-#endif // !defined(WIN_ABOUT_H)

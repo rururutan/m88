@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: module.h,v 1.2 1999/10/10 15:59:54 cisc Exp $
 
-#ifndef win32_module_h
-#define win32_module_h
+#pragma once
 
 #include "if/ifcommon.h"
 
@@ -43,4 +42,3 @@ inline void* ExtendModule::QueryIF(REFIID iid)
 
 }
 
-#endif

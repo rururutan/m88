@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: winmouse.h,v 1.5 2002/04/07 05:40:11 cisc Exp $
 
-#if !defined(win32_winmouse_h)
-#define win32_winmouse_h
+#pragma once
 
 #include "Device.h"
 #include "if/ifui.h"
@@ -41,5 +40,3 @@ private:
 	ulong refcount;
 };
 
-
-#endif // !defined(win32_winmouse_h)

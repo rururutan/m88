@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: base.h,v 1.10 2000/06/26 14:05:30 cisc Exp $
 
-#ifndef pc88_base_h
-#define pc88_base_h
+#pragma once
 
 #include "schedule.h"
 #include "device.h"
@@ -71,4 +70,3 @@ private:
 
 }
 
-#endif // pc88_base_h

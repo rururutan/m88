@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: windraw.h,v 1.19 2002/04/07 05:40:11 cisc Exp $
 
-#if !defined(win32_windraw_h)
-#define win32_windraw_h
+#pragma once
 
 #include "types.h"
 #include "draw.h"
@@ -125,4 +124,3 @@ private:
 	PALETTEENTRY palette[0x100];
 };
 
-#endif // !defined(win32_windraw_h)

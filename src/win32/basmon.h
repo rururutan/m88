@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: basmon.h,v 1.1 2000/06/26 14:05:44 cisc Exp $
 
-#if !defined(win32_basmon_h)
-#define win32_basmon_h
+#pragma once
 
 #include "winmon.h"
 #include "device.h"
@@ -49,4 +48,3 @@ private:
 
 }
 
-#endif // !defined(win32_basmon_h)

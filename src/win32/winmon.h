@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: winmon.h,v 1.4 2002/04/07 05:40:11 cisc Exp $
 
-#if !defined(win32_winmon_h)
-#define win32_winmon_h
+#pragma once
 
 //	概要：
 //	デバッグ表示のために使用するテキストウィンドウの管理用基本クラス
@@ -118,5 +117,3 @@ private:
 
 };
 
-
-#endif // !defined(win32_winmon_h)

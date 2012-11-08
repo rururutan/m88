@@ -4,8 +4,7 @@
 // ----------------------------------------------------------------------------
 //	$Id: types.h,v 1.10 1999/12/28 10:34:53 cisc Exp $
 
-#if !defined(win32_types_h)
-#define win32_types_h
+#pragma once
 
 #define ENDIAN_IS_SMALL
 
@@ -75,4 +74,3 @@ typedef LONG_PTR intpointer;
 	#define REINTERPRET_CAST(t, o)		(*(t*)(void*)&(o))
 #endif
 
-#endif // win32_types_h

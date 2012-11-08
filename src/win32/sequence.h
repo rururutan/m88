@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: sequence.h,v 1.1 2002/04/07 05:40:10 cisc Exp $
 
-#if !defined(win32_sequence_h)
-#define win32_sequence_h
+#pragma once
 
 // ---------------------------------------------------------------------------
 
@@ -85,5 +84,3 @@ inline void Sequencer::SetRefreshTiming(uint rti)
 	refreshtiming = rti;
 }
 
-
-#endif // !defined(win32_sequence_h)

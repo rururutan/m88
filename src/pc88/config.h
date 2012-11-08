@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: config.h,v 1.23 2003/09/28 14:35:35 cisc Exp $
 
-#ifndef pc88_config_h
-#define pc88_config_h
+#pragma once
 
 #include "types.h"
 
@@ -120,4 +119,3 @@ public:
 
 }
 
-#endif // pc88_config_h

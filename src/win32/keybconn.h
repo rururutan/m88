@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: keybconn.h,v 1.1 2002/04/07 05:40:10 cisc Exp $
 
-#if !defined(win32_keybconn_h)
-#define win32_keybconn_h
+#pragma once
 
 // ---------------------------------------------------------------------------
 
@@ -47,4 +46,3 @@ private:
 	Device* dev;
 };
 
-#endif // !defined(win32_keybconn_h)

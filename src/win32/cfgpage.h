@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: cfgpage.h,v 1.3 2002/05/15 21:38:02 cisc Exp $
 
-#if !defined(win32_cfgpage_h)
-#define win32_cfgpage_h
+#pragma once
 
 #include "if/ifcommon.h"
 #include "pc88/config.h"
@@ -156,4 +155,3 @@ private:
 
 }
 
-#endif

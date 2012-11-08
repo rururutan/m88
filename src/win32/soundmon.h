@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: soundmon.h,v 1.11 2003/06/12 13:14:37 cisc Exp $
 
-#if !defined(win32_soundmon_h)
-#define win32_soundmon_h
+#pragma once
 
 #include "device.h"
 #include "winmon.h"
@@ -59,4 +58,3 @@ private:
 	int buf[2][bufsize];
 };
 
-#endif // !defined(win32_soundmon_h)

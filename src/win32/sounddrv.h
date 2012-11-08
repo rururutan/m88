@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: sounddrv.h,v 1.3 2002/05/31 09:45:21 cisc Exp $
 
-#if !defined(win32_sounddrv_h)
-#define win32_sounddrv_h
+#pragma once
 
 #include "types.h"
 #include "common/sndbuf2.h"
@@ -39,4 +38,3 @@ protected:
 
 }
 
-#endif // !defined(win32_sounddrv_h)

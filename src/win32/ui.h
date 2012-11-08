@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: ui.h,v 1.33 2002/05/31 09:45:21 cisc Exp $
 
-#ifndef win_ui_h
-#define win_ui_h
+#pragma once
 
 #include "types.h"
 #include "wincore.h"
@@ -179,4 +178,3 @@ private:
 	LRESULT WmSetCursor(HWND, WPARAM, LPARAM);
 };
 
-#endif // WIN_UI_H

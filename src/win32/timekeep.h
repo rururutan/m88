@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: timekeep.h,v 1.1 2002/04/07 05:40:11 cisc Exp $
 
-#if !defined(win32_timekeep_h)
-#define win32_timekeep_h
+#pragma once
 
 #include "types.h"
 
@@ -38,4 +37,3 @@ private:
 	uint32 time;			// ÅŒã‚ÌŒÄ‚Ño‚µ‚É•Ô‚µ‚½’l
 };
 
-#endif // !defined(win32_timekeep_h)

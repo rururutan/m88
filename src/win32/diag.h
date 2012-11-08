@@ -5,8 +5,7 @@
 //	$Id: diag.h,v 1.9 2002/04/07 05:40:10 cisc Exp $
 //
 
-#ifndef win32_diag_h
-#define win32_diag_h
+#pragma once
 
 class Diag
 {
@@ -51,6 +50,3 @@ private:
 	#define Log 0 ? 0 : 
 #endif
 
-
-
-#endif	// common_log_h

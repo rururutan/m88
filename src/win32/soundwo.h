@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: soundwo.h,v 1.5 2002/05/31 09:45:21 cisc Exp $
 
-#if !defined(win32_soundwo_h)
-#define win32_soundwo_h
+#pragma once
 
 #include "sounddrv.h"
 #include "critsect.h"
@@ -43,4 +42,3 @@ private:
 
 }
 
-#endif // win32_soundwo_h

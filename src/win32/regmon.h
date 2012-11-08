@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: regmon.h,v 1.1 2000/11/02 12:43:51 cisc Exp $
 
-#if !defined(win32_regmon_h)
-#define win32_regmon_h
+#pragma once
 
 #include "device.h"
 #include "winmon.h"
@@ -32,4 +31,3 @@ private:
 	PC88* pc;
 };
 
-#endif // !defined(win32_regmon_h)

@@ -1,7 +1,6 @@
 // $Id: dderr.h,v 1.1 2000/02/09 10:47:38 cisc Exp $
 
-#ifndef incl_dderr_h
-#define incl_dderr_h
+#pragma once
 
 #ifdef LOGGING
 
@@ -22,7 +21,5 @@ inline void LOGDDERR(const char* text, HRESULT hr)
 
 #else
 #define LOGDDERR(tx, hr)	((void)(0))
-#endif
-
 #endif
 

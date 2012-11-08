@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: messages.h,v 1.4 2001/02/21 11:58:55 cisc Exp $
 
-#ifndef MSGS_h
-#define MSGS_h
+#pragma once
 
 #define WM_M88_SENDKEYSTATE		(WM_USER+0x200)
 #define WM_M88_DISPLAYCHANGED	(WM_USER+0x201)
@@ -18,4 +17,3 @@
 #define CLIPCURSOR_WINDOW	2
 #define CLIPCURSOR_RELEASE	4
 
-#endif

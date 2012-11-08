@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: winsound.h,v 1.17 2003/05/12 22:26:36 cisc Exp $
 
-#if !defined(win32_winsound_h)
-#define win32_winsound_h
+#pragma once
 
 #include "types.h"
 #include "pc88/sound.h"
@@ -109,5 +108,3 @@ private:
 
 }
 
-
-#endif // !defined(win32_winsound_h)
