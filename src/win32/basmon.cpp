@@ -119,7 +119,7 @@ void BasicMonitor::Decode(bool always)
 			break;
 		
 		uint l = Read16(src+2);
-		text += sprintf(text, "%d ", l);
+		text += sprintf(text, "%u ", l);
 		src += 4;
 		
 		uint c;
