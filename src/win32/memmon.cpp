@@ -34,8 +34,8 @@ MemoryMonitor::MemoryMonitor()
 		col[0xff] = RGB(0x1f, 0x1f, 0x9f);
 		for (int i=1; i<256; i++)
 		{
-			int r = 0x40 + 0xbf * pow((i/256.), 8.0);
-			int g = 0x20 + 0xdf * pow((i/256.), 24.0);
+			int r = 0x40 + static_cast<int>(0xbf * pow((i/256.), 8.0));
+			int g = 0x20 + static_cast<int>(0xdf * pow((i/256.), 24.0));
 			col[0xff-i] = RGB(Min(r, 0xff), Min(g, 0xff), 0xff);
 		}
 	}
