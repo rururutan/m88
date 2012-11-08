@@ -44,6 +44,7 @@ void IOCALL Calender::Reset(uint, uint)
 		reg[i] = 0;
 }
 
+// Bit4 : CDI
 uint IOCALL Calender::In40(uint)
 {
 	if (dataoutmode)
@@ -57,12 +58,16 @@ uint IOCALL Calender::In40(uint)
 	}
 }
 
+// Bit3   : CD0
+// Bit0~2 : C0-C2
 void IOCALL Calender::Out10(uint, uint data)
 {
 	pcmd = data & 7;
 	datain = (data >> 3) & 1;
 }
 
+// Bit2 : CCLK (0:off / 1:on)
+// Bit1 : CSTB (0:on / 1:off)
 void IOCALL Calender::Out40(uint, uint data)
 {
 	uint modified;
