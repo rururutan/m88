@@ -77,6 +77,14 @@ CRTC::CRTC(const ID& id)
 	pcgdat = 0;
 	pcgenable = 0;
 	kanaenable = false;
+	pat_col = 0;
+	pat_mask = 0;
+	pat_rev = 0;
+	status = 0;
+	cursor_x = 0;
+	cursor_y = 0;
+	cursor_type = 0;
+	param1 = 0;
 }
 
 CRTC::~CRTC()
@@ -169,9 +177,9 @@ void CRTC::HotReset()
 	status = 0;		// 1
 	
 	cursor_type = cursormode = -1;
-	tvramsize = 0;
+//	tvramsize = 0;
 	linesize = 0;
-	screenwidth = 640;
+//	screenwidth = 640;
 	screenheight = 400;
 
 	linetime = line200 ? int(6.258*8) : int(4.028*16);
@@ -297,9 +305,9 @@ uint CRTC::Command(bool a0, uint data)
 			if (attrperline + width > 120)
 				mode &= ~enable;
 
-			screenwidth = 640;
+//			screenwidth = 640;
 			screenheight = Min(400, linesperchar * height);
-			LOG5("\nscrn=(%d, %d), vrtc = %d, linetime = %d0 us, frametime0 = %d us\n", screenwidth, screenheight, vretrace, linetime, linetime*(height+vretrace));
+			LOG5("\nscrn=(640, %d), vrtc = %d, linetime = %d0 us, frametime0 = %d us\n", screenheight, vretrace, linetime, linetime*(height+vretrace));
 			mode |= resize;
 			break;
 		}

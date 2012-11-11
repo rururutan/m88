@@ -184,8 +184,8 @@ private:
 	uint8* attrcache;
 
 	uint bank;				// VRAM Cache のバンク
-	uint tvramsize;			// 1画面のテキストサイズ
-	uint screenwidth;		// 画面の幅
+//	uint tvramsize;			// 1画面のテキストサイズ
+//	uint screenwidth;		// 画面の幅
 	uint screenheight;		// 画面の高さ
 
 	uint cursor_x;			// カーソル位置
