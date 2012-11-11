@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: screen.h,v 1.17 2003/09/28 14:35:35 cisc Exp $
 
-#if !defined(pc88_screen_h)
-#define pc88_screen_h
+#pragma once
 
 #include "types.h"
 #include "device.h"
@@ -147,4 +146,3 @@ private:
 
 }
 
-#endif // !defined(pc88_screen_h)

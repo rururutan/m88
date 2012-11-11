@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: fdu.h,v 1.2 1999/03/25 11:29:20 cisc Exp $
 
-#ifndef FDU_H
-#define FDU_H
+#pragma once
 
 #include "floppy.h"
 
@@ -78,4 +77,3 @@ private:
 
 }
 
-#endif // FDU_H

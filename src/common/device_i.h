@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: device_i.h,v 1.9 1999/08/26 08:05:55 cisc Exp $
 
-#ifndef core_device_i_h
-#define core_device_i_h
+#pragma once
 
 #include <assert.h>
 
@@ -438,4 +437,3 @@ inline const MemoryBus::Page* MemoryBus::GetPageTable()
 	return pages;
 }
 
-#endif // core_device_i_h

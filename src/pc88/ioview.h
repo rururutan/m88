@@ -6,8 +6,7 @@
 // ----------------------------------------------------------------------------
 //	$Id: ioview.h,v 1.1 2001/02/21 11:57:57 cisc Exp $
 
-#ifndef pc88_ioview_h
-#define pc88_ioview_h
+#pragma once
 
 #include "device.h"
 #include "memory.h"
@@ -57,4 +56,3 @@ private:
 
 }
 
-#endif // pc88_ioview_h

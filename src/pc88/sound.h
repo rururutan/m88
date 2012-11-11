@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: sound.h,v 1.28 2003/05/12 22:26:35 cisc Exp $
 
-#ifndef PC88_SOUND_H
-#define PC88_SOUND_H
+#pragma once
 
 #include "device.h"
 #include "sndbuf2.h"
@@ -87,5 +86,3 @@ private:
 
 }
 
-
-#endif // PC88_SOUND_H

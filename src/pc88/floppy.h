@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: floppy.h,v 1.5 2000/02/29 12:29:52 cisc Exp $
 
-#ifndef floppy_h
-#define floppy_h
+#pragma once
 
 #include "types.h"
 
@@ -95,6 +94,4 @@ private:
 	Sector* cursector;
 	uint curtracknum;
 };
-
-#endif // floppy_h
 

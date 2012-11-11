@@ -3,8 +3,7 @@
 //	$Id: ifui.h,v 1.2 2003/04/22 13:16:34 cisc Exp $
 //
 
-#ifndef incl_ifui_h
-#define incl_ifui_h
+#pragma once
 
 #include "types.h"
 #include "ifcommon.h"
@@ -33,4 +32,3 @@ interface IPadInput
 	virtual void IFCALL GetState(PadState*) = 0;
 };
 
-#endif 

@@ -1,5 +1,4 @@
-#ifndef incl_piioctl_h
-#define incl_piioctl_h
+#pragma once
 
 //
 // Define the IOCTL codes we will use.  The IOCTL code contains a command
@@ -49,8 +48,4 @@ typedef struct ROMEO_WRITEREG_t
 
 #define IOCTL_ROMEO_OPN3_WRITE \
 	CTL_CODE( ROMEO_TYPE, 0x904, METHOD_BUFFERED, FILE_WRITE_ACCESS )
-
-
-
-#endif
 

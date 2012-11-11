@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: diskmgr.h,v 1.8 1999/06/19 14:06:22 cisc Exp $
 
-#if !defined(diskmgr_h)
-#define diskmgr_h
+#pragma once
 
 #include "floppy.h"
 #include "file.h"
@@ -139,4 +138,3 @@ private:
 	CriticalSection cs;
 };
 
-#endif // diskmgr_h

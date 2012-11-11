@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: pd8257.h,v 1.10 1999/10/10 01:47:10 cisc Exp $
 
-#if !defined(PC88_PD8257_H)
-#define PC88_PD8257_H
+#pragma once
 
 #include "device.h"
 #include "if/ifpc88.h"
@@ -85,4 +84,3 @@ private:
 
 } // namespace PC8801
 
-#endif // PC88_PD8257_H

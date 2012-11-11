@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: intc.h,v 1.7 1999/10/10 01:47:06 cisc Exp $
 
-#ifndef pc88_intc_h
-#define pc88_intc_h
+#pragma once
 
 #include "device.h"
 
@@ -63,4 +62,3 @@ private:
 
 }
 
-#endif // pc88_intc_h

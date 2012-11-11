@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: tapemgr.h,v 1.2 2000/06/26 14:05:30 cisc Exp $
 
-#ifndef pc88_tapemgr_h
-#define pc88_tapemgr_h
+#pragma once
 
 #include "device.h"
 #include "opna.h"
@@ -133,5 +132,3 @@ private:
 	static const OutFuncPtr outdef[];
 };
 
-
-#endif // pc88_tapemgr_h

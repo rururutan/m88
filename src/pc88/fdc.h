@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: fdc.h,v 1.12 2001/02/21 11:57:57 cisc Exp $
 
-#if !defined(pc88_fdc_h)
-#define pc88_fdc_h
+#pragma once
 
 #include "device.h"
 #include "schedule.h"
@@ -232,4 +231,3 @@ private:
 
 }
 
-#endif // !defined(pc88_fdc_h)

@@ -6,8 +6,7 @@
 // ----------------------------------------------------------------------------
 //	$Id: memory.h,v 1.26 2003/09/28 14:58:54 cisc Exp $
 
-#ifndef pc88_memory_h
-#define pc88_memory_h
+#pragma once
 
 #include "device.h"
 #include "config.h"
@@ -204,4 +203,3 @@ private:
 
 }; // namespace PC8801
 
-#endif 

@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: draw.h,v 1.7 2000/02/11 00:41:52 cisc Exp $
 
-#if !defined(common_draw_h)
-#define common_draw_h
+#pragma once
 
 #include "types.h"
 #include "misc.h"
@@ -63,4 +62,3 @@ public:
 	virtual bool SetFlipMode(bool) = 0;
 };
 
-#endif // common_draw_h

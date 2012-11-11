@@ -1,7 +1,6 @@
 //	$Id: srcbuf.h,v 1.2 2003/05/12 22:26:34 cisc Exp $
 
-#ifndef common_srcbuf_h
-#define common_srcbuf_h
+#pragma once
 
 #include "critsect.h"
 #include "soundsrc.h"
@@ -101,5 +100,3 @@ inline bool SamplingRateConverter::IsEmpty()
 	return GetAvail() == 0;
 }
 
-
-#endif // common_soundbuf_h

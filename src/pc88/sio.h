@@ -6,8 +6,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: sio.h,v 1.5 2000/06/26 14:05:30 cisc Exp $
 
-#ifndef pc88_sio_h
-#define pc88_sio_h
+#pragma once
 
 #include "device.h"
 
@@ -100,6 +99,4 @@ private:
 };
 
 }
-
-#endif // pc88_sio_h
 

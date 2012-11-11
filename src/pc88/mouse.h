@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: mouse.h,v 1.1 2002/04/07 05:40:10 cisc Exp $
 
-#if !defined(pc88_mouse_h)
-#define pc88_mouse_h
+#pragma once
 
 #include "device.h"
 #include "if/ifui.h"
@@ -61,4 +60,3 @@ private:
 
 }
 
-#endif // !defined(pc88_mouse_h)

@@ -6,8 +6,7 @@
 // ----------------------------------------------------------------------------
 //	$Id: ifcommon.h,v 1.8 2002/04/07 05:40:09 cisc Exp $
 
-#ifndef incl_interface_common_h
-#define incl_interface_common_h
+#pragma once
 
 #include "types.h"
 
@@ -244,6 +243,3 @@ struct IGetMemoryBank
 	virtual uint IFCALL GetWrBank(uint) = 0;
 };
 
-
-
-#endif // incl_interface_common_h

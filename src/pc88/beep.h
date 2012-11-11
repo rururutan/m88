@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: beep.h,v 1.2 1999/10/10 01:47:04 cisc Exp $
 
-#ifndef PC88_BEEP_H
-#define PC88_BEEP_H
+#pragma once
 
 #include "device.h"
 
@@ -73,4 +72,3 @@ private:
 
 }
 
-#endif // PC88_BEEP_H

@@ -3,8 +3,7 @@
 //	$Id: ifguid.h,v 1.4 2002/04/07 05:40:09 cisc Exp $
 //
 
-#ifndef incl_ifguid_h
-#define incl_ifguid_h
+#pragma once
 
 // ----------------------------------------------------------------------------
 //	M88 interface GUID
@@ -62,4 +61,3 @@ DEFINE_GUID(ChIID_MouseUI,			0x6b126c9b, 0x60be, 0x49ee, 0x9f, 0x12, 0x3, 0x10, 
 // IPadInput						{149E23E5-A0EE-4430-A323-BD6CACAD34E3}
 DEFINE_GUID(ChIID_PadInput,			0x149e23e5, 0xa0ee, 0x4430, 0xa3, 0x23, 0xbd, 0x6c, 0xac, 0xad, 0x34, 0xe3);
 
-#endif 

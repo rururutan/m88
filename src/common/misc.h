@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: misc.h,v 1.5 2002/05/31 09:45:20 cisc Exp $
 
-#ifndef MISC_H
-#define MISC_H
+#pragma once
 
 inline int Max(int x, int y) { return (x > y) ? x : y; }
 inline int Min(int x, int y) { return (x < y) ? x : y; }
@@ -63,7 +62,4 @@ T bessel0(T x)
 	}
 	return r;
 }
-
-
-#endif // MISC_H
 

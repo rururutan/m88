@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: joypad.h,v 1.3 2003/05/19 01:10:31 cisc Exp $
 
-#if !defined(pc88_joypad_h)
-#define pc88_joypad_h
+#pragma once
 
 #include "device.h"
 #include "if/ifui.h"
@@ -58,4 +57,3 @@ private:
 
 }
 
-#endif // !defined(pc88_joypad_h)

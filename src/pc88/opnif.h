@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: opnif.h,v 1.19 2003/09/28 14:35:35 cisc Exp $
 
-#ifndef PC88_OPNIF_H
-#define PC88_OPNIF_H
+#pragma once
 
 #include "device.h"
 #include "opna.h"
@@ -171,4 +170,3 @@ inline void OPNIF::SetChannelMask(uint ch)
 
 }
 
-#endif // PC88_OPNIF_H

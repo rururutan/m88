@@ -1,7 +1,6 @@
 //	$Id: sndbuf2.h,v 1.2 2003/05/12 22:26:34 cisc Exp $
 
-#ifndef common_soundbuf2_h
-#define common_soundbuf2_h
+#pragma once
 
 #include "critsect.h"
 #include "if/ifcommon.h"
@@ -70,4 +69,3 @@ inline int SoundBuffer2::GetAvail()
 	return avail;
 }
 
-#endif // common_soundbuf_h

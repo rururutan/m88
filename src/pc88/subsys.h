@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: subsys.h,v 1.7 2000/09/08 15:04:14 cisc Exp $
 
-#ifndef pc88_subsys_h
-#define pc88_subsys_h
+#pragma once
 
 #include "device.h"
 #include "fdc.h"
@@ -100,4 +99,3 @@ private:
 
 } // namespace PC8801
 
-#endif // pc88_subsys_h

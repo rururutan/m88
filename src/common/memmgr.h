@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: memmgr.h,v 1.4 1999/12/28 10:33:54 cisc Exp $
 
-#ifndef incl_memmgr_h
-#define incl_memmgr_h
+#pragma once
 
 #include "if/ifcommon.h"
 
@@ -343,5 +342,3 @@ inline void WriteMemManager::Write8(uint addr, uint data)
 #endif
 }
 
-
-#endif // incl_memmgr_h
