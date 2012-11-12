@@ -46,7 +46,7 @@ public:
 	bool Mount(FloppyDisk* disk);
 	bool Unmount();
 
-	bool IsMounted() { return disk != 0; }
+	bool IsMounted() const { return disk != 0; }
 	uint ReadSector(uint flags, IDR id, uint8* data);
 	uint WriteSector(uint flags, IDR id, const uint8* data, bool deleted);
 	uint Seek(uint cyrinder);
