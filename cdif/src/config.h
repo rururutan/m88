@@ -1,7 +1,6 @@
 // $Id: config.h,v 1.1 1999/12/28 11:25:53 cisc Exp $
 
-#ifndef incl_config_h
-#define incl_config_h
+#pragma once
 
 #include "if/ifcommon.h"
 
@@ -20,4 +19,3 @@ private:
 	IConfigPropBase* base;
 };
 
-#endif // incl_config_h

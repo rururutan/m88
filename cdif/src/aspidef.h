@@ -1,7 +1,6 @@
 //	$Id: aspidef.h,v 1.2 2000/01/03 01:57:51 cisc Exp $
 
-#ifndef win32_aspidef_h
-#define win32_aspidef_h
+#pragma once
 
 #ifdef _MSC_VER
 #pragma pack(1)
@@ -173,5 +172,3 @@ struct SRB_Abort
 #pragma option -a.
 #endif
 
-
-#endif

@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: aspi.h,v 1.1 1999/08/26 08:04:36 cisc Exp $
 
-#ifndef win32_aspi_h
-#define win32_aspi_h
+#pragma once
 
 #include "types.h"
 
@@ -84,7 +83,4 @@ struct WORDBE
 		return image[1] + image[0] * 0x100;
 	}
 };
-
-
-#endif // win32_aspi_h
 

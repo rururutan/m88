@@ -5,8 +5,7 @@
 //	$Id: headers.h,v 1.3 1999/10/10 16:05:52 cisc Exp $
 //
 
-#ifndef WIN_HEADERS_H
-#define WIN_HEADERS_H
+#pragma once
 
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
@@ -31,4 +30,3 @@
 	#define min _MIN
 #endif
 
-#endif	// WIN_HEADERS_H

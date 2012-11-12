@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: cdctrl.h,v 1.2 1999/10/10 01:39:00 cisc Exp $
 
-#ifndef incl_cdctrl_h
-#define incl_cdctrl_h
+#pragma once
 
 #include "winbase.h"
 #include "device.h"
@@ -59,5 +58,3 @@ private:
 	CDROM* cdrom;
 };
 
-
-#endif // incl_cdctrl_h

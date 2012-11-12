@@ -4,8 +4,7 @@
 // ---------------------------------------------------------------------------
 //	$Id: diskio.h,v 1.3 1999/10/10 01:38:05 cisc Exp $
 
-#ifndef pc88_diskio_h
-#define pc88_diskio_h
+#pragma once
 
 #include "device.h"
 #include "file.h"
@@ -78,4 +77,3 @@ private:
 
 }
 
-#endif // pc88_diskio_h
