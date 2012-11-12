@@ -23,6 +23,8 @@ TapeManager::TapeManager()
 : Device(DEV_ID('T','A','P','E')), tags(0), scheduler(0), event(0)
 {
 	datasize = 0;
+	datatype = 0;
+	pinput = 0;
 	pos = 0;
 	bus = 0;
 	offset = 0;

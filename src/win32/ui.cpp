@@ -61,6 +61,8 @@ WinUI::WinUI(HINSTANCE hinstance)
 	snapshotchanged = true;
 
 	clipmode = 0;
+	background = false;
+	mousebutton = 0;
 }
 
 WinUI::~WinUI()

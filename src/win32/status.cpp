@@ -22,8 +22,12 @@ StatusDisplay::StatusDisplay()
 	list = 0;
 	timerid = 0;
 	height = 0;
-	litstat[0] = litstat[1] = 0;
+	litstat[0] = litstat[1] = litstat[2] = 0;
+	litcurrent[0] = litcurrent[1] = litcurrent[2] = 0;
 	updatemessage = 0;
+	showfdstat = false;
+	currentduration = 0;
+	currentpriority = 10000;
 }
 	
 StatusDisplay::~StatusDisplay()
