@@ -5,9 +5,9 @@
 
 cisc氏作のPC-8801エミュレータ[M88](http://retropc.net/cisc/m88/)を改造した私家版です。
 
-* [G.I.M.I.C](http://gimic.jp/index.php?G.I.M.I.C)用のコードの追加。
+* [G.I.M.I.C](http://gimic.jp/index.php?G.I.M.I.C)用の制御を追加。
 * 英語101キーモードの追加。
-* PC-8001mkIISR ひらがなフォントファイルの変更
+* PC-8001mkIISR ひらがなフォントファイルの変更。
 * 今時の環境に合わせてデフォルトの設定値を変更。
 * ウインドウ座標を保存するオプションを追加。
 
@@ -28,14 +28,16 @@ OPN3Lはハードウェア的にFM/SSG音量バランスが固定で(88的には
 
 ファイル名はFONT80SR.ROMです。
 
-ファイル形式は[J80](http://www.geocities.jp/upd780c1/pc-8001/index.html)と同じで8192byteになります。
+ファイル形式は[J80](http://www.geocities.jp/upd780c1/pc-8001/index.html)のPC-8001mkIISR.fonと同等の物です。
 
 ソフトウェア的に読み出す方法が無い為、ROMリーダーで読みだして下さい。
 
 ## ライセンス
 
 新規ファイル/追加コードはGPLv3になります。
+
 既存のファイルは以下のオリジナルライセンスに従います。
+
 c86ctl.hはNewBSDライセンスです。
 
 * M88 はcisc氏が著作権を所有しています。
