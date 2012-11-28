@@ -56,20 +56,17 @@ IDR_MENU_M88 MENU
 BEGIN
     POPUP "&Control"
     BEGIN
-        MENUITEM "&Reset\tF12",                 IDM_RESET
-        MENUITEM SEPARATOR
-        POPUP "&Basic mode"
-        BEGIN
-            MENUITEM "N88-V&1(S) mode",             IDM_N88V1
-            MENUITEM "N88-V1(&H) mode",             IDM_N88V1H
-            MENUITEM "N88-V&2 mode",                IDM_N88V2
-            MENUITEM "N88-V2(C&D) mode",            IDM_N88V2CD
-            MENUITEM SEPARATOR
-            MENUITEM "&N mode",                     IDM_NMODE
-            MENUITEM "N8&0 mode",                   IDM_N80MODE
-            MENUITEM "N&80-V2 mode",                IDM_N80V2MODE
-        END
         MENUITEM "&Burst mode",                 IDM_CPU_BURST
+        MENUITEM SEPARATOR
+        MENUITEM "N88-V&1(S) mode",             IDM_N88V1
+        MENUITEM "N88-V1(&H) mode",             IDM_N88V1H
+        MENUITEM "N88-V&2 mode",                IDM_N88V2
+        MENUITEM "N88-V2(C&D) mode",            IDM_N88V2CD
+        MENUITEM "&N mode",                     IDM_NMODE
+        MENUITEM "N8&0 mode",                   IDM_N80MODE
+        MENUITEM "N&80SR mode",                 IDM_N80V2MODE
+        MENUITEM SEPARATOR
+        MENUITEM "&Reset\tF12",                 IDM_RESET
         MENUITEM SEPARATOR
         MENUITEM "&Configure...",               IDM_CONFIG
         MENUITEM SEPARATOR
