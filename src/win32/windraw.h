@@ -79,7 +79,7 @@ public:
 	int CaptureScreen(uint8* dest);
 
 private:
-	enum DisplayType { None, GDI, DDWin, DDFull };
+	enum DisplayType { None, GDI, DDWin, DDFull, D2D };
 	void PaintWindow();
 
 	static BOOL WINAPI DDEnumCallback(GUID FAR* guid, LPSTR desc, LPSTR name, LPVOID context, HMONITOR hm);

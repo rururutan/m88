@@ -4167,6 +4167,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\win32\DrawD2D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win32\DrawD2D.h"
+				>
+			</File>
+			<File
 				RelativePath="src\Win32\DrawDDS.cpp"
 				>
 				<FileConfiguration

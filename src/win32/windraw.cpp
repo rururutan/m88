@@ -12,6 +12,7 @@
 #include "drawgdi.h"
 #include "drawdds.h"
 #include "drawddw.h"
+#include "drawd2d.h"
 #include "messages.h"
 #include "error.h"
 #include "status.h"
@@ -315,7 +316,7 @@ void WinDraw::WindowMoved(int x, int y)
 //
 bool WinDraw::ChangeDisplayMode(bool fullscreen, bool force480)
 {
-	DisplayType type = fullscreen ? DDFull : GDI;
+	DisplayType type = fullscreen ? DDFull : D2D;
 
 	// Œ»İ‘‹(M88)‚ªŠ‘®‚·‚éƒ‚ƒjƒ^‚Ì GUID ‚ğæ“¾
 	memset(&gmonitor, 0, sizeof(gmonitor));
@@ -345,6 +346,9 @@ bool WinDraw::ChangeDisplayMode(bool fullscreen, bool force480)
 			break;
 		case DDFull:
 			newdraw = new WinDrawDDS(force480);
+			break;
+		case D2D:
+			newdraw = new WinDrawD2D;
 			break;
 		}
 		
