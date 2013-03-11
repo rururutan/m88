@@ -146,6 +146,7 @@ bool ReadMemManager::Init(uint sas, Page* _pages)
 	{
 #ifdef PTR_IDBIT
 		pages[i].ptr = (intpointer(UndefinedRead) | idbit);
+		pages[i].inst = 0;
 #else
 		pages[i].ptr = intpointer(UndefinedRead);
 		pages[i].func = true;
@@ -199,6 +200,7 @@ bool WriteMemManager::Init(uint sas, Page* _pages)
 	{
 #ifdef PTR_IDBIT
 		pages[i].ptr = (intpointer(UndefinedWrite) | idbit);
+		pages[i].inst = 0;
 #else
 		pages[i].ptr = intpointer(UndefinedWrite);
 		pages[i].func = true;

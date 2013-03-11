@@ -52,6 +52,7 @@ protected:
 
 	struct DPage
 	{
+		DPage() : ptr(0) {}
 		intpointer	ptr;
 #ifndef PTR_IDBIT
 		bool		func;
