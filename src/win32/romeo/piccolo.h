@@ -14,7 +14,7 @@ class PiccoloChip
 public:
     virtual ~PiccoloChip(){};
 	virtual int	 Init(uint c) = 0;
-	virtual void Reset() = 0;
+	virtual void Reset(bool) = 0;
 	virtual bool SetReg(uint32 at, uint addr, uint data) = 0;
 	virtual void SetChannelMask(uint mask) = 0;
 	virtual void SetVolume(int ch, int value) = 0;

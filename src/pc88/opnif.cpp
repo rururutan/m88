@@ -194,7 +194,7 @@ void IOCALL OPNIF::Reset(uint, uint)
 	prescaler = 0x2d;
 
 	if (chip)
-		chip->Reset();
+		chip->Reset(opnamode);
 }
 
 // ---------------------------------------------------------------------------

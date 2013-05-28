@@ -58,7 +58,7 @@ class ChipIF : public PiccoloChip
 		pic->Reset();
 		return true;
 	}
-	void Reset() {
+	void Reset(bool opna) {
 		pic->DrvReset();
 		pic->Reset();
 	}

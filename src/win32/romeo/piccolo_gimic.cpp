@@ -40,9 +40,10 @@ class GimicIf : public PiccoloChip
 		gmcdrv.chip->reset();
 		return true;
 	}
-	void Reset() {
+	void Reset(bool opna) {
 		pic->DrvReset();
 		gmcdrv.chip->reset();
+		gmcdrv.gimic->setSSGVolume( opna ? 68 : 63 );	// FM/PSG”ä 55%/50%
 	}
 	bool SetReg( uint32 at, uint addr, uint data ) {
 		pic->DrvSetReg( at, addr, data );
