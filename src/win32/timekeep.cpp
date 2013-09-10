@@ -54,10 +54,7 @@ uint32 TimeKeeper::GetTime()
 	}
 	else
 	{
-		uint32 t = timeGetTime();
-		uint32 dc = t - base;
-		time += dc / unit;
-		base = t - dc % unit;
-		return time;
+		time = timeGetTime();
+		return time * unit;
 	}
 }
