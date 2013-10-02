@@ -28,7 +28,10 @@ public:
 	enum Type
 	{
 		mainram = Memory::mRAM, 
-		eram	= Memory::mERAM, 
+		eram0	= Memory::mERAM, 
+		eram1	= Memory::mERAM+1, 
+		eram2	= Memory::mERAM+2, 
+		eram3	= Memory::mERAM+3, 
 		n88rom	= Memory::mN88, 
 		nrom	= Memory::mN, 
 		n88e0	= Memory::mN88E0, 

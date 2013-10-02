@@ -62,6 +62,10 @@ void MemoryViewer::SelectBank(Type a0, Type a6, Type a8, Type ac, Type af)
 		{
 		case n88rom: p = mem1->GetROM()+Memory::n88; break;
 		case nrom:   p = mem1->GetROM()+Memory::n80; break;
+		case eram0:  p = mem1->GetERAM(0); break;
+		case eram1:  p = mem1->GetERAM(1); break;
+		case eram2:  p = mem1->GetERAM(2); break;
+		case eram3:  p = mem1->GetERAM(3); break;
 		default:	 p = mem1->GetRAM(); break;
 		}
 		bus.SetMemorys(0x0000, 0x6000, p);
@@ -73,6 +77,10 @@ void MemoryViewer::SelectBank(Type a0, Type a6, Type a8, Type ac, Type af)
 		case nrom:   p = mem1->GetROM()+Memory::n80+0x6000; break;
 		case n88e0: case n88e1: case n88e2: case n88e3:
 			p = mem1->GetROM()+Memory::n88e+(a6-n88e0)*0x2000; break;
+		case eram0:  p = mem1->GetERAM(0)+0x6000; break;
+		case eram1:  p = mem1->GetERAM(1)+0x6000; break;
+		case eram2:  p = mem1->GetERAM(2)+0x6000; break;
+		case eram3:  p = mem1->GetERAM(3)+0x6000; break;
 		default:	 p = mem1->GetRAM()+0x6000; break;
 		}
 		bus.SetMemorys(0x6000, 0x2000, p);

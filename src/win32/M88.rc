@@ -130,6 +130,10 @@ BEGIN
         MENUITEM "N&88",                        IDM_MEM_0_N88
         MENUITEM "&N",                          IDM_MEM_0_N
         MENUITEM "&Sub",                        IDM_MEM_0_SUB
+        MENUITEM "ERAM&0",                      IDM_MEM_0_ERAM0
+        MENUITEM "ERAM&1",                      IDM_MEM_0_ERAM1
+        MENUITEM "ERAM&2",                      IDM_MEM_0_ERAM2
+        MENUITEM "ERAM&3",                      IDM_MEM_0_ERAM3
     END
     POPUP "&6000"
     BEGIN

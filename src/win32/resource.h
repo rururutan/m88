@@ -254,13 +254,17 @@
 #define IDM_MEM_WRITE                   40222
 #define IDM_N80V2MODE                   40223
 #define IDM_CPU_BURST                   40224
+#define IDM_MEM_0_ERAM0                 40225
+#define IDM_MEM_0_ERAM1                 40226
+#define IDM_MEM_0_ERAM2                 40227
+#define IDM_MEM_0_ERAM3                 40228
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        140
-#define _APS_NEXT_COMMAND_VALUE         40225
+#define _APS_NEXT_COMMAND_VALUE         40229
 #define _APS_NEXT_CONTROL_VALUE         1136
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
