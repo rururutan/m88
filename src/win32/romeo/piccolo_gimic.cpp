@@ -43,10 +43,13 @@ class GimicIf : public PiccoloChip
 	void Reset(bool opna) {
 		pic->DrvReset();
 		gmcdrv.chip->reset();
-		gmcdrv.gimic->setSSGVolume( opna ? 68 : 63 );	// FM/PSG”ä 55%/50%
+		gmcdrv.gimic->setSSGVolume( opna ? 63 : 68 );	// FM/PSG”ä 50%/55%
 	}
 	bool SetReg( uint32 at, uint addr, uint data ) {
-		pic->DrvSetReg( at, addr, data );
+		if (gmcdrv.chip) {
+			gmcdrv.chip->out( addr, data );
+		}
+//		pic->DrvSetReg( at, addr, data );
 		return true;
 	}
 	void SetChannelMask(uint mask){};
@@ -146,7 +149,7 @@ int Piccolo_Gimic::Init()
 			found_device = true;
 			gmcdrv.chip->reset();
 			gmcdrv.gimic->setPLLClock( 7987200 );
-			gmcdrv.gimic->setSSGVolume( 68 );	// FM/PSG”ä 55%
+			gmcdrv.gimic->setSSGVolume( 63 );	// FM/PSG”ä 50%
 			avail = 2;
 			break;
 		}
