@@ -67,6 +67,8 @@ WinUI::WinUI(HINSTANCE hinstance)
 
 WinUI::~WinUI()
 {
+	delete diskmgr;
+	delete tapemgr;
 }
 
 // ---------------------------------------------------------------------------
@@ -174,7 +176,7 @@ void WinUI::CleanupM88()
 bool WinUI::InitWindow(int nwinmode)
 {
 	WNDCLASS wcl;
-	const char* szwinname = "M88p2 WinUI";
+	static const char* szwinname = "M88p2 WinUI";
  
 	wcl.hInstance = hinst;
 	wcl.lpszClassName = szwinname;
