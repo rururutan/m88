@@ -113,6 +113,13 @@ bool PC88::Init(Draw* _draw, DiskManager* disk, TapeManager* tape)
 	return true;
 }
 
+void PC88::DeInit()
+{
+	delete beep;
+	delete opn1;
+	delete opn2;
+}
+
 // ---------------------------------------------------------------------------
 //	é∑çs
 //	1 tick = 10É s

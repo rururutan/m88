@@ -83,6 +83,7 @@ public:
 	~PC88();
 	
 	bool Init(Draw* draw, DiskManager* diskmgr, TapeManager* tape);
+	void DeInit();
 	
 	void Reset();
 	int Proceed(uint us, uint clock, uint eff);

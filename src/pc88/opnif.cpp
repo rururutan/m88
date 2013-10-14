@@ -35,7 +35,7 @@ int OPNIF::prescaler = 0x2d;
 //	ê∂ê¨ÅEîjä¸
 //
 OPNIF::OPNIF(const ID& id)
-: Device(id), chip(0)
+: Device(id), chip(0),piccolo(0)
 {
 	Log("Hello\n");
 	scheduler = 0;
@@ -50,6 +50,7 @@ OPNIF::OPNIF(const ID& id)
 
 OPNIF::~OPNIF()
 {
+	Piccolo::DeleteInstance();
 	Connect(0);
 }
 

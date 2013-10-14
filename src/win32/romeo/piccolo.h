@@ -45,6 +45,7 @@ public:
 	};
 
 	static Piccolo* GetInstance();
+	static void DeleteInstance();
 
 	// 遅延バッファのサイズを設定
 	bool SetLatencyBufferSize(uint entry);

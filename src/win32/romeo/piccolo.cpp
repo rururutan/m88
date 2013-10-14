@@ -32,9 +32,18 @@ Piccolo* Piccolo::GetInstance()
 		if ( instance->Init() == PICCOLO_SUCCESS ) {
 			return instance;
 		}
+		delete instance;
 	}
 
 	return 0;
+}
+
+void Piccolo::DeleteInstance()
+{
+	if (instance) {
+		delete instance;
+		instance = 0;
+	}
 }
 
 Piccolo::Piccolo()

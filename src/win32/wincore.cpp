@@ -42,6 +42,7 @@ WinCore::WinCore()
 
 WinCore::~WinCore()
 {
+	PC88::DeInit();
 	Cleanup();
 }
 
