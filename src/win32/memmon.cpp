@@ -334,7 +334,7 @@ void MemoryMonitor::Search(uint key, int bytes)
 
 	for (int i=0; i<end; i++)
 	{
-		int data;
+		int data = 0;
 		for (int j=bytes-1; j>=0; j--)
 		{
 			data = (data << 8) | GetBus()->Read8(i+j);
