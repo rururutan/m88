@@ -33,6 +33,7 @@ Piccolo* Piccolo::GetInstance()
 			return instance;
 		}
 		delete instance;
+		instance = 0;
 	}
 
 	return 0;
