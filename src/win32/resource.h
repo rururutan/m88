@@ -258,13 +258,15 @@
 #define IDM_MEM_0_ERAM1                 40226
 #define IDM_MEM_0_ERAM2                 40227
 #define IDM_MEM_0_ERAM3                 40228
+#define IDM_4MHZ                        40229
+#define IDM_8MHZ                        40230
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        140
-#define _APS_NEXT_COMMAND_VALUE         40229
+#define _APS_NEXT_COMMAND_VALUE         40231
 #define _APS_NEXT_CONTROL_VALUE         1136
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

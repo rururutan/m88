@@ -515,6 +515,16 @@ LRESULT WinUI::WmCommand(HWND hwnd, WPARAM wparam, LPARAM lparam)
 		ApplyConfig();
 		break;
 
+	case IDM_4MHZ:
+		this->config.clock = 40;
+		Reset();
+		break;
+
+	case IDM_8MHZ:
+		this->config.clock = 80;
+		Reset();
+		break;
+
 	case IDM_N88V1:
 		config.basicmode = Config::N88V1;
 		Reset();
@@ -859,6 +869,8 @@ LRESULT WinUI::WmInitMenu(HWND hwnd, WPARAM wp, LPARAM lp)
 	EnableMenuItem(hmenu, IDM_LOGSTART, MF_GRAYED);
 	EnableMenuItem(hmenu, IDM_LOGEND, MF_GRAYED);
 #endif
+	CheckMenuItem(hmenu, IDM_4MHZ, (config.clock == 40) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hmenu, IDM_8MHZ, (config.clock == 80) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hmenu, IDM_N88V1, (config.basicmode == Config::N88V1) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hmenu, IDM_N88V1H,(config.basicmode == Config::N88V1H)? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hmenu, IDM_N88V2, (config.basicmode == Config::N88V2) ? MF_CHECKED : MF_UNCHECKED);

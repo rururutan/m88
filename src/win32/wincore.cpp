@@ -70,8 +70,8 @@ bool WinCore::Init
 	if (!ConnectExternalDevices())
 		return false;
 
-	seq.SetClock(40);
-	seq.SetSpeed(100);
+	seq.SetClock(40);	// 4MHz
+	seq.SetSpeed(100);	// 100%
 
 	if (!seq.Init(this))
 		return false;
