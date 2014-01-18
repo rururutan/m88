@@ -39,7 +39,8 @@ using namespace PC8801;
 //	生成・破棄
 //
 WinUI::WinUI(HINSTANCE hinstance)
-: hinst(hinstance), hwnd(0), diskmgr(0), tapemgr(0)
+: hinst(hinstance), hwnd(0), diskmgr(0), tapemgr(0),
+  fullscreen(false)
 {
 	timerid = 0;
 	point.x = point.y = 0;
@@ -80,12 +81,24 @@ bool WinUI::InitM88(const char* cmdline)
 	active = false;
 	tapetitle[0] = 0;
 	
-	//	設定よみこみ
+	//	設定読み込み
 	LOG1("%d\tLoadConfig\n", timeGetTime());
 	PC8801::LoadConfig(&config, m88ini, true);
 
+	// ステータスバー初期化
+	statusdisplay.Init(hwnd);
+
 	// Window位置復元
+	ResizeWindow(640, 400);
 	LoadWindowPosition();
+	{
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		point.x = rect.left; point.y = rect.top;
+	}
+
+	// 画面初期化
+	M88ChangeDisplay(hwnd, 0, 0);
 
 	//	現在の path 保存
 	char path[MAX_PATH];
@@ -149,8 +162,6 @@ bool WinUI::InitM88(const char* cmdline)
 	LOG1("%d\tetc\n", timeGetTime());
 	if (!diskinfo[0].filename[0])
 		PC8801::LoadConfigDirectory(&config, m88ini, "Directory", false);
-	ChangeDisplayType(true);
-	ResizeWindow(640, 400);
 	
 	LOG1("%d\tend initm88\n", timeGetTime());
 	return true;
@@ -265,7 +276,6 @@ int WinUI::Main(const char* cmdline)
 	{
 		timerid = ::SetTimer(hwnd, 1, 1000, 0);
 		::SetTimer(hwnd, 2, 100, 0);
-		statusdisplay.Init(hwnd);
 
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
 		UpdateWindow(hwnd);
