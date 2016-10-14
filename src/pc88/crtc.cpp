@@ -226,7 +226,7 @@ void CRTC::SetTextSize(bool wide)
 //
 uint CRTC::Command(bool a0, uint data)
 {
-	const static uint modetbl[8] =
+	static const uint modetbl[8] =
 	{
 		enable | control | attribute,			// transparent b/w
 		enable,									// no attribute

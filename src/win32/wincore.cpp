@@ -136,7 +136,7 @@ void WinCore::ApplyConfig(PC8801::Config* cfg)
 //
 bool WinCore::ConnectDevices(WinKeyIF* keyb)
 {
-	const static IOBus::Connector c_keyb[] = 
+	static const IOBus::Connector c_keyb[] = 
 	{
 		{ PC88::pres, IOBus::portout, WinKeyIF::reset },
 		{ PC88::vrtc, IOBus::portout, WinKeyIF::vsync },
@@ -397,7 +397,7 @@ bool WinCore::EnablePad(bool enable)
 	LockObj lock(this);
 	if (enable)
 	{
-		const static IOBus::Connector c_pad[] =
+		static const IOBus::Connector c_pad[] =
 		{
 			{ PC88::popnio  , IOBus::portin, WinJoyPad::getdir },
 			{ PC88::popnio+1, IOBus::portin, WinJoyPad::getbutton },
@@ -427,7 +427,7 @@ bool WinCore::EnableMouse(bool enable)
 	LockObj lock(this);
 	if (enable)
 	{
-		const static IOBus::Connector c_mouse[] =
+		static const IOBus::Connector c_mouse[] =
 		{
 			{ PC88::popnio  , IOBus::portin, WinMouse::getmove },
 			{ PC88::popnio+1, IOBus::portin, WinMouse::getbutton },

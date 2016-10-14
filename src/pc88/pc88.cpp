@@ -289,7 +289,7 @@ void PC88::Reset()
 //
 bool PC88::ConnectDevices()
 {
-	const static IOBus::Connector c_cpu1[] =
+	static const IOBus::Connector c_cpu1[] =
 	{
 		{ pres, IOBus::portout, Z80::reset },
 		{ pirq, IOBus::portout, Z80::irq },
@@ -298,7 +298,7 @@ bool PC88::ConnectDevices()
 	if (!bus1.Connect(&cpu1, c_cpu1)) return false;
 	if (!cpu1.Init(&mm1, &bus1, piack)) return false;
 
-	const static IOBus::Connector c_base[] = 
+	static const IOBus::Connector c_base[] = 
 	{
 		{ pres, IOBus::portout, Base::reset },
 		{ vrtc, IOBus::portout, Base::vrtc },
@@ -313,7 +313,7 @@ bool PC88::ConnectDevices()
 	if (!base->Init(this)) return false;
 	devlist.Add(tapemgr);
 
-	const static IOBus::Connector c_dmac[] =
+	static const IOBus::Connector c_dmac[] =
 	{
 		{ pres, IOBus::portout, PD8257::reset },
 		{ 0x60, IOBus::portout, PD8257::setaddr  },
@@ -339,7 +339,7 @@ bool PC88::ConnectDevices()
 	dmac = new PC8801::PD8257(DEV_ID('D', 'M', 'A', 'C'));
 	if (!bus1.Connect(dmac, c_dmac)) return false;
 
-	const static IOBus::Connector c_crtc[] =
+	static const IOBus::Connector c_crtc[] =
 	{
 		{ pres, IOBus::portout, CRTC::reset },
 		{ 0x50, IOBus::portout, CRTC::out },
@@ -355,7 +355,7 @@ bool PC88::ConnectDevices()
 	crtc = new PC8801::CRTC(DEV_ID('C', 'R', 'T', 'C'));
 	if (!crtc || !bus1.Connect(crtc, c_crtc)) return false;
 
-	const static IOBus::Connector c_mem1[] =
+	static const IOBus::Connector c_mem1[] =
 	{
 		{ pres, IOBus::portout, Memory::reset },
 		{ 0x31, IOBus::portout, Memory::out31 },
@@ -391,7 +391,7 @@ bool PC88::ConnectDevices()
 	
 	if (!crtc->Init(&bus1, this, dmac, draw)) return false;
 
-	const static IOBus::Connector c_knj1[] =
+	static const IOBus::Connector c_knj1[] =
 	{
 		{ 0xe8, IOBus::portout, KanjiROM::setl  },
 		{ 0xe9, IOBus::portout, KanjiROM::seth  },
@@ -403,7 +403,7 @@ bool PC88::ConnectDevices()
 	if (!knj1 || !bus1.Connect(knj1, c_knj1)) return false;
 	if (!knj1->Init("kanji1.rom")) return false;
 	
-	const static IOBus::Connector c_knj2[] =
+	static const IOBus::Connector c_knj2[] =
 	{
 		{ 0xec, IOBus::portout, KanjiROM::setl  },
 		{ 0xed, IOBus::portout, KanjiROM::seth  },
@@ -415,7 +415,7 @@ bool PC88::ConnectDevices()
 	if (!knj2 || !bus1.Connect(knj2, c_knj2)) return false;
 	if (!knj2->Init("kanji2.rom")) return false;
 
-	const static IOBus::Connector c_scrn[] =
+	static const IOBus::Connector c_scrn[] =
 	{
 		{ pres, IOBus::portout, Screen::reset },
 		{ 0x30, IOBus::portout, Screen::out30 },
@@ -438,7 +438,7 @@ bool PC88::ConnectDevices()
 	if (!scrn || !bus1.Connect(scrn, c_scrn)) return false;
 	if (!scrn->Init(&bus1, mem1, crtc)) return false;
 
-	const static IOBus::Connector c_intc[] =
+	static const IOBus::Connector c_intc[] =
 	{
 		{ pres,  IOBus::portout, INTC::reset },
 		{ pint0, IOBus::portout, INTC::request },
@@ -458,7 +458,7 @@ bool PC88::ConnectDevices()
 	if (!intc || !bus1.Connect(intc, c_intc)) return false;
 	if (!intc->Init(&bus1, pirq, pint0)) return false;
 
-	const static IOBus::Connector c_subsys[] =
+	static const IOBus::Connector c_subsys[] =
 	{
 		{ pres,  IOBus::portout, SubSystem::reset },
 		{ 0xfc,  IOBus::portout | IOBus::sync, SubSystem::m_set0 },
@@ -473,7 +473,7 @@ bool PC88::ConnectDevices()
 	subsys = new PC8801::SubSystem(DEV_ID('S', 'U', 'B', ' '));
 	if (!subsys || !bus1.Connect(subsys, c_subsys)) return false;
 
-	const static IOBus::Connector c_sio[] =
+	static const IOBus::Connector c_sio[] =
 	{
 		{ pres,  IOBus::portout, SIO::reset },
 		{ 0x20,  IOBus::portout, SIO::setdata },
@@ -487,7 +487,7 @@ bool PC88::ConnectDevices()
 	if (!siotape || !bus1.Connect(siotape, c_sio)) return false;
 	if (!siotape->Init(&bus1, pint0, psioreq)) return false;
 
-	const static IOBus::Connector c_tape[] =
+	static const IOBus::Connector c_tape[] =
 	{
 		{ psioreq,	IOBus::portout, TapeManager::requestdata },
 		{ 0x30,		IOBus::portout,	TapeManager::out30 },
@@ -497,7 +497,7 @@ bool PC88::ConnectDevices()
 	if (!bus1.Connect(tapemgr, c_tape)) return false;
 	if (!tapemgr->Init(this, &bus1, psioin)) return false;
 
-	const static IOBus::Connector c_opn1[] =
+	static const IOBus::Connector c_opn1[] =
 	{
 		{ pres, IOBus::portout, OPNIF::reset },
 		{ 0x32, IOBus::portout, OPNIF::setintrmask },
@@ -517,7 +517,7 @@ bool PC88::ConnectDevices()
 	if (!bus1.Connect(opn1, c_opn1)) return false;
 	opn1->SetIMask(0x32, 0x80);
 
-	const static IOBus::Connector c_opn2[] =
+	static const IOBus::Connector c_opn2[] =
 	{
 		{ pres, IOBus::portout, OPNIF::reset },
 		{ 0xaa, IOBus::portout, OPNIF::setintrmask },
@@ -536,7 +536,7 @@ bool PC88::ConnectDevices()
 	if (!opn2 || !bus1.Connect(opn2, c_opn2)) return false;
 	opn2->SetIMask(0xaa, 0x80);
 	
-	const static IOBus::Connector c_caln[] = 
+	static const IOBus::Connector c_caln[] = 
 	{
 		{ pres, IOBus::portout, Calender::reset },
 		{ 0x10, IOBus::portout, Calender::out10 },
@@ -548,7 +548,7 @@ bool PC88::ConnectDevices()
 	if (!caln || !caln->Init()) return false;
 	if (!bus1.Connect(caln, c_caln)) return false;
 
-	const static IOBus::Connector c_beep[] = 
+	static const IOBus::Connector c_beep[] = 
 	{
 		{ 0x40, IOBus::portout, Beep::out40 },
 		{ 0, 0, 0 }
@@ -558,7 +558,7 @@ bool PC88::ConnectDevices()
 	if (!bus1.Connect(beep, c_beep)) return false;
 
 
-	const static IOBus::Connector c_siom[] =
+	static const IOBus::Connector c_siom[] =
 	{
 		{ pres,  IOBus::portout, SIO::reset },
 		{ 0xc2,  IOBus::portout, SIO::setdata },
@@ -572,7 +572,7 @@ bool PC88::ConnectDevices()
 	if (!siomidi || !bus1.Connect(siomidi, c_siom)) return false;
 	if (!siomidi->Init(&bus1, 0, psioreq)) return false;
 
-	const static IOBus::Connector c_joy[] = 
+	static const IOBus::Connector c_joy[] = 
 	{
 		{ popnio,	IOBus::portin, JoyPad::getdir },
 		{ popnio2,	IOBus::portin, JoyPad::getbutton },
@@ -591,7 +591,7 @@ bool PC88::ConnectDevices()
 //
 bool PC88::ConnectDevices2()
 {
-	const static IOBus::Connector c_cpu2[] =
+	static const IOBus::Connector c_cpu2[] =
 	{
 		{ pres2, IOBus::portout, Z80::reset },
 		{ pirq2, IOBus::portout, Z80::irq },
@@ -600,7 +600,7 @@ bool PC88::ConnectDevices2()
 	if (!bus2.Connect(&cpu2, c_cpu2)) return false;
 	if (!cpu2.Init(&mm2, &bus2, piac2)) return false;
 
-	const static IOBus::Connector c_mem2[] =
+	static const IOBus::Connector c_mem2[] =
 	{
 		{ piac2, IOBus::portin, SubSystem::intack },
 		{ 0xfc,  IOBus::portout | IOBus::sync, SubSystem::s_set0 },
@@ -615,7 +615,7 @@ bool PC88::ConnectDevices2()
 	if (!subsys || !bus2.Connect(subsys, c_mem2)) return false;
 	if (!subsys->Init(&mm2)) return false;
 
-	const static IOBus::Connector c_fdc[] =
+	static const IOBus::Connector c_fdc[] =
 	{
 		{ pres2, IOBus::portout, FDC::reset },
 		{ 0xfb,  IOBus::portout, FDC::setdata },

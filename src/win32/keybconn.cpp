@@ -41,7 +41,7 @@ bool DeviceConnector::Disconnect()
 //
 bool KeyboardConnector::Connect(IOBus* bus, WinKeyIF* keyb)
 {
-	const static IOBus::Connector c_keyb[] = 
+	static const IOBus::Connector c_keyb[] = 
 	{
 		{ PC88::pres, IOBus::portout, WinKeyIF::reset },
 		{ PC88::vrtc, IOBus::portout, WinKeyIF::vsync },

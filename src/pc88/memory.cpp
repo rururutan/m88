@@ -511,7 +511,7 @@ uint IOCALL Memory::In33(uint)
 
 uint IOCALL Memory::In5c(uint)
 {
-	const static uint res[4] = { 0xf9, 0xfa, 0xfc, 0xf8 };
+	static const uint res[4] = { 0xf9, 0xfa, 0xfc, 0xf8 };
 	return res[port5x & 3];	
 }
 

@@ -113,7 +113,7 @@ uint IOCALL INTC::IntAck(uint)
 //	
 void IOCALL INTC::SetMask(uint, uint data)
 {
-	const static int8 table[8] = { ~7, ~3, ~5, ~1, ~6, ~2, ~4, ~0 };
+	static const int8 table[8] = { ~7, ~3, ~5, ~1, ~6, ~2, ~4, ~0 };
 	stat.mask2 = table[data & 7];
 	stat.irq &= stat.mask2;
 	LOG2("p[e6] = %.2x (%.2x) : ", data, stat.mask2);
