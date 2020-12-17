@@ -22,10 +22,20 @@ void Timer::SetTimerControl(uint data)
 	if (data & 0x20) 
 		ResetStatus(2);
 
-	if (tmp & 0x01)
-		timera_count = (data & 1) ? timera : 0;
-	if (tmp & 0x02)
-		timerb_count = (data & 2) ? timerb : 0;
+	if (data & 0x01)
+	{
+		if (tmp & 0x01)
+		{
+			timera_count = (data & 1) ? timera : 0;
+		}
+	}
+	if (data & 0x02)
+	{
+		if (tmp & 0x02)
+		{
+			timerb_count = (data & 2) ? timerb : 0;
+		}
+	}
 }
 
 #if 1
