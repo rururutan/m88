@@ -52,10 +52,38 @@ inline void Operator::KeyOn()
 {
 	if (!keyon_)
 	{
-		keyon_ = true;
 		if (eg_phase_ == off || eg_phase_ == release)
 		{
-			ssg_phase_ = -1;
+			if (ssg_type_ & 8) {
+				//	フラグリセット
+				ssg_type_ &= (uint8)~0x10;
+				ssg_type_ |= (uint8)((ssg_type_ & 4) << 2);
+			}
+
+			ShiftPhase(attack);
+			EGUpdate();
+			in2_ = out_ = out2_ = 0;
+			pg_count_ = 0;
+		}
+
+		keyon_ = true;
+		csmkeyon_ = false;
+	}
+}
+
+//	キーオン(CSM)
+inline void Operator::KeyOnCsm()
+{
+	if (!keyon_)
+	{
+		csmkeyon_ = true;
+		{
+			if (ssg_type_ & 8) {
+				//	フラグリセット
+				ssg_type_ &= (uint8)~0x10;
+				ssg_type_ |= (uint8)((ssg_type_ & 4) << 2);
+			}
+
 			ShiftPhase(attack);
 			EGUpdate();
 			in2_ = out_ = out2_ = 0;
@@ -71,6 +99,19 @@ inline void	Operator::KeyOff()
 	{
 		keyon_ = false;
 		ShiftPhase(release);
+	}
+}
+
+//	キーオフ(CSM)
+inline void	Operator::KeyOffCsm()
+{
+	if (!keyon_ && csmkeyon_)
+	{
+		ShiftPhase(release);
+	}
+	if (csmkeyon_)
+	{
+		csmkeyon_ = false;
 	}
 }
 

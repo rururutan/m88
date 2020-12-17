@@ -160,8 +160,7 @@ void OPNBase::TimerA()
 {
 	if ((regtc & 0xc0) == 0x80)
 	{
-		csmch->KeyControl(0x00);
-		csmch->KeyControl(0x0f);
+		csmch->KeyOnCsm(0x0f);
 	}
 }
 
@@ -256,6 +255,10 @@ void OPN::SetReg(uint addr, uint data)
 		break;
 
 	case 0x27:
+		if (((regtc ^ data) & 0x80) && !(data & 0x80))
+		{
+			csmch->KeyOffCsm(0x0f);
+		}
 		SetTimerControl(data);
 		break;
 	
@@ -270,19 +273,20 @@ void OPN::SetReg(uint addr, uint data)
 
 	// F-Number
 	case 0xa0: case 0xa1: case 0xa2:
-		fnum[c] = data + fnum2[c] * 0x100; 
+		fnum[c] = data + fnum2[0] * 0x100;
+		ch[c].SetFNum(fnum[c]);
 		break;
 	
 	case 0xa4: case 0xa5: case 0xa6:
-		fnum2[c] = uint8(data);
+		fnum2[0] = uint8(data);
 		break;
 
 	case 0xa8: case 0xa9: case 0xaa:
-		fnum3[c] = data + fnum2[c+3] * 0x100; 
+		fnum3[c] = data + fnum2[1] * 0x100;
 		break;
 	
 	case 0xac: case 0xad: case 0xae:
-		fnum2[c+3] = uint8(data);
+		fnum2[1] = uint8(data);
 		break;
 	
 	case 0xb0:	case 0xb1:  case 0xb2:
@@ -519,6 +523,10 @@ void OPNABase::SetReg(uint addr, uint data)
 			break;
 
 		case 0x27:
+			if (((regtc ^ data) & 0x80) && !(data & 0x80))
+			{
+				csmch->KeyOffCsm(0x0f);
+			}
 			SetTimerControl(data);
 			break;
 
@@ -545,23 +553,27 @@ void OPNABase::SetReg(uint addr, uint data)
 	// F-Number --------------------------------------------------------------
 	case 0x1a0:	case 0x1a1: case 0x1a2:
 		c += 3;
+		fnum[c] = data + fnum2[2] * 0x100;
+		ch[c].SetFNum(fnum[c]);
+		break;
 	case 0xa0:	case 0xa1: case 0xa2:
-		fnum[c] = data + fnum2[c] * 0x100;
+		fnum[c] = data + fnum2[0] * 0x100;
 		ch[c].SetFNum(fnum[c]);
 		break;
 
 	case 0x1a4:	case 0x1a5: case 0x1a6:
-		c += 3;
+		fnum2[2] = uint8(data);
+		break;
 	case 0xa4 : case 0xa5: case 0xa6:
-		fnum2[c] = uint8(data);
+		fnum2[0] = uint8(data);
 		break;
 
 	case 0xa8:	case 0xa9: case 0xaa:
-		fnum3[c] = data + fnum2[c+6] * 0x100;
+		fnum3[c] = data + fnum2[1] * 0x100;
 		break;
 
 	case 0xac : case 0xad: case 0xae:
-		fnum2[c+6] = uint8(data);
+		fnum2[1] = uint8(data);
 		break;
 		
 	// Algorithm -------------------------------------------------------------
@@ -650,7 +662,7 @@ void OPNABase::SetADPCMBReg(uint addr, uint data)
 		break;
 
 	case 0x08:		// ADPCM data
-		if ((control1 & 0x60) == 0x60)
+		if ((control1 & 0xe0) == 0x60)
 		{
 //			LOG2("  Wr [0x%.5x] = %.2x", memaddr, data);
 			WriteRAM(data);

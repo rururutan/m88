@@ -60,7 +60,9 @@ namespace FM
 		ISample CalcN(uint noise);
 		void	Prepare();
 		void	KeyOn();
+		void	KeyOnCsm();
 		void	KeyOff();
+		void	KeyOffCsm();
 		void	Reset();
 		void	ResetFB();
 		int		IsOn();
@@ -86,9 +88,9 @@ namespace FM
 //		static void SetAML(uint l);
 //		static void SetPML(uint l);
 
-		int		Out() { return out_; }
+		int		Out() const { return out_; }
 
-		int		dbgGetIn2() { return in2_; } 
+		int		dbgGetIn2() const { return in2_; }
 		void	dbgStopPG() { pg_diff_ = 0; pg_diff_lfo_ = 0; }
 		
 	private:
@@ -111,8 +113,8 @@ namespace FM
 		int32	pg_diff_lfo_;	// Phase 差分値 >> x
 
 	//	Envelop Generator ---------------------------------------------------
-		enum	EGPhase { next, attack, decay, sustain, release, off };
-		
+		enum	EGPhase { next, attack, decay, sustain, release, off, hold };
+
 		void	EGCalc();
 		void	EGStep();
 		void	ShiftPhase(EGPhase nextphase);
@@ -137,7 +139,6 @@ namespace FM
 		int		eg_curve_count_;
 		int		ssg_offset_;
 		int		ssg_vector_;
-		int		ssg_phase_;
 
 
 		uint	key_scale_rate_;		// key scale rate
@@ -153,9 +154,10 @@ namespace FM
 		uint	sl_;			// Sustain Level (0-127)
 		uint	rr_;			// Release Rate  (0-63)
 		uint	ks_;			// Keyscale      (0-3)
-		uint	ssg_type_;	// SSG-Type Envelop Control
+		uint	ssg_type_;	// SSG-Type Envelope Control
 
 		bool	keyon_;
+		bool	csmkeyon_;
 		bool	amon_;		// enable Amplitude Modulation
 		bool	param_changed_;	// パラメータが更新された
 		bool	mute_;
@@ -169,7 +171,6 @@ namespace FM
 		static const int8 decaytable1[64][8];
 		static const int decaytable2[16];
 		static const int8 attacktable[64][8];
-		static const int ssgenvtable[8][2][3][2];
 
 		static uint	sinetable[1024];
 		static int32 cltable[FM_CLENTS];
@@ -181,7 +182,6 @@ namespace FM
 
 	//	friends --------------------------------------------------------------
 		friend class Channel4;
-		friend void __stdcall FM_NextPhase(Operator* op);
 
 	public:
 		int		dbgopout_;
@@ -208,6 +208,8 @@ namespace FM
 		void SetAlgorithm(uint algo);
 		int Prepare();
 		void KeyControl(uint key);
+		void KeyOnCsm(uint key);
+		void KeyOffCsm(uint key);
 		void Reset();
 		void SetMS(uint ms);
 		void Mute(bool);
@@ -245,11 +247,11 @@ namespace FM
 		void	SetPML(uint l);
 		void	SetPMV(int pmv) { pmv_ = pmv; }
 
-		uint32	GetMulValue(uint dt2, uint mul) { return multable_[dt2][mul]; }
-		uint	GetAML() { return aml_; }
-		uint	GetPML() { return pml_; }
-		int		GetPMV() { return pmv_; }
-		uint	GetRatio() { return ratio_; }
+		uint32	GetMulValue(uint dt2, uint mul) const { return multable_[dt2][mul]; }
+		uint	GetAML() const { return aml_; }
+		uint	GetPML() const { return pml_; }
+		int		GetPMV() const { return pmv_; }
+		uint	GetRatio() const { return ratio_; }
 
 	private:
 		void	MakeTable();

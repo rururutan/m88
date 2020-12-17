@@ -146,26 +146,6 @@ namespace FM
 		 0, 0, 0, 0, 0, 0, 0, 0,	 0, 0 ,0, 0, 0, 0, 0, 0,
 	};
 
-	const int Operator::ssgenvtable[8][2][3][2] =
-	{
-		1, 1,  1, 1,  1, 1,		// 08 
-		0, 1,  1, 1,  1, 1,		// 08 56~
-		0, 1,  2, 0,  2, 0,		// 09
-		0, 1,  2, 0,  2, 0,		// 09
-		1,-1,  0, 1,  1,-1,		// 10
-		0, 1,  1,-1,  0, 1,		// 10 60~
-		1,-1,  0, 0,  0, 0,		// 11
-		0, 1,  0, 0,  0, 0,		// 11 60~
-		2,-1,  2,-1,  2,-1,		// 12
-		1,-1,  2,-1,  2,-1,		// 12 56~
-		1,-1,  0, 0,  0, 0,		// 13
-		1,-1,  0, 0,  0, 0,		// 13
-		0, 1,  1,-1,  0, 1,		// 14
-		1,-1,  0, 1,  1,-1,		// 14 60~
-		0, 1,  2, 0,  2, 0,		// 15
-		1,-1,  2, 0,  2, 0,		// 15 60~
-	};
-
 	// fixed equasion-based tables
 	int		pmtable[2][8][FM_LFOENTS];
 	uint	amtable[2][4][FM_LFOENTS];
@@ -290,6 +270,7 @@ FM::Operator::Operator()
 	ams_ = amtable[0][0];
 	mute_ = false;
 	keyon_ = false;
+	csmkeyon_ = false;
 	tl_out_ = false;
 	ssg_type_ = 0;
 
@@ -312,7 +293,6 @@ void FM::Operator::Reset()
 	ShiftPhase(off);
 	eg_count_ = 0;
 	eg_curve_count_ = 0;
-	ssg_phase_ = 0;
 
 	// PG part
 	pg_count_ = 0;
@@ -412,19 +392,6 @@ void Operator::Prepare()
 			break;
 		}
 
-		// SSG-EG
-		if (ssg_type_ && (eg_phase_ != release))
-		{
-			int m = ar_ >= ((ssg_type_ == 8 || ssg_type_ == 12) ? 56 : 60);
-
-			if (ssg_phase_ == -1)		// XXX quick fix
-				ssg_phase_ = 0;
-			assert(0 <= ssg_phase_ && ssg_phase_ <= 2);
-			const int* table = ssgenvtable[ssg_type_ & 7][m][ssg_phase_];
-
-			ssg_offset_ = table[0] * 0x200;
-			ssg_vector_ = table[1];
-		}
 		// LFO
 		ams_ = amtable[type_][amon_ ? (ms_ >> 4) & 3 : 0];
 		EGUpdate();
@@ -437,22 +404,12 @@ void Operator::ShiftPhase(EGPhase nextphase)
 {
 	switch (nextphase)
 	{
+	case hold:			// EG Level Hold
+		eg_level_ = FM_EG_BOTTOM;
+		eg_level_on_next_phase_ = FM_EG_BOTTOM;
+		break;
 	case attack:		// Attack Phase
 		tl_ = tl_latch_;
-		if (ssg_type_)
-		{
-			ssg_phase_ = ssg_phase_ + 1;
-			if (ssg_phase_ > 2)
-				ssg_phase_ = 1;
-			
-			int m = ar_ >= ((ssg_type_ == 8 || ssg_type_ == 12) ? 56 : 60);
-
-			assert(0 <= ssg_phase_ && ssg_phase_ <= 2);
-			const int* table = ssgenvtable[ssg_type_ & 7][m][ssg_phase_];
-
-			ssg_offset_ = table[0] * 0x200;
-			ssg_vector_ = table[1];
-		}
 		if ((ar_ + key_scale_rate_) < 62)
 		{
 			SetEGRate(ar_ ? Min(63, ar_ + key_scale_rate_) : 0);
@@ -463,32 +420,64 @@ void Operator::ShiftPhase(EGPhase nextphase)
 		if (sl_)
 		{
 			eg_level_ = 0;
-			eg_level_on_next_phase_ = ssg_type_ ? Min(sl_ * 8, 0x200) : sl_ * 8;
+			eg_level_on_next_phase_ = sl_ * 8;
 
 			SetEGRate(dr_ ? Min(63, dr_ + key_scale_rate_) : 0);
 			eg_phase_ = decay;
 			break;
 		}
 	case sustain:		// Sustain Phase
-		eg_level_ = sl_ * 8;
-		eg_level_on_next_phase_ = ssg_type_ ? 0x200 : 0x400;
-
-		SetEGRate(sr_ ? Min(63, sr_ + key_scale_rate_) : 0);
-		eg_phase_ = sustain;
-		break;
-	
-	case release:		// Release Phase
-		if (ssg_type_)
-		{
-			eg_level_ = eg_level_ * ssg_vector_ + ssg_offset_;
-			ssg_vector_ = 1;
-			ssg_offset_ = 0;
+		if ((ssg_type_ & 8) && (sl_ >= 124)) {
+			//	SSG-EG使用時、SL=15の場合はサスティン処理を省略
+			eg_level_ = eg_level_on_next_phase_ = 0x400;
+			eg_phase_ = release;
 		}
-		if (eg_phase_ == attack || (eg_level_ < FM_EG_BOTTOM)) //0x400/* && eg_phase_ != off*/))
+		else {
+			eg_level_ = sl_ * 8;
+			eg_level_on_next_phase_ = 0x400;
+
+			SetEGRate(sr_ ? Min(63, sr_ + key_scale_rate_) : 0);
+			eg_phase_ = sustain;
+			break;
+		}
+	case release:		// Release Phase
+		if (eg_phase_ == attack || (eg_level_ < ((ssg_type_ & 8) ? 0x400 : FM_EG_BOTTOM)))
 		{
+			if (ssg_type_ & 8) {
+				//	波形反転時の補正
+				if (ssg_type_ & 0x10) {
+					eg_level_ = 1023 - eg_level_;
+				}
+				ssg_type_ &= uint8(~0x10);
+			}
+
 			eg_level_on_next_phase_ = 0x400;
 			SetEGRate(Min(63, rr_ + key_scale_rate_));
 			eg_phase_ = release;
+			break;
+		}
+		else if (ssg_type_ & 8) {
+			if ((ssg_type_ & 3) != 2) {
+				eg_level_ = FM_EG_BOTTOM;
+				eg_level_on_next_phase_ = FM_EG_BOTTOM;
+			}
+			if (ssg_type_ & 1) {
+				//	one shot
+				SetEGRate(0);
+				eg_phase_ = hold;
+			}
+			else {
+				//	repeat
+				SetEGRate(ar_ ? Min(63, ar_ + key_scale_rate_) : 0);
+				eg_phase_ = attack;
+			}
+			if (ssg_type_ & 2) {
+				//	alternate
+				ssg_type_ ^= uint8(0x10);
+				if (!(ssg_type_ & 1)) {
+					eg_level_ = eg_level_on_next_phase_ = 0;
+				}
+			}
 			break;
 		}
 	case off:			// off
@@ -532,13 +521,22 @@ inline FM::ISample Operator::LogToLin(uint a)
 
 inline void Operator::EGUpdate()
 {
-	if (!ssg_type_)
+	if (!(ssg_type_ & 8))
 	{
 		eg_out_ = Min(tl_out_ + eg_level_, 0x3ff) << (1 + 2);
 	}
 	else
 	{
-		eg_out_ = Min(tl_out_ + eg_level_ * ssg_vector_ + ssg_offset_, 0x3ff) << (1 + 2);
+		//	波形反転
+		if (ssg_type_ & 0x10) {
+			ssg_vector_ = -1;
+			ssg_offset_ = 1023;
+		}
+		else {
+			ssg_vector_ = 1;
+			ssg_offset_ = 0;
+		}
+		eg_out_ = Max(0, Min(tl_out_ + eg_level_ * ssg_vector_ + ssg_offset_, 0x3ff)) << (1 + 2);
 	}
 }
 
@@ -562,38 +560,41 @@ void FM::Operator::EGCalc()
 			if (eg_level_ <= 0)
 				ShiftPhase(decay);
 		}
-		EGUpdate();
 	}
 	else
 	{
-		if (!ssg_type_)
-		{
-			eg_level_ += decaytable1[eg_rate_][eg_curve_count_ & 7];
-			if (eg_level_ >= eg_level_on_next_phase_)
-				ShiftPhase(EGPhase(eg_phase_+1));
-			EGUpdate();
-		}
-		else
-		{
-			eg_level_ += 4 * decaytable1[eg_rate_][eg_curve_count_ & 7];
-			if (eg_level_ >= eg_level_on_next_phase_)
+		if (csmkeyon_) {
+			// CSMは直ぐにリリースフェーズに移行
+			KeyOffCsm();
+		} else {
+			if (!(ssg_type_ & 8) || (eg_phase_ == release))
 			{
-				switch (eg_phase_)
+				eg_level_ += decaytable1[eg_rate_][eg_curve_count_ & 7];
+				if (eg_level_ >= eg_level_on_next_phase_)
+					ShiftPhase(EGPhase(eg_phase_+1));
+			}
+			else
+			{
+				eg_level_ += 4 * decaytable1[eg_rate_][eg_curve_count_ & 7];
+				if (eg_level_ >= eg_level_on_next_phase_)
 				{
-				case decay:
-					ShiftPhase(sustain);
-					break;
-				case sustain:
-					ShiftPhase(attack);
-					break;
-				case release:
-					ShiftPhase(off);
-					break;
+					switch (eg_phase_)
+					{
+					case decay:
+						ShiftPhase(sustain);
+						break;
+					case sustain:
+						ShiftPhase(attack);
+						break;
+					case release:
+						ShiftPhase(off);
+						break;
+					}
 				}
 			}
-			EGUpdate();
 		}
 	}
+	EGUpdate();
 	eg_curve_count_++;
 }
 
@@ -800,6 +801,24 @@ void Channel4::KeyControl(uint key)
 	if (key & 0x8) op[3].KeyOn(); else op[3].KeyOff();
 }
 
+//	キーオン(CSM専用)
+void Channel4::KeyOnCsm(uint key)
+{
+	if (key & 0x1) op[0].KeyOnCsm();
+	if (key & 0x2) op[1].KeyOnCsm();
+	if (key & 0x4) op[2].KeyOnCsm();
+	if (key & 0x8) op[3].KeyOnCsm();
+}
+
+//	キーオフ(CSM専用)
+void Channel4::KeyOffCsm(uint key)
+{
+	if (key & 0x1) op[0].KeyOffCsm();
+	if (key & 0x2) op[1].KeyOffCsm();
+	if (key & 0x4) op[2].KeyOffCsm();
+	if (key & 0x8) op[3].KeyOffCsm();
+}
+
 //	アルゴリズムを設定
 void Channel4::SetAlgorithm(uint algo)
 {
@@ -825,7 +844,7 @@ void Channel4::SetAlgorithm(uint algo)
 //  合成
 ISample Channel4::Calc()
 {
-	int r;
+	int r = 0;
 	switch (algo_)
 	{
 	case 0:
@@ -885,7 +904,7 @@ ISample Channel4::CalcL()
 {
 	chip_->SetPMV(pms[chip_->GetPML()]);
 
-	int r;
+	int r = 0;
 	switch (algo_)
 	{
 	case 0:
