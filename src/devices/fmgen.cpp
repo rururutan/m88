@@ -379,8 +379,15 @@ void Operator::Prepare()
 	if (param_changed_)
 	{
 		param_changed_ = false;
+
+		// Check for PG overflow
+		int32 pgc = int32(dp_) + dttable[detune_ + bn_];
+		if ( pgc < 0) {
+			pgc = 0x3ff80;	// 2047 << 7
+		}
+
 		//	PG Part
-		pg_diff_ = (dp_ + dttable[detune_ + bn_]) * chip_->GetMulValue(detune2_, multiple_);
+		pg_diff_ = pgc * chip_->GetMulValue(detune2_, multiple_);
 		pg_diff_ >>= (2 + FM_RATIOBITS - FM_PGBITS);
 		pg_diff_lfo_ = pg_diff_ >> 11;
 
